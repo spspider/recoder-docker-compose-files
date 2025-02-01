@@ -9,9 +9,9 @@ services:
       - AGENTDVR_WEBUI_PORT=8090 
       - TZ=Asia/Dhaka
     volumes:
-      - /home/recoder/Docker-agentDVR/config:/AgentDVR/Media/XML
-      - /home/recoder/Docker-agentDVR/recordings:/AgentDVR/Media/WebServerRoot/Media
-      - /home/recoder/Docker-agentDVR/commands:/AgentDVR/Commands
+      - /home/recoder/RECODER-COMPOSE/Docker-agentDVR/folders/config:/AgentDVR/Media/XML
+      - /home/recoder/RECODER-COMPOSE/Docker-agentDVR/folders/recordings:/AgentDVR/Media/WebServerRoot/Media
+      - /home/recoder/RECODER-COMPOSE/Docker-agentDVR/folders/commands:/AgentDVR/Commands
     ports:
       - 8090:8090
       - 3478:3478/udp

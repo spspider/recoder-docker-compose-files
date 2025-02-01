@@ -19,7 +19,7 @@ services:
     networks:
       - node-red-net
     volumes:
-      - /home/recoder/node-red_docker/data:/data
+      - /home/recoder/RECODER-COMPOSE/node-red_docker/data:/data
 
 volumes:
   node-red-data:
