@@ -1,0 +1,14 @@
+{
+    "name": "node-red-project",
+    "description": "A Node-RED Project",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "@good-i-deer/node-red-contrib-object-detection": "~1.0.3",
+        "node-red-contrib-os": "~0.2.1",
+        "node-red-contrib-telegrambot": "~16.1.2",
+        "node-red-dashboard": "~3.6.5",
+        "node-red-node-email": "~3.0.2",
+        "node-red-node-tail": "~0.4.0"
+    }
+}
