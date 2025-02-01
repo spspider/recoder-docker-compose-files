@@ -1,0 +1,19 @@
+---
+services:
+  ispyagentdvr:
+    image: mekayelanik/ispyagentdvr:latest
+    container_name: ispyagentdvr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - AGENTDVR_WEBUI_PORT=8090 
+      - TZ=Asia/Dhaka
+    volumes:
+      - /home/recoder/Docker-agentDVR/config:/AgentDVR/Media/XML
+      - /home/recoder/Docker-agentDVR/recordings:/AgentDVR/Media/WebServerRoot/Media
+      - /home/recoder/Docker-agentDVR/commands:/AgentDVR/Commands
+    ports:
+      - 8090:8090
+      - 3478:3478/udp
+      - 50000-50100:50000-50100/udp
+    restart: unless-stopped
