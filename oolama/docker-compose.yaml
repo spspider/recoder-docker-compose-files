@@ -4,6 +4,7 @@ services:
   ollama:
     image: ollama/ollama
     container_name: ollama
+    command: ollama run deepseek-r1:1.5b
     ports:
       - "11434:11434"
     volumes:
