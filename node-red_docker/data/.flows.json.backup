@@ -7799,7 +7799,7 @@
         "bot": "ca786bad.5ac7a8",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1370,
+        "x": 1410,
         "y": 500,
         "wires": [
             []
@@ -7889,7 +7889,7 @@
         "type": "function",
         "z": "47e2824120b2a9e0",
         "name": "message",
-        "func": "var content = msg.payload;\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\nvar ObjectPayload={\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\":content \n}\nmsg.payload=ObjectPayload;\n    // \"chatId\": [\"843873284\", \"584925756\"],\n\nreturn msg;",
+        "func": "var content = msg.payload;\n    // \"chatId\": [\"843873284\", \"584925756\"],\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\n\nif (!Array.isArray(TelegramChatIds)) {\n    node.error(\"TelegramChatIds is not an array\");\n    return null;\n}\n\nmsg.payload =TelegramChatIds.map(chatId => {\n    return {\n        \"chatId\": chatId,\n        \"type\": \"message\",\n        \"content\": JSON.stringify(content) // Convert content to a string\n    };\n});\n\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -7916,7 +7916,7 @@
         "septopics": true,
         "property": "payload",
         "topi": "topic",
-        "x": 1250,
+        "x": 1290,
         "y": 500,
         "wires": [
             [
@@ -7941,7 +7941,7 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1160,
+        "x": 1120,
         "y": 400,
         "wires": []
     },

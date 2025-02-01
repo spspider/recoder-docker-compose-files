@@ -2,7 +2,7 @@
 <layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <layout name="1 Grid" ident="42d308f3-583c-435c-8abe-66c0c68d399a">
     <rectangles>
-      <rectangle index="2" mode="grid" coordinates="0,0,100,100" interval="3" skipOffline="true" />
+      <rectangle index="2" mode="grid" coordinates="0,0,40,40" interval="3" />
     </rectangles>
   </layout>
   <layout name="Desktop" main="1" ident="fcf3ce09-6251-4ee5-b092-b64c1ed88630">
