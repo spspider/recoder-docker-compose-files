@@ -755,5 +755,115 @@
                 "file": "/data/node_modules/node-red-contrib-os/os/os.js"
             }
         }
+    },
+    "@good-i-deer/node-red-contrib-object-detection": {
+        "name": "@good-i-deer/node-red-contrib-object-detection",
+        "version": "1.0.3",
+        "local": true,
+        "user": true,
+        "nodes": {
+            "GoodObjectDetection": {
+                "name": "GoodObjectDetection",
+                "types": [
+                    "good-object-detection"
+                ],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "@good-i-deer/node-red-contrib-object-detection",
+                "file": "/data/node_modules/@good-i-deer/node-red-contrib-object-detection/object-detection-node/object-detection.js"
+            },
+            "GoodWebcamObjectDetection": {
+                "name": "GoodWebcamObjectDetection",
+                "types": [
+                    "good-webcam-object-detection"
+                ],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "@good-i-deer/node-red-contrib-object-detection",
+                "file": "/data/node_modules/@good-i-deer/node-red-contrib-object-detection/webcam-object-detection-node/webcam-object-detection.js"
+            }
+        }
+    },
+    "node-red-contrib-image-tools": {
+        "name": "node-red-contrib-image-tools",
+        "version": "2.1.1",
+        "local": true,
+        "user": true,
+        "nodes": {
+            "jimp": {
+                "name": "jimp",
+                "types": [
+                    "jimp-image"
+                ],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "node-red-contrib-image-tools",
+                "file": "/data/node_modules/node-red-contrib-image-tools/jimp.js"
+            },
+            "xzingDecode": {
+                "name": "xzingDecode",
+                "types": [
+                    "Barcode Decoder"
+                ],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "node-red-contrib-image-tools",
+                "file": "/data/node_modules/node-red-contrib-image-tools/xzingDecode.js"
+            },
+            "barcodeWriter": {
+                "name": "barcodeWriter",
+                "types": [
+                    "Barcode Generator"
+                ],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "node-red-contrib-image-tools",
+                "file": "/data/node_modules/node-red-contrib-image-tools/barcodeWriter.js"
+            },
+            "imageViewer": {
+                "name": "imageViewer",
+                "types": [
+                    "image viewer"
+                ],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "node-red-contrib-image-tools",
+                "file": "/data/node_modules/node-red-contrib-image-tools/imageViewer.js"
+            },
+            "app": {
+                "name": "app",
+                "types": [],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "node-red-contrib-image-tools",
+                "file": "/data/node_modules/node-red-contrib-image-tools/app.js"
+            }
+        }
+    },
+    "@smcgann/node-red-annotate-image-plus": {
+        "name": "@smcgann/node-red-annotate-image-plus",
+        "version": "0.0.3",
+        "local": true,
+        "user": true,
+        "nodes": {
+            "annotate-image-plus": {
+                "name": "annotate-image-plus",
+                "types": [
+                    "annotate-image-plus"
+                ],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "@smcgann/node-red-annotate-image-plus",
+                "file": "/data/node_modules/@smcgann/node-red-annotate-image-plus/annotate-image-plus.js"
+            }
+        }
     }
 }

@@ -112,8 +112,8 @@
         <dvrmodel>Mobile</dvrmodel>
         <dvrchannel>0</dvrchannel>
         <schedule>false</schedule>
-        <zPoint>353,289</zPoint>
-        <zFactor>1</zFactor>
+        <zPoint>79,318</zPoint>
+        <zFactor>1.5</zFactor>
         <findbeststream>true</findbeststream>
         <audiostreamindex>0</audiostreamindex>
         <videostreamindex>0</videostreamindex>
@@ -1426,7 +1426,7 @@
         <dvrmodel>Mobile</dvrmodel>
         <dvrchannel>0</dvrchannel>
         <schedule>true</schedule>
-        <zPoint>-1,-1</zPoint>
+        <zPoint>320,240</zPoint>
         <zFactor>1</zFactor>
         <findbeststream>true</findbeststream>
         <audiostreamindex>0</audiostreamindex>
@@ -1684,7 +1684,7 @@
         <audiolimitcolor>255,0,0</audiolimitcolor>
         <color />
         <ndilevel>80</ndilevel>
-        <prefer_tcp>false</prefer_tcp>
+        <prefer_tcp>true</prefer_tcp>
         <rtspmodenew>tcp</rtspmodenew>
         <low_delay>false</low_delay>
         <deletewav>true</deletewav>
