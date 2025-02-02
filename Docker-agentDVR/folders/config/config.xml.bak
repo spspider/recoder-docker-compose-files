@@ -52,7 +52,7 @@
   <LocalNotifications>true</LocalNotifications>
   <ScannedNetwork>false</ScannedNetwork>
   <CycleDelay>0</CycleDelay>
-  <Armed>true</Armed>
+  <Armed>false</Armed>
   <VLCDir />
   <FFMPEG_DIR />
   <APIPassword>false</APIPassword>
@@ -73,7 +73,7 @@
   <StorageNotifyEmail />
   <StorageNotifyEmailLimit>75</StorageNotifyEmailLimit>
   <StorageNotifyEmailLastSent>2001-01-01T00:00:00</StorageNotifyEmailLastSent>
-  <ArchiveCheckTimeStamp>2025-02-01T00:54:32.8345842Z</ArchiveCheckTimeStamp>
+  <ArchiveCheckTimeStamp>2025-02-02T00:55:47.9189179Z</ArchiveCheckTimeStamp>
   <DriveFullEmailLastSent>2001-01-01T00:00:00</DriveFullEmailLastSent>
   <StorageNotifyEmailIntervalHours>12</StorageNotifyEmailIntervalHours>
   <DeepStackAIURL />
@@ -140,7 +140,7 @@
   <NestConfig />
   <ONVIFDiscovery>false</ONVIFDiscovery>
   <ProductName>Agent</ProductName>
-  <RecordingTags>detected</RecordingTags>
+  <RecordingTags>alert,detected</RecordingTags>
   <ImageTags />
   <Permissions />
   <MQTT Enable="true" Username="dev01" Password="5506487" Server="177e3ee7cf004e6ebed04b25d4c51a26.s1.eu.hivemq.cloud" ClientID="camera" Port="8883" KeepAlive="60" Protocol="TLS" Stats="true" />

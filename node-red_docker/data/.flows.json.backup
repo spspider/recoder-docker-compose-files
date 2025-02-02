@@ -6373,12 +6373,11 @@
         "id": "95ff1632.6243b8",
         "type": "telegram sender",
         "z": "d2d769b0.c57da8",
-        "d": true,
         "name": "sender",
-        "bot": "ca786bad.5ac7a8",
+        "bot": "170adc9ec64f9f80",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 870,
+        "x": 910,
         "y": 160,
         "wires": [
             []
@@ -6389,7 +6388,7 @@
         "type": "telegram receiver",
         "z": "d2d769b0.c57da8",
         "name": "",
-        "bot": "ca786bad.5ac7a8",
+        "bot": "170adc9ec64f9f80",
         "saveDataDir": "",
         "filterCommands": false,
         "x": 230,
@@ -6397,7 +6396,7 @@
         "wires": [
             [
                 "f8e08d57.743f4",
-                "bde56faf.4dad6"
+                "f9bd0ea73fb5b228"
             ],
             []
         ]
@@ -6437,7 +6436,7 @@
         "type": "function",
         "z": "d2d769b0.c57da8",
         "name": "message",
-        "func": "var content = msg.topic+\" payload:\"+msg.payload;\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\nvar ObjectPayload={\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\":content \n}\nmsg.payload=ObjectPayload;\n    // \"chatId\": [\"843873284\", \"584925756\"],\n\nreturn msg;",
+        "func": "var content = msg.topic + \" payload:\" + msg.payload;\ncontent = \"smart home loaded\"\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\nvar ObjectPayload = {\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\": content\n}\n\nmsg.payload = ObjectPayload;\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -6449,7 +6448,7 @@
         "wires": [
             [
                 "95ff1632.6243b8",
-                "873cc158.3b54e"
+                "e818309d9e9d7308"
             ]
         ]
     },
@@ -6502,14 +6501,17 @@
         "id": "f8e08d57.743f4",
         "type": "function",
         "z": "d2d769b0.c57da8",
+        "d": true,
         "name": "reply telegram",
         "func": "//var content = msg.topic+\" payload:\"+msg.payload;\nvar msg_get_ip=null;\nvar payoladmsg = (msg.payload);\n\nvar content_that_Object ={payload: payoladmsg.content};\nvar content_send;\n\nif (content_that_Object.payload==\"ip\"){\n   content_send= context.get ('ip');\n   \n    var ObjectPayload={\n        \"chatId\": [\"843873284\", \"584925756\"],\n        \"type\": \"message\",\n        \"content\":content_send \n    }\n    \n    msg.payload=ObjectPayload;\n    \n    msg_get_ip={\n        \"topic\":1,\n        \"payload\":1\n    }\n    msg=null;\n}\n\n\n\n\n\n\nreturn [msg,msg_get_ip];",
         "outputs": 2,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 480,
-        "y": 300,
+        "libs": [],
+        "x": 540,
+        "y": 260,
         "wires": [
             [],
             []
@@ -6520,15 +6522,16 @@
         "type": "debug",
         "z": "d2d769b0.c57da8",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 480,
-        "y": 260,
+        "x": 990,
+        "y": 340,
         "wires": []
     },
     {
@@ -6541,7 +6544,7 @@
                 "t": "set",
                 "p": "TelegramChatIds",
                 "pt": "global",
-                "to": "[\"843873284\"]",
+                "to": "[\"843873284\",\"584925756\"]",
                 "tot": "json"
             },
             {
@@ -6566,20 +6569,54 @@
         ]
     },
     {
-        "id": "873cc158.3b54e",
+        "id": "6172b419c2fe9006",
+        "type": "telegram sender",
+        "z": "d2d769b0.c57da8",
+        "name": "sender",
+        "bot": "170adc9ec64f9f80",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 990,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f9bd0ea73fb5b228",
+        "type": "function",
+        "z": "d2d769b0.c57da8",
+        "name": "reverse message back",
+        "func": "var content = msg.topic+\" payload:\"+msg.payload;\n\nvar ObjectPayload={\n    \"chatId\": msg.payload.chatId,\n    \"type\": \"message\",\n    \"content\": JSON.stringify(\"chatId:\" + msg.payload.chatId) \n}\nmsg.payload=ObjectPayload;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 300,
+        "wires": [
+            [
+                "6172b419c2fe9006",
+                "bde56faf.4dad6"
+            ]
+        ]
+    },
+    {
+        "id": "e818309d9e9d7308",
         "type": "debug",
         "z": "d2d769b0.c57da8",
-        "name": "",
+        "name": "debug 3",
         "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
+        "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 880,
-        "y": 80,
+        "x": 920,
+        "y": 100,
         "wires": []
     },
     {
@@ -7711,6 +7748,7 @@
         "id": "27305ebce4a2d493",
         "type": "inject",
         "z": "47e2824120b2a9e0",
+        "d": true,
         "name": "",
         "props": [
             {
@@ -7767,7 +7805,7 @@
         "name": "",
         "returnValue": 0,
         "model": "yolov8n",
-        "threshold": "0.5",
+        "threshold": "0.6",
         "absolutePathDir": "",
         "x": 740,
         "y": 340,
@@ -7824,7 +7862,7 @@
         "randomFirst": "1",
         "randomLast": "5",
         "randomUnits": "seconds",
-        "drop": false,
+        "drop": true,
         "allowrate": false,
         "outputs": 1,
         "x": 960,
@@ -7881,6 +7919,7 @@
         "id": "ad14deb3db078355",
         "type": "inject",
         "z": "47e2824120b2a9e0",
+        "d": true,
         "name": "",
         "props": [
             {
@@ -7898,8 +7937,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 340,
-        "y": 740,
+        "x": 290,
+        "y": 860,
         "wires": [
             [
                 "0c3744b75951e07b"
@@ -7937,14 +7976,13 @@
         "name": "",
         "returnValue": 0,
         "model": "yolov8n",
-        "threshold": "0.5",
+        "threshold": "0.6",
         "absolutePathDir": "",
         "x": 740,
         "y": 740,
         "wires": [
             [
-                "adbb50e931b817eb",
-                "f1ca1bb635f805a5"
+                "56fb91a6414ddd32"
             ]
         ]
     },
@@ -7956,7 +7994,7 @@
         "bot": "170adc9ec64f9f80",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1640,
+        "x": 1660,
         "y": 700,
         "wires": [
             []
@@ -7966,6 +8004,7 @@
         "id": "c4b1621834b168c9",
         "type": "function",
         "z": "47e2824120b2a9e0",
+        "d": true,
         "name": "check persons on a photo",
         "func": "\n\nfunction checkForPersonArrays(input) {\n    // Check if the input object has a property named 'person' and it's an array\n    if (input.hasOwnProperty('person') && Array.isArray(input.person)) {\n        let personArray = input.person;\n        let personCount = personArray.length;\n        return personCount;\n    } else {\n        return null; // Return null if 'person' array is not found\n    }\n}\n\nlet result = checkForPersonArrays(msg.payload.data);\nif (result != null) {\n    msg.payload = result\n    // node.error(msg.payload);\n    return msg;\n}",
         "outputs": 1,
@@ -7974,56 +8013,10 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 850,
-        "y": 840,
+        "x": 990,
+        "y": 820,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "f1ca1bb635f805a5",
-        "type": "delay",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "pauseType": "rate",
-        "timeout": "10",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "5",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 940,
-        "y": 640,
-        "wires": [
-            [
-                "0c3744b75951e07b"
-            ]
-        ]
-    },
-    {
-        "id": "adbb50e931b817eb",
-        "type": "rbe",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "septopics": false,
-        "property": "payload",
-        "topi": "topic",
-        "x": 950,
-        "y": 740,
-        "wires": [
-            [
-                "c0a81247331a26e9",
-                "63af9dad70803d6a"
-            ]
         ]
     },
     {
@@ -8031,34 +8024,14 @@
         "type": "function",
         "z": "47e2824120b2a9e0",
         "name": "message",
-        "func": "var content = msg.payload;\n    // \"chatId\": [\"843873284\", \"584925756\"],\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\n\nif (!Array.isArray(TelegramChatIds)) {\n    node.error(\"TelegramChatIds is not an array\");\n    return null;\n}\n\nvar ObjectPayload = {\n        \"chatId\": \"843873284\",\n        \"type\": \"message\",\n        \"content\": \"camera front: \"+JSON.stringify(content) // Convert content to a string\n};\nmsg.payload = ObjectPayload;\nreturn msg;\n\n",
+        "func": "var content = msg.payload;\n    // \"chatId\": [\"843873284\", \"584925756\"],\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\n\nif (!Array.isArray(TelegramChatIds)) {\n    node.error(\"TelegramChatIds is not an array\");\n    return null;\n}\n\nvar ObjectPayload = {\n        \"chatId\": \"584925756\",\n        \"type\": \"message\",\n        \"content\": \"camera front: \"+JSON.stringify(content) // Convert content to a string\n};\nmsg.payload = ObjectPayload;\nreturn msg;\n\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1300,
-        "y": 700,
-        "wires": [
-            [
-                "eacd1fd06f82c83e"
-            ]
-        ]
-    },
-    {
-        "id": "eacd1fd06f82c83e",
-        "type": "rbe",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "septopics": true,
-        "property": "payload",
-        "topi": "topic",
-        "x": 1470,
+        "x": 1200,
         "y": 700,
         "wires": [
             [
@@ -8083,7 +8056,7 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1310,
+        "x": 1210,
         "y": 660,
         "wires": []
     },
@@ -8091,24 +8064,20 @@
         "id": "c0a81247331a26e9",
         "type": "function",
         "z": "47e2824120b2a9e0",
+        "d": true,
         "name": "filter data",
-        "func": "var originImg = {\n    payload: msg.payload.originImg,\n    topic: \"image\",\n    captionText: \"\"\n}\n\nfunction checkForDataArrays(input) {\n    let result = {};\n\n    // Iterate over each property in the input object\n    for (let key in input) {\n        if (Array.isArray(input[key])) {\n            // Add the array name and its count to the result object\n            result[key] = input[key].length;\n        }\n    }\n\n    // Return the result object if it has any properties, otherwise return null\n    return Object.keys(result).length > 0 ? result : null;\n}\n\nlet result = checkForDataArrays(msg.payload.data);\nif (result != null) {\n    msg.payload = result;\n    originImg.captionText = result\n    return [msg, originImg];\n} else {\n    return [null]; // Return null if no arrays are found\n}\n",
+        "func": "var originImg = {\n    payload: msg.payload.originImg,\n    topic: \"\"\n};\n\nfunction checkForDataArrays(input) {\n    let result = {};\n\n    // Iterate over each property in the input object\n    for (let key in input) {\n        if (Array.isArray(input[key])) {\n            // Add the array name and its count to the result object\n            result[key] = input[key].length;\n        }\n    }\n\n    // Return the result object if it has any properties, otherwise return null\n    return Object.keys(result).length > 0 ? result : null;\n}\n\nlet result = checkForDataArrays(msg.payload.data);\nif (result != null) {\n    msg.payload = result;\n    originImg.topic = JSON.stringify(result);\n    return [msg, originImg];\n} else {\n    return [null]; // Return null if no arrays are found\n}\n",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1100,
-        "y": 740,
+        "x": 940,
+        "y": 780,
         "wires": [
-            [
-                "c44682f7751424cf",
-                "7ff3e570548d8d87"
-            ],
-            [
-                "4a23fe6a3a5d5fcd"
-            ]
+            [],
+            []
         ]
     },
     {
@@ -8116,15 +8085,15 @@
         "type": "function",
         "z": "47e2824120b2a9e0",
         "name": "Create image for Telegram",
-        "func": "var cId = 843873284;\n\n\n\nmsg.payload = { chatId: cId, type: \"photo\", content: msg.payload, caption: msg.captionText};\nreturn msg;\n",
+        "func": "var TelegramChatIds = global.get(\"TelegramChatIds\");\n\n\n\nmsg.payload = { chatId: TelegramChatIds, type: \"photo\", content: msg.payload, caption: msg.topic};\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1540,
-        "y": 800,
+        "x": 1440,
+        "y": 740,
         "wires": [
             [
                 "95114cabc3339005"
@@ -8135,12 +8104,12 @@
         "id": "95114cabc3339005",
         "type": "telegram sender",
         "z": "47e2824120b2a9e0",
-        "name": "",
+        "name": "Alinka bot",
         "bot": "170adc9ec64f9f80",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1790,
-        "y": 800,
+        "x": 1660,
+        "y": 740,
         "wires": [
             []
         ]
@@ -8154,66 +8123,29 @@
         "data": "payload",
         "dataType": "msg",
         "active": true,
-        "x": 1520,
-        "y": 860,
+        "x": 1660,
+        "y": 1020,
         "wires": [
             []
         ]
     },
     {
-        "id": "4a23fe6a3a5d5fcd",
-        "type": "function",
-        "z": "47e2824120b2a9e0",
-        "name": "crop image",
-        "func": "return msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1290,
-        "y": 800,
-        "wires": [
-            [
-                "47abe4fc60e4e1ae",
-                "88d8ff214f48ece7"
-            ]
-        ]
-    },
-    {
-        "id": "aa91224343abeb2a",
-        "type": "debug",
-        "z": "47e2824120b2a9e0",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1300,
-        "y": 620,
-        "wires": []
-    },
-    {
         "id": "63af9dad70803d6a",
         "type": "function",
         "z": "47e2824120b2a9e0",
-        "name": "cutimage",
-        "func": "let result = msg.payload.data;\nif (result != null && Object.keys(result).length > 0) {\n    msg.payload = result;\n    // node.error(msg.payload);\n    return msg;\n}\n",
+        "name": "annotate",
+        "func": "function checkForDataArrays(input) {\n    let result = {};\n    for (let key in input) {\n        if (Array.isArray(input[key])) {\n            result[key] = input[key].length;\n        }\n    }\n    return Object.keys(result).length > 0 ? result : null;\n}\n\n\nif (msg.payload.data != null && Object.keys(msg.payload.data).length > 0) {\n\n    msg.annotations = [];\n    msg.payload = msg.payload.originImg;\n    for (let key in msg.payload.data) {\n        if (Array.isArray(msg.payload.data[key])) {\n            msg.payload.data[key].forEach(obj => {\n                msg.annotations.push({\n                    type: \"rect\",\n                    x: obj.x,\n                    y: obj.y,\n                    w: obj.w,\n                    h: obj.h,\n                    stroke: \"red\",\n                    label: key,\n                    probability: obj.prob\n                });\n            });\n        }\n    }\n    msg.topic = checkForDataArrays(msg.payload.data)\n\n\nreturn msg;\n}\n\n\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1100,
-        "y": 700,
+        "x": 1180,
+        "y": 1020,
         "wires": [
             [
-                "aa91224343abeb2a"
+                "5c93b68cdeb0678f"
             ]
         ]
     },
@@ -8384,6 +8316,249 @@
         "wires": [
             [
                 "496fc0cfd49fdc48"
+            ]
+        ]
+    },
+    {
+        "id": "fc5fb9ef18216633",
+        "type": "good-object-detection",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "returnValue": 0,
+        "model": "yolov8n",
+        "threshold": 0.5,
+        "absolutePathDir": "",
+        "x": 940,
+        "y": 1020,
+        "wires": [
+            [
+                "63af9dad70803d6a"
+            ]
+        ]
+    },
+    {
+        "id": "97cfa6434ae1021c",
+        "type": "inject",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 940,
+        "y": 1140,
+        "wires": [
+            [
+                "39cb28a5e74d29d4"
+            ]
+        ]
+    },
+    {
+        "id": "39cb28a5e74d29d4",
+        "type": "file in",
+        "z": "47e2824120b2a9e0",
+        "name": "read img.jpg",
+        "filename": "/data/IMG.jpg",
+        "filenameType": "str",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 730,
+        "y": 1020,
+        "wires": [
+            [
+                "fc5fb9ef18216633"
+            ]
+        ]
+    },
+    {
+        "id": "955a9193feae1567",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "Create image for Telegram",
+        "func": "var cId = 843873284;\n\n\n\nmsg.payload = { chatId: cId, type:\"photo\", content:msg.payload, caption:\"Snapshot\"+JSON.stringify(msg.topic)};\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1660,
+        "y": 940,
+        "wires": [
+            [
+                "c1d9dc180bad3de2"
+            ]
+        ]
+    },
+    {
+        "id": "c1d9dc180bad3de2",
+        "type": "telegram sender",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "bot": "ca786bad.5ac7a8",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1910,
+        "y": 940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b4abdbbab8b1a068",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "annotate Example",
+        "func": "if (msg.payload.data != null && Object.keys(msg.payload.data).length > 0) {\n    if (msg.payload.data) {\n        msg.annotations = [];\n        msg.payload = msg.payload.originImg;\n        msg.annotations = [\n            {\n                type: \"circle\",\n                x: 50, y: 50, r: 20,\n                lineWidth: 10\n\n            },\n            {\n                type: \"rect\",\n                x: 30, y: 30, w: 40, h: 40,\n                stroke: \"blue\"\n            }\n        ]\n    }\n\n    return msg;\n}\n\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1170,
+        "y": 1100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5c93b68cdeb0678f",
+        "type": "annotate-image",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "fill": "",
+        "stroke": "#ffC000",
+        "lineWidth": 5,
+        "fontSize": 24,
+        "fontColor": "#ffC000",
+        "x": 1400,
+        "y": 1020,
+        "wires": [
+            [
+                "47abe4fc60e4e1ae",
+                "955a9193feae1567"
+            ]
+        ]
+    },
+    {
+        "id": "5e18c7cbf398fdda",
+        "type": "mqtt in",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "topic": "camera/front",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "a7804332c06e238f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 290,
+        "y": 740,
+        "wires": [
+            [
+                "0c3744b75951e07b"
+            ]
+        ]
+    },
+    {
+        "id": "23881ccfecd8f9e3",
+        "type": "debug",
+        "z": "47e2824120b2a9e0",
+        "name": "Motion Detected Camera Front",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 1360,
+        "wires": []
+    },
+    {
+        "id": "56fb91a6414ddd32",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "create Data",
+        "func": "var msg_data = {\n    payload: msg.payload.data,\n    topic: \"text\"\n}\n\nvar msg_image = {\n    payload: msg.payload.originImg,\n    topic: \"image\"\n};\nfunction checkForDataArrays(input) {\n    let result = {};\n    for (let key in input) {\n        if (Array.isArray(input[key])) {\n            result[key] = input[key].length;\n        }\n    }\n    return Object.keys(result).length > 0 ? result : null;\n\n}\n\nlet result = checkForDataArrays(msg_data.payload);\nif (result != null) {\n    msg_data.payload = result;\n} else {\n    msg_data.payload = \"nothing detected\";\n}\n\nreturn [msg_data, msg_image];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 740,
+        "wires": [
+            [
+                "7ff3e570548d8d87"
+            ],
+            [
+                "88d8ff214f48ece7",
+                "53b88a16c65bd4af"
+            ]
+        ]
+    },
+    {
+        "id": "53b88a16c65bd4af",
+        "type": "image viewer",
+        "z": "47e2824120b2a9e0",
+        "name": "Camera view detector",
+        "width": 160,
+        "data": "payload",
+        "dataType": "msg",
+        "active": true,
+        "x": 1440,
+        "y": 780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "866d7c3685924c66",
+        "type": "inject",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 280,
+        "y": 640,
+        "wires": [
+            [
+                "0c3744b75951e07b"
             ]
         ]
     }
