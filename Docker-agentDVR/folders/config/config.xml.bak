@@ -52,7 +52,7 @@
   <LocalNotifications>true</LocalNotifications>
   <ScannedNetwork>false</ScannedNetwork>
   <CycleDelay>0</CycleDelay>
-  <Armed>false</Armed>
+  <Armed>true</Armed>
   <VLCDir />
   <FFMPEG_DIR />
   <APIPassword>false</APIPassword>

@@ -495,9 +495,9 @@
                 "vt": "str"
             }
         ],
-        "repeat": "10",
+        "repeat": "",
         "crontab": "",
-        "once": false,
+        "once": true,
         "onceDelay": "10",
         "topic": "initial",
         "payload": "",
@@ -1050,7 +1050,7 @@
         "z": "65bf31c16d103884",
         "name": "",
         "pauseType": "delay",
-        "timeout": "30",
+        "timeout": "35",
         "timeoutUnits": "seconds",
         "rate": "1",
         "nbRateUnits": "1",
@@ -6435,6 +6435,7 @@
         "id": "72b99f41.af20b",
         "type": "function",
         "z": "d2d769b0.c57da8",
+        "d": true,
         "name": "message",
         "func": "var content = msg.topic + \" payload:\" + msg.payload;\ncontent = \"smart home loaded\"\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\nvar ObjectPayload = {\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\": content\n}\n\nmsg.payload = ObjectPayload;\nreturn msg;",
         "outputs": 1,
@@ -7811,7 +7812,6 @@
         "y": 340,
         "wires": [
             [
-                "9c0407f65342dcf1",
                 "94b81325a4187ed1"
             ]
         ]
@@ -7834,7 +7834,8 @@
         "id": "1661ecf3d0a55af0",
         "type": "function",
         "z": "47e2824120b2a9e0",
-        "name": "function 1",
+        "d": true,
+        "name": "checkForPersonArrays",
         "func": "\n\nfunction checkForPersonArrays(input) {\n    // Check if the input object has a property named 'person' and it's an array\n    if (input.hasOwnProperty('person') && Array.isArray(input.person)) {\n        let personArray = input.person;\n        let personCount = personArray.length;\n        return personCount;\n    } else {\n        return null; // Return null if 'person' array is not found\n    }\n}\n\nlet result = checkForPersonArrays(msg.payload.data);\nif (result != null) {\n    msg.payload = result\n    // node.error(msg.payload);\n    return msg;\n}",
         "outputs": 1,
         "timeout": 0,
@@ -7842,35 +7843,10 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 860,
-        "y": 500,
+        "x": 1080,
+        "y": 420,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "9c0407f65342dcf1",
-        "type": "delay",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "pauseType": "rate",
-        "timeout": "10",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "10",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": true,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 960,
-        "y": 240,
-        "wires": [
-            [
-                "7df1bdd34f900e31"
-            ]
         ]
     },
     {
@@ -7976,7 +7952,7 @@
         "name": "",
         "returnValue": 0,
         "model": "yolov8n",
-        "threshold": "0.6",
+        "threshold": "0.5",
         "absolutePathDir": "",
         "x": 740,
         "y": 740,
@@ -8194,7 +8170,7 @@
         "type": "function",
         "z": "47e2824120b2a9e0",
         "name": "filter data",
-        "func": "var originImg = {\n    payload: msg.payload.originImg,\n    topic: \"image\"\n}\n\nfunction checkForDataArrays(input) {\n    let result = {};\n\n    // Iterate over each property in the input object\n    for (let key in input) {\n        if (Array.isArray(input[key])) {\n            // Add the array name and its count to the result object\n            result[key] = input[key].length;\n        }\n    }\n\n    // Return the result object if it has any properties, otherwise return null\n    return Object.keys(result).length > 0 ? result : null;\n}\n\nlet result = checkForDataArrays(msg.payload.data);\nif (result != null) {\n    msg.payload = result;\n    return [msg, originImg];\n} else {\n    return [null]; // Return null if no arrays are found\n}\n",
+        "func": "var originImg = {\n    payload: msg.payload.originImg,\n    topic: \"image\"\n}\n\nfunction checkForDataArrays(input) {\n    let result = {};\n\n    // Iterate over each property in the input object\n    for (let key in input) {\n        if (Array.isArray(input[key])) {\n            // Add the array name and its count to the result object\n            result[key] = input[key].length;\n        }\n    }\n\n    // Return the result object if it has any properties, otherwise return null\n    return Object.keys(result).length > 0 ? result : null;\n}\n\nlet result = checkForDataArrays(msg.payload.data);\nif (result != null) {\n    msg.payload = result;\n    return [msg, originImg];\n} else {\n    return [msg, originImg]; // Return null if no arrays are found\n}\n",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
@@ -8209,7 +8185,8 @@
                 "4517be7281db9072"
             ],
             [
-                "f7392fbcbe181e3c"
+                "f7392fbcbe181e3c",
+                "6f1f70a4f09eb671"
             ]
         ]
     },
@@ -8284,22 +8261,6 @@
         ]
     },
     {
-        "id": "496fc0cfd49fdc48",
-        "type": "debug",
-        "z": "47e2824120b2a9e0",
-        "name": "debug 2",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1320,
-        "y": 220,
-        "wires": []
-    },
-    {
         "id": "763258556ff0476b",
         "type": "function",
         "z": "47e2824120b2a9e0",
@@ -8314,9 +8275,7 @@
         "x": 1120,
         "y": 300,
         "wires": [
-            [
-                "496fc0cfd49fdc48"
-            ]
+            []
         ]
     },
     {
@@ -8478,23 +8437,6 @@
         ]
     },
     {
-        "id": "23881ccfecd8f9e3",
-        "type": "debug",
-        "z": "47e2824120b2a9e0",
-        "name": "Motion Detected Camera Front",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 890,
-        "y": 1360,
-        "wires": []
-    },
-    {
         "id": "56fb91a6414ddd32",
         "type": "function",
         "z": "47e2824120b2a9e0",
@@ -8559,6 +8501,389 @@
         "wires": [
             [
                 "0c3744b75951e07b"
+            ]
+        ]
+    },
+    {
+        "id": "7682a3f9e0bd1694",
+        "type": "http in",
+        "z": "47e2824120b2a9e0",
+        "name": "/camera/front - GET",
+        "url": "/camera/bedroom",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 290,
+        "y": 420,
+        "wires": [
+            [
+                "7df1bdd34f900e31"
+            ]
+        ]
+    },
+    {
+        "id": "6a156025.b1c9f",
+        "type": "inject",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload",
+                "v": "",
+                "vt": "date"
+            },
+            {
+                "p": "topic",
+                "v": "",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 880,
+        "y": 1560,
+        "wires": [
+            [
+                "fd62708f.a560a"
+            ]
+        ]
+    },
+    {
+        "id": "9c0b2081.b1ac6",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "Format the header and payload",
+        "func": "msg.headers = {\n    \"Content-Type\": \"multipart/form-data; boundary=------------------------d74496d66958873e\"\n}\n\n\nmsg.payload = '--------------------------d74496d66958873e\\r\\n'+\n'Content-Disposition: form-data; name=\"select\"\\r\\n'+\n'\\r\\n'+\n'true\\r\\n'+\n'--------------------------d74496d66958873e\\r\\n'+\n'Content-Disposition: form-data; name=\"print\"\\r\\n'+\n'\\r\\n'+\n'true\\r\\n'+\n'--------------------------d74496d66958873e\\r\\n'+\n'Content-Disposition: form-data; name=\"file\"; filename=\"'+msg.filename+'\"\\r\\n'+\n'Content-Type: application/octet-stream\\r\\n'+\n'\\r\\n'+\nmsg.payload+'\\r\\n'+\n'--------------------------d74496d66958873e--\\r\\n';\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1010,
+        "y": 1620,
+        "wires": [
+            [
+                "85c748e8.2d1f88"
+            ]
+        ]
+    },
+    {
+        "id": "85c748e8.2d1f88",
+        "type": "http request",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "http://localhost:1880/files",
+        "tls": "",
+        "proxy": "",
+        "x": 1250,
+        "y": 1620,
+        "wires": [
+            [
+                "a4810d7a.f652a"
+            ]
+        ]
+    },
+    {
+        "id": "a4810d7a.f652a",
+        "type": "debug",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1430,
+        "y": 1620,
+        "wires": []
+    },
+    {
+        "id": "fd62708f.a560a",
+        "type": "file in",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "filename": "/tmp/file.txt",
+        "filenameType": "str",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "x": 1060,
+        "y": 1560,
+        "wires": [
+            [
+                "9c0b2081.b1ac6"
+            ]
+        ]
+    },
+    {
+        "id": "2f32071ef7bb110d",
+        "type": "comment",
+        "z": "47e2824120b2a9e0",
+        "name": "delivering different Types of Data (at /data-of-type-XXX)",
+        "info": "",
+        "x": 1040,
+        "y": 1720,
+        "wires": []
+    },
+    {
+        "id": "238793311dabfdd6",
+        "type": "http in",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "url": "data-of-type-text-plain",
+        "method": "get",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 960,
+        "y": 1780,
+        "wires": [
+            [
+                "cffded47ea1c03d0"
+            ]
+        ]
+    },
+    {
+        "id": "b51281afcd501289",
+        "type": "http in",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "url": "data-of-type-application-json",
+        "method": "get",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 980,
+        "y": 1900,
+        "wires": [
+            [
+                "68a3c31298d82cc0"
+            ]
+        ]
+    },
+    {
+        "id": "3e924f0ff93cd624",
+        "type": "http in",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "url": "data-of-type-image-png",
+        "method": "get",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 960,
+        "y": 2020,
+        "wires": [
+            [
+                "8fa440683ca55861"
+            ]
+        ]
+    },
+    {
+        "id": "cffded47ea1c03d0",
+        "type": "change",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "this is some plain text",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "headers",
+                "pt": "msg",
+                "to": "{\"content-type\":\"text/plain\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1140,
+        "y": 1840,
+        "wires": [
+            [
+                "c0f311bbfc8d346a"
+            ]
+        ]
+    },
+    {
+        "id": "c0f311bbfc8d346a",
+        "type": "http response",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1320,
+        "y": 1840,
+        "wires": []
+    },
+    {
+        "id": "68a3c31298d82cc0",
+        "type": "change",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{ \"type\":\"json\" }",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "headers",
+                "pt": "msg",
+                "to": "{\"content-type\":\"application/json\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1140,
+        "y": 1960,
+        "wires": [
+            [
+                "19311e74fb2a3167"
+            ]
+        ]
+    },
+    {
+        "id": "19311e74fb2a3167",
+        "type": "http response",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1320,
+        "y": 1960,
+        "wires": []
+    },
+    {
+        "id": "8fa440683ca55861",
+        "type": "file in",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "filename": "Mandelbrot_240x240.png",
+        "filenameType": "str",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 1280,
+        "y": 2020,
+        "wires": [
+            [
+                "7fb230d107b1b06f"
+            ]
+        ]
+    },
+    {
+        "id": "7fb230d107b1b06f",
+        "type": "change",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "headers",
+                "pt": "msg",
+                "to": "{\"content-type\":\"image/png\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1130,
+        "y": 2080,
+        "wires": [
+            [
+                "39689ce2448f0aba"
+            ]
+        ]
+    },
+    {
+        "id": "39689ce2448f0aba",
+        "type": "http response",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1320,
+        "y": 2080,
+        "wires": []
+    },
+    {
+        "id": "793f39abe9f8cda8",
+        "type": "change",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "headers",
+                "pt": "msg",
+                "to": "{\"content-type\":\"image/png\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1490,
+        "y": 140,
+        "wires": [
+            [
+                "b0cc2bedc1b68787"
+            ]
+        ]
+    },
+    {
+        "id": "b0cc2bedc1b68787",
+        "type": "http response",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1660,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "6f1f70a4f09eb671",
+        "type": "file in",
+        "z": "47e2824120b2a9e0",
+        "name": "read jpg file",
+        "filename": "payload",
+        "filenameType": "msg",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 1310,
+        "y": 140,
+        "wires": [
+            [
+                "793f39abe9f8cda8"
             ]
         ]
     }
