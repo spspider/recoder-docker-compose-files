@@ -1788,7 +1788,7 @@
   </locations>
   <alertGroups>
     <entries>
-      <entry name="mqtt_group" lastAlert="2025-02-04T21:56:44.4491903Z" />
+      <entry name="mqtt_group" lastAlert="2025-02-05T20:26:36.8985211Z" />
       <entry name="telegram_info" lastAlert="2025-02-02T13:03:06.316783Z" />
     </entries>
   </alertGroups>
