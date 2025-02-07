@@ -452,7 +452,7 @@
         "z": "65bf31c16d103884",
         "name": "myroom",
         "func": "var topicObjects = [];\nvar parsed = (msg.payload);\nvar topic = (msg.topic)\nvar  outputCount_number = node.outputCount\nif (topic == \"initial\") {\n    for (var i = 0; i < parsed.stat.length; i++) {\n        var topicObject = {\n            payload: parseFloat(parsed.stat[i]),\n            topic: i\n        };\n        topicObjects.push(topicObject);\n    }\n    return topicObjects;\n}\nelse {// topic is not initial\n    for (var i = 0; i < outputCount_number; i++) {\n        if (i == parseInt(topic)) {\n            topicObject = {\n                payload: parseInt(parsed),\n                topic: parseInt(topic)\n            }\n            topicObjects.push(topicObject);\n        };\n        topicObjects.push(null);\n    }\n    return topicObjects;\n} \n\n",
-        "outputs": 6,
+        "outputs": 7,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
@@ -478,6 +478,9 @@
             ],
             [
                 "a5d85328c784360f"
+            ],
+            [
+                "ea867eb9f71bd30c"
             ]
         ]
     },
@@ -674,7 +677,7 @@
         "property": "payload",
         "topi": "topic",
         "x": 970,
-        "y": 280,
+        "y": 260,
         "wires": [
             [
                 "a23ad46d36d12c16"
@@ -708,7 +711,7 @@
         "animate": false,
         "className": "",
         "x": 810,
-        "y": 340,
+        "y": 300,
         "wires": [
             [
                 "3f1d4ec111668b15"
@@ -728,7 +731,7 @@
         "property": "payload",
         "topi": "topic",
         "x": 970,
-        "y": 340,
+        "y": 300,
         "wires": [
             [
                 "a23ad46d36d12c16"
@@ -796,8 +799,8 @@
         "max": "200",
         "step": 1,
         "className": "",
-        "x": 810,
-        "y": 280,
+        "x": 790,
+        "y": 260,
         "wires": [
             [
                 "e8446166ae58b128"
@@ -891,7 +894,7 @@
         "type": "function",
         "z": "65bf31c16d103884",
         "name": "subscribe",
-        "func": "var subcsciptionLoop = []\n\nfor (var i = 0; i < 6; i++) {\n    var subscriptionVar = {\n        action: \"subscribe\",\n        topic: \"node-red/room/control/\" + i\n    }\n    subcsciptionLoop.push(subscriptionVar);\n}\nreturn [subcsciptionLoop];",
+        "func": "var subcsciptionLoop = []\n\nfor (var i = 0; i < 7; i++) {\n    var subscriptionVar = {\n        action: \"subscribe\",\n        topic: \"node-red/room/control/\" + i\n    }\n    subcsciptionLoop.push(subscriptionVar);\n}\nreturn [subcsciptionLoop];",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1107,6 +1110,60 @@
         "wires": [
             [
                 "7e31b05aed36e8da"
+            ]
+        ]
+    },
+    {
+        "id": "ea867eb9f71bd30c",
+        "type": "ui_switch",
+        "z": "65bf31c16d103884",
+        "name": "power Night Light",
+        "label": "power Night Light",
+        "tooltip": "",
+        "group": "d933d053d66f5444",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "6",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "0",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "1",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 830,
+        "y": 340,
+        "wires": [
+            [
+                "52919967bac76e22"
+            ]
+        ]
+    },
+    {
+        "id": "52919967bac76e22",
+        "type": "rbe",
+        "z": "65bf31c16d103884",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 970,
+        "y": 340,
+        "wires": [
+            [
+                "a23ad46d36d12c16"
             ]
         ]
     },
@@ -7749,7 +7806,6 @@
         "id": "27305ebce4a2d493",
         "type": "inject",
         "z": "47e2824120b2a9e0",
-        "d": true,
         "name": "",
         "props": [
             {
@@ -7762,12 +7818,12 @@
         ],
         "repeat": "",
         "crontab": "",
-        "once": true,
+        "once": false,
         "onceDelay": "3",
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 310,
+        "x": 300,
         "y": 340,
         "wires": [
             [
@@ -8130,7 +8186,7 @@
         "type": "function",
         "z": "47e2824120b2a9e0",
         "name": "message",
-        "func": "var content = msg.payload;\n    // \"chatId\": [\"843873284\", \"584925756\"],\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\n\nif (!Array.isArray(TelegramChatIds)) {\n    node.error(\"TelegramChatIds is not an array\");\n    return null;\n}\n\nvar ObjectPayload = {\n        \"chatId\": \"843873284\",\n        \"type\": \"message\",\n        \"content\": \"camera front: \"+JSON.stringify(content) // Convert content to a string\n};\nmsg.payload = ObjectPayload;\nreturn msg;\n\n",
+        "func": "var content = msg.payload;\n// \"chatId\": [\"843873284\", \"584925756\"],\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\n\nif (!Array.isArray(TelegramChatIds)) {\n    node.error(\"TelegramChatIds is not an array\");\n    return null;\n}\n\nvar ObjectPayload = {\n    \"chatId\": \"584925756\",\n    \"type\": \"message\",\n    \"content\": \"camera front: \" + JSON.stringify(content) // Convert content to a string\n};\nmsg.payload = ObjectPayload;\nreturn msg;\n\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -8170,7 +8226,7 @@
         "type": "function",
         "z": "47e2824120b2a9e0",
         "name": "filter data",
-        "func": "var originImg = {\n    payload: msg.payload.originImg,\n    topic: \"image\"\n}\n\nfunction checkForDataArrays(input) {\n    let result = {};\n\n    // Iterate over each property in the input object\n    for (let key in input) {\n        if (Array.isArray(input[key])) {\n            // Add the array name and its count to the result object\n            result[key] = input[key].length;\n        }\n    }\n\n    // Return the result object if it has any properties, otherwise return null\n    return Object.keys(result).length > 0 ? result : null;\n}\n\nlet result = checkForDataArrays(msg.payload.data);\nif (result != null) {\n    msg.payload = result;\n    return [msg, originImg];\n} else {\n    return [msg, originImg]; // Return null if no arrays are found\n}\n",
+        "func": "var msg_data = {\n    payload: msg.payload.data,\n    topic: \"text\"\n}\n\nvar msg_image = {\n    payload: msg.payload.originImg,\n    topic: \"image\"\n};\nfunction checkForDataArrays(input) {\n    let result = {};\n    for (let key in input) {\n        if (Array.isArray(input[key])) {\n            result[key] = input[key].length;\n        }\n    }\n    return Object.keys(result).length > 0 ? result : null;\n\n}\n\nlet result = checkForDataArrays(msg_data.payload);\nif (result != null) {\n    msg_data.payload = result;\n    msg_image.topic = JSON.stringify(result);\n    return [msg_data, msg_image];\n} else {\n    msg_data.payload = \"nothing detected\";\n    msg_image.topic = \"nothing detected\";\n    return [null, null];\n}\n\n",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
@@ -8182,11 +8238,12 @@
         "wires": [
             [
                 "98bcd80fe51e2b3d",
-                "4517be7281db9072"
+                "4517be7281db9072",
+                "b0cc2bedc1b68787"
             ],
             [
-                "f7392fbcbe181e3c",
-                "6f1f70a4f09eb671"
+                "02bb2c609c4f254a",
+                "d1afd76befff7d33"
             ]
         ]
     },
@@ -8195,7 +8252,7 @@
         "type": "function",
         "z": "47e2824120b2a9e0",
         "name": "Create image for Telegram",
-        "func": "var cId = 843873284;\n\n\n\nmsg.payload = { chatId: cId, type:\"photo\", content:msg.payload, caption:\"Snapshot of image\"};\nreturn msg;\n",
+        "func": "var TelegramChatIds = global.get(\"TelegramChatIds\");\n\n\n\nmsg.payload = { chatId: TelegramChatIds, type: \"photo\", content: msg.payload, caption: msg.topic};\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -8237,27 +8294,6 @@
         "y": 460,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "f7392fbcbe181e3c",
-        "type": "function",
-        "z": "47e2824120b2a9e0",
-        "name": "crop image",
-        "func": "return msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1310,
-        "y": 400,
-        "wires": [
-            [
-                "d1afd76befff7d33",
-                "02bb2c609c4f254a"
-            ]
         ]
     },
     {
@@ -8452,7 +8488,8 @@
         "y": 740,
         "wires": [
             [
-                "7ff3e570548d8d87"
+                "7ff3e570548d8d87",
+                "c44682f7751424cf"
             ],
             [
                 "88d8ff214f48ece7",
@@ -8508,12 +8545,12 @@
         "id": "7682a3f9e0bd1694",
         "type": "http in",
         "z": "47e2824120b2a9e0",
-        "name": "/camera/front - GET",
-        "url": "/camera/bedroom",
+        "name": "",
+        "url": "/myroomcamera",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 290,
+        "x": 300,
         "y": 420,
         "wires": [
             [
@@ -8848,12 +8885,10 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1490,
-        "y": 140,
+        "x": 1450,
+        "y": 100,
         "wires": [
-            [
-                "b0cc2bedc1b68787"
-            ]
+            []
         ]
     },
     {
@@ -8863,27 +8898,28 @@
         "name": "",
         "statusCode": "200",
         "headers": {},
-        "x": 1660,
-        "y": 140,
+        "x": 1500,
+        "y": 220,
         "wires": []
     },
     {
-        "id": "6f1f70a4f09eb671",
-        "type": "file in",
+        "id": "b1163c3636f82954",
+        "type": "mqtt in",
         "z": "47e2824120b2a9e0",
-        "name": "read jpg file",
-        "filename": "payload",
-        "filenameType": "msg",
-        "format": "",
-        "chunk": false,
-        "sendError": false,
-        "encoding": "none",
-        "allProps": false,
-        "x": 1310,
-        "y": 140,
+        "name": "",
+        "topic": "camera/myroom",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "a7804332c06e238f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 280,
+        "y": 240,
         "wires": [
             [
-                "793f39abe9f8cda8"
+                "7df1bdd34f900e31"
             ]
         ]
     }

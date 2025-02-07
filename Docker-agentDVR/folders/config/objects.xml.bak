@@ -112,8 +112,8 @@
         <dvrmodel>Mobile</dvrmodel>
         <dvrchannel>0</dvrchannel>
         <schedule>false</schedule>
-        <zPoint>79,318</zPoint>
-        <zFactor>1.5</zFactor>
+        <zPoint>320,240</zPoint>
+        <zFactor>1</zFactor>
         <findbeststream>true</findbeststream>
         <audiostreamindex>0</audiostreamindex>
         <videostreamindex>0</videostreamindex>
@@ -1685,7 +1685,7 @@
         <audiolimitcolor>255,0,0</audiolimitcolor>
         <color />
         <ndilevel>80</ndilevel>
-        <prefer_tcp>false</prefer_tcp>
+        <prefer_tcp>true</prefer_tcp>
         <rtspmodenew>tcp</rtspmodenew>
         <low_delay>false</low_delay>
         <deletewav>true</deletewav>
@@ -1753,9 +1753,10 @@
           <entry type="MQTT" param1="camera/alerts" param2="super - {0:H:mm:ss}" param3="False" />
         </actionEntries>
       </entry>
-      <entry type="S" objecttypeid="2" objectid="1" mode="detected" ident="17d8737f-7943-494a-b8da-3d64f975be30" repeattimeout="60">
+      <entry type="S" objecttypeid="2" objectid="1" mode="detected" ident="17d8737f-7943-494a-b8da-3d64f975be30" zonematch="1,2,3,4,5,6,7,8,9" repeattimeout="60">
         <actionEntries>
-          <entry type="MQTT" param1="camera/alerts" param2="myroom - {0:H:mm:ss}" param3="False" />
+          <entry type="MQTT" param1="camera/myroom" param2="myroom - {0:H:mm:ss}" param3="False" />
+          <entry type="URL" param1="http://localhost:1880/myroomcamera" param2="0" param4="GET" param5="1" />
         </actionEntries>
       </entry>
       <entry type="S" objecttypeid="2" objectid="2" mode="detected" ident="61490fd0-44a8-4849-a19e-ce5fc8c6abf1" zonematch="1,2,3,4,5,6,7,8,9" repeattimeout="60">
@@ -1779,6 +1780,17 @@
       <entry type="S" objecttypeid="2" objectid="6" mode="alert" ident="28a8c268-b20b-4abd-b486-8bbace8f8159">
         <actionEntries />
       </entry>
+      <entry type="S" objecttypeid="2" objectid="1" mode="alert" ident="3741fcce-2bf3-4703-8d6e-757784fec6c1">
+        <actionEntries />
+      </entry>
+      <entry type="S" objecttypeid="2" objectid="1" mode="alert" ident="1565795b-ac64-4516-8731-68d417001fae">
+        <actionEntries />
+      </entry>
+      <entry type="S" objecttypeid="2" objectid="1" mode="detected" ident="9365acf8-2ce5-4ee3-9060-039ab6172b06" zonematch="1,2,3,4,5,6,7,8,9">
+        <actionEntries>
+          <entry type="URL" param1="http://localhost:1880/myroomcamera" param2="0" param4="GET" />
+        </actionEntries>
+      </entry>
     </entries>
   </actions>
   <locations>
@@ -1788,7 +1800,7 @@
   </locations>
   <alertGroups>
     <entries>
-      <entry name="mqtt_group" lastAlert="2025-02-06T20:45:23.0343206Z" />
+      <entry name="mqtt_group" lastAlert="2025-02-07T20:29:15.4491835Z" />
       <entry name="telegram_info" lastAlert="2025-02-02T13:03:06.316783Z" />
     </entries>
   </alertGroups>
