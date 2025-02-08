@@ -28,7 +28,7 @@
   <FirstRun>true</FirstRun>
   <NotifyOnDisconnect>false</NotifyOnDisconnect>
   <NotifyEndpoint />
-  <MachineName>97716c65c33f</MachineName>
+  <MachineName>recoder_roof</MachineName>
   <CommsServer>https://rtcfunc.azurewebsites.net</CommsServer>
   <MaxCPU>90</MaxCPU>
   <UniqueID>c2cdb618-3a41-468f-8702-ce0b2765f611</UniqueID>
@@ -73,7 +73,7 @@
   <StorageNotifyEmail />
   <StorageNotifyEmailLimit>75</StorageNotifyEmailLimit>
   <StorageNotifyEmailLastSent>2001-01-01T00:00:00</StorageNotifyEmailLastSent>
-  <ArchiveCheckTimeStamp>2025-02-07T00:58:38.6801129Z</ArchiveCheckTimeStamp>
+  <ArchiveCheckTimeStamp>2025-02-08T00:58:46.8262059Z</ArchiveCheckTimeStamp>
   <DriveFullEmailLastSent>2001-01-01T00:00:00</DriveFullEmailLastSent>
   <StorageNotifyEmailIntervalHours>12</StorageNotifyEmailIntervalHours>
   <DeepStackAIURL />

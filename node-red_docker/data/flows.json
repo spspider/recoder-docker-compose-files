@@ -78,6 +78,14 @@
         "env": []
     },
     {
+        "id": "d10b6744b70a9f6d",
+        "type": "tab",
+        "label": "AIChat",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "e9df3544.ca85a8",
         "type": "ui_base",
         "theme": {
@@ -498,14 +506,14 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "120",
         "crontab": "",
         "once": true,
         "onceDelay": "10",
         "topic": "initial",
         "payload": "",
         "payloadType": "date",
-        "x": 250,
+        "x": 260,
         "y": 220,
         "wires": [
             [
@@ -1159,7 +1167,7 @@
         "septopics": true,
         "property": "payload",
         "topi": "topic",
-        "x": 970,
+        "x": 990,
         "y": 340,
         "wires": [
             [
@@ -7862,13 +7870,13 @@
         "name": "",
         "returnValue": 0,
         "model": "yolov8n",
-        "threshold": "0.6",
+        "threshold": "0.4",
         "absolutePathDir": "",
         "x": 740,
         "y": 340,
         "wires": [
             [
-                "94b81325a4187ed1"
+                "5a0bcede9b2f95bb"
             ]
         ]
     },
@@ -7903,27 +7911,6 @@
         "y": 420,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "94b81325a4187ed1",
-        "type": "rbe",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "septopics": false,
-        "property": "payload",
-        "topi": "topic",
-        "x": 970,
-        "y": 340,
-        "wires": [
-            [
-                "5a0bcede9b2f95bb",
-                "763258556ff0476b"
-            ]
         ]
     },
     {
@@ -8252,7 +8239,7 @@
         "type": "function",
         "z": "47e2824120b2a9e0",
         "name": "Create image for Telegram",
-        "func": "var TelegramChatIds = global.get(\"TelegramChatIds\");\n\n\n\nmsg.payload = { chatId: TelegramChatIds, type: \"photo\", content: msg.payload, caption: msg.topic};\nreturn msg;\n",
+        "func": "var TelegramChatIds = global.get(\"TelegramChatIds\");\n\n\n\nmsg.payload = { chatId: TelegramChatIds, type: \"photo\", content: msg.payload, caption: msg.topic };\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -8922,5 +8909,94 @@
                 "7df1bdd34f900e31"
             ]
         ]
+    },
+    {
+        "id": "7bc1fdd740a684a6",
+        "type": "http request",
+        "z": "d10b6744b70a9f6d",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.1.159:11500/chat",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 450,
+        "y": 140,
+        "wires": [
+            [
+                "bec2630c3be51374"
+            ]
+        ]
+    },
+    {
+        "id": "e5448d8f8c89111b",
+        "type": "function",
+        "z": "d10b6744b70a9f6d",
+        "name": "payload",
+        "func": "msg.payload = JSON.stringify(\n    {\n        \"messages\": [\n            {\n                \"role\": \"user\",\n                \"content\": \"say hello?\",\n                \"answer\": \"short answer\"\n            }\n        ]\n    }\n);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 140,
+        "wires": [
+            [
+                "7bc1fdd740a684a6"
+            ]
+        ]
+    },
+    {
+        "id": "3819eee374404559",
+        "type": "inject",
+        "z": "d10b6744b70a9f6d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 140,
+        "wires": [
+            [
+                "e5448d8f8c89111b"
+            ]
+        ]
+    },
+    {
+        "id": "bec2630c3be51374",
+        "type": "debug",
+        "z": "d10b6744b70a9f6d",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 140,
+        "wires": []
     }
 ]

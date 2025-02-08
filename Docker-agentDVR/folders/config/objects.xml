@@ -1774,18 +1774,6 @@
           <entry type="MQTT" param1="camera/front" param2="front motion - {0:H:mm:ss}" param3="False" />
         </actionEntries>
       </entry>
-      <entry type="S" objecttypeid="2" objectid="6" mode="alert" ident="cc8057ba-8f2e-4529-8204-868422bbd469">
-        <actionEntries />
-      </entry>
-      <entry type="S" objecttypeid="2" objectid="6" mode="alert" ident="28a8c268-b20b-4abd-b486-8bbace8f8159">
-        <actionEntries />
-      </entry>
-      <entry type="S" objecttypeid="2" objectid="1" mode="alert" ident="3741fcce-2bf3-4703-8d6e-757784fec6c1">
-        <actionEntries />
-      </entry>
-      <entry type="S" objecttypeid="2" objectid="1" mode="alert" ident="1565795b-ac64-4516-8731-68d417001fae">
-        <actionEntries />
-      </entry>
       <entry type="S" objecttypeid="2" objectid="1" mode="detected" ident="9365acf8-2ce5-4ee3-9060-039ab6172b06" zonematch="1,2,3,4,5,6,7,8,9">
         <actionEntries>
           <entry type="URL" param1="http://localhost:1880/myroomcamera" param2="0" param4="GET" />
@@ -1800,7 +1788,7 @@
   </locations>
   <alertGroups>
     <entries>
-      <entry name="mqtt_group" lastAlert="2025-02-07T20:29:15.4491835Z" />
+      <entry name="mqtt_group" lastAlert="2025-02-08T21:22:37.243642Z" />
       <entry name="telegram_info" lastAlert="2025-02-02T13:03:06.316783Z" />
     </entries>
   </alertGroups>
