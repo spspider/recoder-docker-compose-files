@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  app:
+    image: spspider/ai_fornode_red_deepseekai:v1
+    ports:
+      - "11500:11500"
+    env_file:
+      - .env
+    networks:
+      - app_network  # Use the shared network
+    restart: unless-stopped
+      
+networks:
+  app_network:
+    external: true      

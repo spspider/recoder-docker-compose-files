@@ -8,6 +8,37 @@
         "env": []
     },
     {
+        "id": "d2d769b0.c57da8",
+        "type": "tab",
+        "label": "Telegram",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "a69381581f637ec6",
+        "type": "tab",
+        "label": "roof",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "47e2824120b2a9e0",
+        "type": "tab",
+        "label": "camera",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d10b6744b70a9f6d",
+        "type": "tab",
+        "label": "AIChat",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "81965ae3.dd08a8",
         "type": "tab",
         "label": "Main",
@@ -50,40 +81,9 @@
         "info": ""
     },
     {
-        "id": "d2d769b0.c57da8",
-        "type": "tab",
-        "label": "Telegram",
-        "disabled": false,
-        "info": ""
-    },
-    {
-        "id": "a69381581f637ec6",
-        "type": "tab",
-        "label": "roof",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
         "id": "772e6979.67cd08",
         "type": "tab",
         "label": "System"
-    },
-    {
-        "id": "47e2824120b2a9e0",
-        "type": "tab",
-        "label": "camera",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
-        "id": "d10b6744b70a9f6d",
-        "type": "tab",
-        "label": "AIChat",
-        "disabled": false,
-        "info": "",
-        "env": []
     },
     {
         "id": "e9df3544.ca85a8",
@@ -459,7 +459,7 @@
         "type": "function",
         "z": "65bf31c16d103884",
         "name": "myroom",
-        "func": "var topicObjects = [];\nvar parsed = (msg.payload);\nvar topic = (msg.topic)\nvar  outputCount_number = node.outputCount\nif (topic == \"initial\") {\n    for (var i = 0; i < parsed.stat.length; i++) {\n        var topicObject = {\n            payload: parseFloat(parsed.stat[i]),\n            topic: i\n        };\n        topicObjects.push(topicObject);\n    }\n    return topicObjects;\n}\nelse {// topic is not initial\n    for (var i = 0; i < outputCount_number; i++) {\n        if (i == parseInt(topic)) {\n            topicObject = {\n                payload: parseInt(parsed),\n                topic: parseInt(topic)\n            }\n            topicObjects.push(topicObject);\n        };\n        topicObjects.push(null);\n    }\n    return topicObjects;\n} \n\n",
+        "func": "function setStoredValue(objectValue) {\n    var storedValues = global.get(\"storedValues\") || {}; // Retrieve existing data or initialize an empty object\n    var parameterName = objectValue.name; // Example: \"Curtain in my room switch up\"\n    var parameterNumber = objectValue.topic; // Example: 0\n    var parameterValue = objectValue.payload; // Example: 100\n    // If the entry already exists, update only the payload\n    if (storedValues.hasOwnProperty(parameterName)) {\n        storedValues[parameterName].payload = parameterValue;\n    } else {\n        // Otherwise, create a new entry\n        storedValues[parameterName] = {\n            topic: parameterNumber,\n            payload: parameterValue\n        };\n    }\n    global.set(\"storedValues\", storedValues); // Save back to global context\n    return null; // No output needed\n}\n\nvar name = {}\nname[0] = \"Curtain in my room switch up\"\nname[1] = \"Curtain in my room switch down\"\nname[2] = \"Turn light in backyard\"\nname[3] = \"Turn light in my room slider from 0 to 50\"\nname[4] = \"Turn light in my room powerful\"\nname[5] = \"temp in my room\"\nname[6] = \"Turn light Night powerful\"\n\nvar topicObjects = [];\nvar parsed = (msg.payload);\nvar topic = (msg.topic)\nvar  outputCount_number = node.outputCount\nif (topic == \"initial\") {\n    for (var i = 0; i < parsed.stat.length; i++) {\n        var topicObject = {\n            payload: parseFloat(parsed.stat[i]),\n            topic: i,\n            name: name[i]\n        };\n        setStoredValue(topicObject);\n        topicObjects.push(topicObject);\n    }\n    return topicObjects;\n}\nelse {// topic is not initial\n    for (var i = 0; i < outputCount_number; i++) {\n        if (i == parseInt(topic)) {\n            topicObject = {\n                payload: parseInt(parsed),\n                topic: parseInt(topic),\n                name: name[i]\n            }\n            setStoredValue(topicObject);\n            topicObjects.push(topicObject);\n        };\n        topicObjects.push(null);\n    }\n    return topicObjects;\n} \n\n",
         "outputs": 7,
         "timeout": "",
         "noerr": 0,
@@ -513,7 +513,7 @@
         "topic": "initial",
         "payload": "",
         "payloadType": "date",
-        "x": 260,
+        "x": 240,
         "y": 220,
         "wires": [
             [
@@ -1174,6 +1174,2184 @@
                 "a23ad46d36d12c16"
             ]
         ]
+    },
+    {
+        "id": "9d6edcc560dfad19",
+        "type": "inject",
+        "z": "65bf31c16d103884",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 400,
+        "y": 660,
+        "wires": [
+            [
+                "f144e7bfac2c8f74"
+            ]
+        ]
+    },
+    {
+        "id": "f144e7bfac2c8f74",
+        "type": "function",
+        "z": "65bf31c16d103884",
+        "name": "function 3",
+        "func": "// Get all flow variables  \nlet flowKeys = flow.keys();\nlet flowValues = {};\nflowKeys.forEach(key => {\n    flowValues[key] = flow.get(key);\n});\n\n// Get all global variables  \nlet globalKeys = global.keys();\nlet globalValues = {};\nglobalKeys.forEach(key => {\n    globalValues[key] = global.get(key);\n});\n\n// Send the retrieved values as output  \nmsg.payload = {\n    flowVariables: flowValues,\n    globalVariables: globalValues\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 660,
+        "wires": [
+            [
+                "671217c8225771f8"
+            ]
+        ]
+    },
+    {
+        "id": "671217c8225771f8",
+        "type": "debug",
+        "z": "65bf31c16d103884",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "45173b5a6c33a9af",
+        "type": "inject",
+        "z": "65bf31c16d103884",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 400,
+        "y": 760,
+        "wires": [
+            [
+                "0aefc6f49b6b80da"
+            ]
+        ]
+    },
+    {
+        "id": "0aefc6f49b6b80da",
+        "type": "function",
+        "z": "65bf31c16d103884",
+        "name": "function 4",
+        "func": "var keys = [\"storedValues\"];\nvar retrievedValues = {};\n\nkeys.forEach(function (key) {\n    retrievedValues[key] = global.get(key) || { description: key, value: \"Not set\" };\n});\n\nmsg.payload = retrievedValues;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 760,
+        "wires": [
+            [
+                "52dfc17a5b3034ce"
+            ]
+        ]
+    },
+    {
+        "id": "52dfc17a5b3034ce",
+        "type": "debug",
+        "z": "65bf31c16d103884",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "95ff1632.6243b8",
+        "type": "telegram sender",
+        "z": "d2d769b0.c57da8",
+        "name": "sender",
+        "bot": "170adc9ec64f9f80",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 910,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "92568c50.87034",
+        "type": "telegram receiver",
+        "z": "d2d769b0.c57da8",
+        "name": "",
+        "bot": "170adc9ec64f9f80",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 230,
+        "y": 300,
+        "wires": [
+            [
+                "f8e08d57.743f4",
+                "f9bd0ea73fb5b228"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "fca261f6.1b4e6",
+        "type": "catch",
+        "z": "d2d769b0.c57da8",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 460,
+        "y": 520,
+        "wires": [
+            [
+                "a1b079ea.70ea18"
+            ]
+        ]
+    },
+    {
+        "id": "2e8b7a81.d0b546",
+        "type": "telegram sender",
+        "z": "d2d769b0.c57da8",
+        "d": true,
+        "name": "Error",
+        "bot": "ca786bad.5ac7a8",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 750,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "72b99f41.af20b",
+        "type": "function",
+        "z": "d2d769b0.c57da8",
+        "d": true,
+        "name": "message",
+        "func": "var content = msg.topic + \" payload:\" + msg.payload;\ncontent = \"smart home loaded\"\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\nvar ObjectPayload = {\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\": content\n}\n\nmsg.payload = ObjectPayload;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 160,
+        "wires": [
+            [
+                "95ff1632.6243b8",
+                "e818309d9e9d7308"
+            ]
+        ]
+    },
+    {
+        "id": "6d3ac462.a2e47c",
+        "type": "inject",
+        "z": "d2d769b0.c57da8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 250,
+        "y": 160,
+        "wires": [
+            [
+                "9138f065.10c7"
+            ]
+        ]
+    },
+    {
+        "id": "a1b079ea.70ea18",
+        "type": "function",
+        "z": "d2d769b0.c57da8",
+        "name": "message",
+        "func": "var content = msg.topic+\" payload:\"+msg.payload;\nvar ObjectPayload={\n    \"chatId\": \"843873284\",\n    \"type\": \"message\",\n    \"content\":content \n}\nmsg.payload=ObjectPayload;\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 620,
+        "y": 520,
+        "wires": [
+            [
+                "2e8b7a81.d0b546"
+            ]
+        ]
+    },
+    {
+        "id": "f8e08d57.743f4",
+        "type": "function",
+        "z": "d2d769b0.c57da8",
+        "d": true,
+        "name": "reply telegram",
+        "func": "//var content = msg.topic+\" payload:\"+msg.payload;\nvar msg_get_ip=null;\nvar payoladmsg = (msg.payload);\n\nvar content_that_Object ={payload: payoladmsg.content};\nvar content_send;\n\nif (content_that_Object.payload==\"ip\"){\n   content_send= context.get ('ip');\n   \n    var ObjectPayload={\n        \"chatId\": [\"843873284\", \"584925756\"],\n        \"type\": \"message\",\n        \"content\":content_send \n    }\n    \n    msg.payload=ObjectPayload;\n    \n    msg_get_ip={\n        \"topic\":1,\n        \"payload\":1\n    }\n    msg=null;\n}\n\n\n\n\n\n\nreturn [msg,msg_get_ip];",
+        "outputs": 2,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 260,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "bde56faf.4dad6",
+        "type": "debug",
+        "z": "d2d769b0.c57da8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "9138f065.10c7",
+        "type": "change",
+        "z": "d2d769b0.c57da8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "TelegramChatIds",
+                "pt": "global",
+                "to": "[\"843873284\",\"584925756\"]",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "TelegramChatIds",
+                "tot": "global"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 160,
+        "wires": [
+            [
+                "72b99f41.af20b"
+            ]
+        ]
+    },
+    {
+        "id": "6172b419c2fe9006",
+        "type": "telegram sender",
+        "z": "d2d769b0.c57da8",
+        "name": "sender",
+        "bot": "170adc9ec64f9f80",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 990,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f9bd0ea73fb5b228",
+        "type": "function",
+        "z": "d2d769b0.c57da8",
+        "name": "reverse message back",
+        "func": "var content = msg.topic+\" payload:\"+msg.payload;\n\nvar ObjectPayload={\n    \"chatId\": msg.payload.chatId,\n    \"type\": \"message\",\n    \"content\": JSON.stringify(\"chatId:\" + msg.payload.chatId) \n}\nmsg.payload=ObjectPayload;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 300,
+        "wires": [
+            [
+                "6172b419c2fe9006",
+                "bde56faf.4dad6"
+            ]
+        ]
+    },
+    {
+        "id": "e818309d9e9d7308",
+        "type": "debug",
+        "z": "d2d769b0.c57da8",
+        "name": "debug 3",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "3c1987dcc97c0950",
+        "type": "function",
+        "z": "a69381581f637ec6",
+        "name": "myroom",
+        "func": "var topicObjects = [];\nvar parsed = (msg.payload);\nvar topic = (msg.topic)\n\n\n\nvar outputCount_number = node.outputCount\nif (topic == \"initial\") {\n    for (var i = 0; i < parsed.stat.length; i++) {\n        var topicObject = {\n            payload: parseFloat(parsed.stat[i]),\n            topic: i\n        };\n        topicObjects.push(topicObject);\n    }\n}\nelse {// topic is not initial\n    for (var i = 0; i < outputCount_number; i++) {\n        if (i == parseInt(topic)) {\n            topicObject = {\n                payload: parseFloat(parsed),\n                topic: parseInt(topic)\n            }\n            topicObjects.push(topicObject);\n        };\n        topicObjects.push(null);\n    }\n}\n\nreturn topicObjects;",
+        "outputs": 4,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 220,
+        "wires": [
+            [
+                "68b8f5b24c81ca18"
+            ],
+            [],
+            [
+                "087ce8cf184d7dbb",
+                "36ca1aa910c3c841"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "101ccdf189e1cff4",
+        "type": "inject",
+        "z": "a69381581f637ec6",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "120",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "10",
+        "topic": "initial",
+        "payload": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 220,
+        "wires": [
+            [
+                "b2b4a0fa144078ac"
+            ]
+        ]
+    },
+    {
+        "id": "b2b4a0fa144078ac",
+        "type": "http request",
+        "z": "a69381581f637ec6",
+        "name": "myroom",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "192.168.1.151/sendAJAX?json={%22t%22:127,%22v%22:0}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 400,
+        "y": 220,
+        "wires": [
+            [
+                "3c1987dcc97c0950"
+            ]
+        ]
+    },
+    {
+        "id": "68b8f5b24c81ca18",
+        "type": "ui_switch",
+        "z": "a69381581f637ec6",
+        "name": "light car",
+        "label": "light car",
+        "tooltip": "",
+        "group": "1d2608aa5cac07fa",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "0",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "0",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "1",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 760,
+        "y": 140,
+        "wires": [
+            [
+                "883b31fc5a7146c5"
+            ]
+        ]
+    },
+    {
+        "id": "cbbe677965b8d8aa",
+        "type": "http request",
+        "z": "a69381581f637ec6",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://192.168.1.151/sendAJAX?json={%22t%22:{{topic}},%22v%22:{{payload}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1170,
+        "y": 240,
+        "wires": [
+            [
+                "087ce8cf184d7dbb"
+            ]
+        ]
+    },
+    {
+        "id": "883b31fc5a7146c5",
+        "type": "rbe",
+        "z": "a69381581f637ec6",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 910,
+        "y": 140,
+        "wires": [
+            [
+                "cbbe677965b8d8aa"
+            ]
+        ]
+    },
+    {
+        "id": "7ae5c35c50beaf21",
+        "type": "mqtt in",
+        "z": "a69381581f637ec6",
+        "name": "mqtt-messages",
+        "topic": "",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "a7804332c06e238f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 1,
+        "x": 500,
+        "y": 500,
+        "wires": [
+            [
+                "d7ad5768a115e0fa"
+            ]
+        ]
+    },
+    {
+        "id": "d66a2bdd1265524a",
+        "type": "mqtt out",
+        "z": "a69381581f637ec6",
+        "name": "",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "a7804332c06e238f",
+        "x": 1630,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "cfdba40e5be55a13",
+        "type": "function",
+        "z": "a69381581f637ec6",
+        "name": "subscribe",
+        "func": "var subcsciptionLoop = []\n\nfor (var i = 0; i < 5; i++) {\n    var subscriptionVar = {\n        action: \"subscribe\",\n        topic: \"node-red/roof/control/\" + i\n    }\n    subcsciptionLoop.push(subscriptionVar);\n}\nreturn [subcsciptionLoop];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 500,
+        "wires": [
+            [
+                "7ae5c35c50beaf21"
+            ]
+        ]
+    },
+    {
+        "id": "6582a88230d87d39",
+        "type": "inject",
+        "z": "a69381581f637ec6",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 500,
+        "wires": [
+            [
+                "cfdba40e5be55a13"
+            ]
+        ]
+    },
+    {
+        "id": "d7ad5768a115e0fa",
+        "type": "function",
+        "z": "a69381581f637ec6",
+        "name": "decoder",
+        "func": "var topicIn = msg.topic; //node-red/room/control/0\nvar parts = topicIn.split('/');\nvar lastPart = parts[parts.length - 1];\nvar number = parseInt(lastPart, 10);\n\nmsg.topic = number;\nmsg.payload = msg.payload;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 500,
+        "wires": [
+            [
+                "3c1987dcc97c0950"
+            ]
+        ]
+    },
+    {
+        "id": "087ce8cf184d7dbb",
+        "type": "function",
+        "z": "a69381581f637ec6",
+        "name": "encoder node-red/room/{{topic}}",
+        "func": "msg.topic = \"node-red/roof/\" + msg.topic;\nmsg.qos = 0;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1350,
+        "y": 480,
+        "wires": [
+            [
+                "d66a2bdd1265524a"
+            ]
+        ]
+    },
+    {
+        "id": "ce9b2a3b7b2e04f1",
+        "type": "function",
+        "z": "a69381581f637ec6",
+        "name": "Error",
+        "func": "if (msg.payload.startsWith(\"Error:\")){\nmsg.url = \"192.168.1.150/function?json={reboot:1}\"\n\nreturn msg;\n}\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 970,
+        "y": 400,
+        "wires": [
+            [
+                "c96f813582677fe2"
+            ]
+        ]
+    },
+    {
+        "id": "c96f813582677fe2",
+        "type": "http request",
+        "z": "a69381581f637ec6",
+        "name": "reboot",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1110,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "344dbb3b2b9a1329",
+        "type": "ui_chart",
+        "z": "a69381581f637ec6",
+        "name": "temp",
+        "group": "1d2608aa5cac07fa",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "label": "temp roof",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "604800",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 970,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "36ca1aa910c3c841",
+        "type": "function",
+        "z": "a69381581f637ec6",
+        "name": "set topic and payload filter",
+        "func": "if (msg.payload > 60){\n    return null;\n}\nmsg.topic = 2;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 300,
+        "wires": [
+            [
+                "344dbb3b2b9a1329"
+            ]
+        ]
+    },
+    {
+        "id": "27305ebce4a2d493",
+        "type": "inject",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "3",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 300,
+        "y": 340,
+        "wires": [
+            [
+                "7df1bdd34f900e31"
+            ]
+        ]
+    },
+    {
+        "id": "7df1bdd34f900e31",
+        "type": "http request",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "method": "GET",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "http://192.168.1.163:8080/shot.jpg",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 490,
+        "y": 340,
+        "wires": [
+            [
+                "0a4bc3d7ef6e5525"
+            ]
+        ]
+    },
+    {
+        "id": "0a4bc3d7ef6e5525",
+        "type": "good-object-detection",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "returnValue": 0,
+        "model": "yolov8n",
+        "threshold": "0.4",
+        "absolutePathDir": "",
+        "x": 740,
+        "y": 340,
+        "wires": [
+            [
+                "5a0bcede9b2f95bb"
+            ]
+        ]
+    },
+    {
+        "id": "d41c11332894c274",
+        "type": "telegram sender",
+        "z": "47e2824120b2a9e0",
+        "name": "sender",
+        "bot": "ca786bad.5ac7a8",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1770,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1661ecf3d0a55af0",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "d": true,
+        "name": "checkForPersonArrays",
+        "func": "\n\nfunction checkForPersonArrays(input) {\n    // Check if the input object has a property named 'person' and it's an array\n    if (input.hasOwnProperty('person') && Array.isArray(input.person)) {\n        let personArray = input.person;\n        let personCount = personArray.length;\n        return personCount;\n    } else {\n        return null; // Return null if 'person' array is not found\n    }\n}\n\nlet result = checkForPersonArrays(msg.payload.data);\nif (result != null) {\n    msg.payload = result\n    // node.error(msg.payload);\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1080,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4517be7281db9072",
+        "type": "ui_text",
+        "z": "47e2824120b2a9e0",
+        "group": "d933d053d66f5444",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "objects",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1320,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "ad14deb3db078355",
+        "type": "inject",
+        "z": "47e2824120b2a9e0",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "6",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 290,
+        "y": 860,
+        "wires": [
+            [
+                "0c3744b75951e07b"
+            ]
+        ]
+    },
+    {
+        "id": "0c3744b75951e07b",
+        "type": "http request",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "method": "GET",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "http://192.168.1.162:8080/shot.jpg",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 520,
+        "y": 740,
+        "wires": [
+            [
+                "1fbe083c1961f2c2"
+            ]
+        ]
+    },
+    {
+        "id": "1fbe083c1961f2c2",
+        "type": "good-object-detection",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "returnValue": 0,
+        "model": "yolov8n",
+        "threshold": "0.5",
+        "absolutePathDir": "",
+        "x": 740,
+        "y": 740,
+        "wires": [
+            [
+                "56fb91a6414ddd32"
+            ]
+        ]
+    },
+    {
+        "id": "ec2f807dbbc0c3f4",
+        "type": "telegram sender",
+        "z": "47e2824120b2a9e0",
+        "name": "AlinkaBot",
+        "bot": "170adc9ec64f9f80",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1660,
+        "y": 700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c4b1621834b168c9",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "d": true,
+        "name": "check persons on a photo",
+        "func": "\n\nfunction checkForPersonArrays(input) {\n    // Check if the input object has a property named 'person' and it's an array\n    if (input.hasOwnProperty('person') && Array.isArray(input.person)) {\n        let personArray = input.person;\n        let personCount = personArray.length;\n        return personCount;\n    } else {\n        return null; // Return null if 'person' array is not found\n    }\n}\n\nlet result = checkForPersonArrays(msg.payload.data);\nif (result != null) {\n    msg.payload = result\n    // node.error(msg.payload);\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 990,
+        "y": 820,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7ff3e570548d8d87",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "message",
+        "func": "var content = msg.payload;\n    // \"chatId\": [\"843873284\", \"584925756\"],\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\n\nif (!Array.isArray(TelegramChatIds)) {\n    node.error(\"TelegramChatIds is not an array\");\n    return null;\n}\n\nvar ObjectPayload = {\n        \"chatId\": \"584925756\",\n        \"type\": \"message\",\n        \"content\": \"camera front: \"+JSON.stringify(content) // Convert content to a string\n};\nmsg.payload = ObjectPayload;\nreturn msg;\n\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1200,
+        "y": 700,
+        "wires": [
+            [
+                "ec2f807dbbc0c3f4"
+            ]
+        ]
+    },
+    {
+        "id": "c44682f7751424cf",
+        "type": "ui_text",
+        "z": "47e2824120b2a9e0",
+        "group": "d933d053d66f5444",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "front camera",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1210,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "c0a81247331a26e9",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "d": true,
+        "name": "filter data",
+        "func": "var originImg = {\n    payload: msg.payload.originImg,\n    topic: \"\"\n};\n\nfunction checkForDataArrays(input) {\n    let result = {};\n\n    // Iterate over each property in the input object\n    for (let key in input) {\n        if (Array.isArray(input[key])) {\n            // Add the array name and its count to the result object\n            result[key] = input[key].length;\n        }\n    }\n\n    // Return the result object if it has any properties, otherwise return null\n    return Object.keys(result).length > 0 ? result : null;\n}\n\nlet result = checkForDataArrays(msg.payload.data);\nif (result != null) {\n    msg.payload = result;\n    originImg.topic = JSON.stringify(result);\n    return [msg, originImg];\n} else {\n    return [null]; // Return null if no arrays are found\n}\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 780,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "88d8ff214f48ece7",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "Create image for Telegram",
+        "func": "var TelegramChatIds = global.get(\"TelegramChatIds\");\n\n\n\nmsg.payload = { chatId: TelegramChatIds, type: \"photo\", content: msg.payload, caption: msg.topic};\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1440,
+        "y": 740,
+        "wires": [
+            [
+                "95114cabc3339005"
+            ]
+        ]
+    },
+    {
+        "id": "95114cabc3339005",
+        "type": "telegram sender",
+        "z": "47e2824120b2a9e0",
+        "name": "Alinka bot",
+        "bot": "170adc9ec64f9f80",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1660,
+        "y": 740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "47abe4fc60e4e1ae",
+        "type": "image viewer",
+        "z": "47e2824120b2a9e0",
+        "name": "Camera view detector",
+        "width": 160,
+        "data": "payload",
+        "dataType": "msg",
+        "active": true,
+        "x": 1660,
+        "y": 1020,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "63af9dad70803d6a",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "annotate",
+        "func": "function checkForDataArrays(input) {\n    let result = {};\n    for (let key in input) {\n        if (Array.isArray(input[key])) {\n            result[key] = input[key].length;\n        }\n    }\n    return Object.keys(result).length > 0 ? result : null;\n}\n\n\nif (msg.payload.data != null && Object.keys(msg.payload.data).length > 0) {\n\n    msg.annotations = [];\n    msg.payload = msg.payload.originImg;\n    for (let key in msg.payload.data) {\n        if (Array.isArray(msg.payload.data[key])) {\n            msg.payload.data[key].forEach(obj => {\n                msg.annotations.push({\n                    type: \"rect\",\n                    x: obj.x,\n                    y: obj.y,\n                    w: obj.w,\n                    h: obj.h,\n                    stroke: \"red\",\n                    label: key,\n                    probability: obj.prob\n                });\n            });\n        }\n    }\n    msg.topic = checkForDataArrays(msg.payload.data)\n\n\nreturn msg;\n}\n\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1180,
+        "y": 1020,
+        "wires": [
+            [
+                "5c93b68cdeb0678f"
+            ]
+        ]
+    },
+    {
+        "id": "98bcd80fe51e2b3d",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "message",
+        "func": "var content = msg.payload;\n// \"chatId\": [\"843873284\", \"584925756\"],\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\n\nif (!Array.isArray(TelegramChatIds)) {\n    node.error(\"TelegramChatIds is not an array\");\n    return null;\n}\n\nvar ObjectPayload = {\n    \"chatId\": \"584925756\",\n    \"type\": \"message\",\n    \"content\": \"camera front: \" + JSON.stringify(content) // Convert content to a string\n};\nmsg.payload = ObjectPayload;\nreturn msg;\n\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1320,
+        "y": 300,
+        "wires": [
+            [
+                "e38efc3224e9772c"
+            ]
+        ]
+    },
+    {
+        "id": "e38efc3224e9772c",
+        "type": "rbe",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 1490,
+        "y": 300,
+        "wires": [
+            [
+                "d41c11332894c274"
+            ]
+        ]
+    },
+    {
+        "id": "5a0bcede9b2f95bb",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "filter data",
+        "func": "var msg_data = {\n    payload: msg.payload.data,\n    topic: \"text\"\n}\n\nvar msg_image = {\n    payload: msg.payload.originImg,\n    topic: \"image\"\n};\nfunction checkForDataArrays(input) {\n    let result = {};\n    for (let key in input) {\n        if (Array.isArray(input[key])) {\n            result[key] = input[key].length;\n        }\n    }\n    return Object.keys(result).length > 0 ? result : null;\n\n}\n\nlet result = checkForDataArrays(msg_data.payload);\nif (result != null) {\n    msg_data.payload = result;\n    msg_image.topic = JSON.stringify(result);\n    return [msg_data, msg_image];\n} else {\n    msg_data.payload = \"nothing detected\";\n    msg_image.topic = \"nothing detected\";\n    return [null, null];\n}\n\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1120,
+        "y": 340,
+        "wires": [
+            [
+                "98bcd80fe51e2b3d",
+                "4517be7281db9072",
+                "b0cc2bedc1b68787"
+            ],
+            [
+                "02bb2c609c4f254a",
+                "d1afd76befff7d33"
+            ]
+        ]
+    },
+    {
+        "id": "02bb2c609c4f254a",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "Create image for Telegram",
+        "func": "var TelegramChatIds = global.get(\"TelegramChatIds\");\n\n\n\nmsg.payload = { chatId: TelegramChatIds, type: \"photo\", content: msg.payload, caption: msg.topic };\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1560,
+        "y": 400,
+        "wires": [
+            [
+                "4305a75aa44524fd"
+            ]
+        ]
+    },
+    {
+        "id": "4305a75aa44524fd",
+        "type": "telegram sender",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "bot": "ca786bad.5ac7a8",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1810,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d1afd76befff7d33",
+        "type": "image viewer",
+        "z": "47e2824120b2a9e0",
+        "name": "Camera view detector",
+        "width": 160,
+        "data": "payload",
+        "dataType": "msg",
+        "active": true,
+        "x": 1540,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "763258556ff0476b",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "cutimage",
+        "func": "let result = msg.payload.data;\nif (result != null && Object.keys(result).length > 0) {\n    msg.payload = result;\n    // node.error(msg.payload);\n    return msg;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1120,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fc5fb9ef18216633",
+        "type": "good-object-detection",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "returnValue": 0,
+        "model": "yolov8n",
+        "threshold": 0.5,
+        "absolutePathDir": "",
+        "x": 940,
+        "y": 1020,
+        "wires": [
+            [
+                "63af9dad70803d6a"
+            ]
+        ]
+    },
+    {
+        "id": "97cfa6434ae1021c",
+        "type": "inject",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 940,
+        "y": 1140,
+        "wires": [
+            [
+                "39cb28a5e74d29d4"
+            ]
+        ]
+    },
+    {
+        "id": "39cb28a5e74d29d4",
+        "type": "file in",
+        "z": "47e2824120b2a9e0",
+        "name": "read img.jpg",
+        "filename": "/data/IMG.jpg",
+        "filenameType": "str",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 730,
+        "y": 1020,
+        "wires": [
+            [
+                "fc5fb9ef18216633"
+            ]
+        ]
+    },
+    {
+        "id": "955a9193feae1567",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "Create image for Telegram",
+        "func": "var cId = 843873284;\n\n\n\nmsg.payload = { chatId: cId, type:\"photo\", content:msg.payload, caption:\"Snapshot\"+JSON.stringify(msg.topic)};\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1660,
+        "y": 940,
+        "wires": [
+            [
+                "c1d9dc180bad3de2"
+            ]
+        ]
+    },
+    {
+        "id": "c1d9dc180bad3de2",
+        "type": "telegram sender",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "bot": "ca786bad.5ac7a8",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1910,
+        "y": 940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b4abdbbab8b1a068",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "annotate Example",
+        "func": "if (msg.payload.data != null && Object.keys(msg.payload.data).length > 0) {\n    if (msg.payload.data) {\n        msg.annotations = [];\n        msg.payload = msg.payload.originImg;\n        msg.annotations = [\n            {\n                type: \"circle\",\n                x: 50, y: 50, r: 20,\n                lineWidth: 10\n\n            },\n            {\n                type: \"rect\",\n                x: 30, y: 30, w: 40, h: 40,\n                stroke: \"blue\"\n            }\n        ]\n    }\n\n    return msg;\n}\n\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1170,
+        "y": 1100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5c93b68cdeb0678f",
+        "type": "annotate-image",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "fill": "",
+        "stroke": "#ffC000",
+        "lineWidth": 5,
+        "fontSize": 24,
+        "fontColor": "#ffC000",
+        "x": 1400,
+        "y": 1020,
+        "wires": [
+            [
+                "47abe4fc60e4e1ae",
+                "955a9193feae1567"
+            ]
+        ]
+    },
+    {
+        "id": "5e18c7cbf398fdda",
+        "type": "mqtt in",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "topic": "camera/front",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "a7804332c06e238f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 290,
+        "y": 740,
+        "wires": [
+            [
+                "0c3744b75951e07b"
+            ]
+        ]
+    },
+    {
+        "id": "56fb91a6414ddd32",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "create Data",
+        "func": "var msg_data = {\n    payload: msg.payload.data,\n    topic: \"text\"\n}\n\nvar msg_image = {\n    payload: msg.payload.originImg,\n    topic: \"image\"\n};\nfunction checkForDataArrays(input) {\n    let result = {};\n    for (let key in input) {\n        if (Array.isArray(input[key])) {\n            result[key] = input[key].length;\n        }\n    }\n    return Object.keys(result).length > 0 ? result : null;\n\n}\n\nlet result = checkForDataArrays(msg_data.payload);\nif (result != null) {\n    msg_data.payload = result;\n    msg_image.topic = JSON.stringify(result);\n} else {\n    msg_data.payload = \"nothing detected\";\n    msg_image.topic = \"nothing detected\";\n}\n\nreturn [msg_data, msg_image];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 740,
+        "wires": [
+            [
+                "7ff3e570548d8d87",
+                "c44682f7751424cf"
+            ],
+            [
+                "88d8ff214f48ece7",
+                "53b88a16c65bd4af"
+            ]
+        ]
+    },
+    {
+        "id": "53b88a16c65bd4af",
+        "type": "image viewer",
+        "z": "47e2824120b2a9e0",
+        "name": "Camera view detector",
+        "width": 160,
+        "data": "payload",
+        "dataType": "msg",
+        "active": true,
+        "x": 1440,
+        "y": 780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "866d7c3685924c66",
+        "type": "inject",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 280,
+        "y": 640,
+        "wires": [
+            [
+                "0c3744b75951e07b"
+            ]
+        ]
+    },
+    {
+        "id": "7682a3f9e0bd1694",
+        "type": "http in",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "url": "/myroomcamera",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 300,
+        "y": 420,
+        "wires": [
+            [
+                "7df1bdd34f900e31"
+            ]
+        ]
+    },
+    {
+        "id": "6a156025.b1c9f",
+        "type": "inject",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload",
+                "v": "",
+                "vt": "date"
+            },
+            {
+                "p": "topic",
+                "v": "",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 880,
+        "y": 1560,
+        "wires": [
+            [
+                "fd62708f.a560a"
+            ]
+        ]
+    },
+    {
+        "id": "9c0b2081.b1ac6",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "Format the header and payload",
+        "func": "msg.headers = {\n    \"Content-Type\": \"multipart/form-data; boundary=------------------------d74496d66958873e\"\n}\n\n\nmsg.payload = '--------------------------d74496d66958873e\\r\\n'+\n'Content-Disposition: form-data; name=\"select\"\\r\\n'+\n'\\r\\n'+\n'true\\r\\n'+\n'--------------------------d74496d66958873e\\r\\n'+\n'Content-Disposition: form-data; name=\"print\"\\r\\n'+\n'\\r\\n'+\n'true\\r\\n'+\n'--------------------------d74496d66958873e\\r\\n'+\n'Content-Disposition: form-data; name=\"file\"; filename=\"'+msg.filename+'\"\\r\\n'+\n'Content-Type: application/octet-stream\\r\\n'+\n'\\r\\n'+\nmsg.payload+'\\r\\n'+\n'--------------------------d74496d66958873e--\\r\\n';\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1010,
+        "y": 1620,
+        "wires": [
+            [
+                "85c748e8.2d1f88"
+            ]
+        ]
+    },
+    {
+        "id": "85c748e8.2d1f88",
+        "type": "http request",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "http://localhost:1880/files",
+        "tls": "",
+        "proxy": "",
+        "x": 1250,
+        "y": 1620,
+        "wires": [
+            [
+                "a4810d7a.f652a"
+            ]
+        ]
+    },
+    {
+        "id": "a4810d7a.f652a",
+        "type": "debug",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1430,
+        "y": 1620,
+        "wires": []
+    },
+    {
+        "id": "fd62708f.a560a",
+        "type": "file in",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "filename": "/tmp/file.txt",
+        "filenameType": "str",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "x": 1060,
+        "y": 1560,
+        "wires": [
+            [
+                "9c0b2081.b1ac6"
+            ]
+        ]
+    },
+    {
+        "id": "2f32071ef7bb110d",
+        "type": "comment",
+        "z": "47e2824120b2a9e0",
+        "name": "delivering different Types of Data (at /data-of-type-XXX)",
+        "info": "",
+        "x": 1040,
+        "y": 1720,
+        "wires": []
+    },
+    {
+        "id": "238793311dabfdd6",
+        "type": "http in",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "url": "data-of-type-text-plain",
+        "method": "get",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 960,
+        "y": 1780,
+        "wires": [
+            [
+                "cffded47ea1c03d0"
+            ]
+        ]
+    },
+    {
+        "id": "b51281afcd501289",
+        "type": "http in",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "url": "data-of-type-application-json",
+        "method": "get",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 980,
+        "y": 1900,
+        "wires": [
+            [
+                "68a3c31298d82cc0"
+            ]
+        ]
+    },
+    {
+        "id": "3e924f0ff93cd624",
+        "type": "http in",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "url": "data-of-type-image-png",
+        "method": "get",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 960,
+        "y": 2020,
+        "wires": [
+            [
+                "8fa440683ca55861"
+            ]
+        ]
+    },
+    {
+        "id": "cffded47ea1c03d0",
+        "type": "change",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "this is some plain text",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "headers",
+                "pt": "msg",
+                "to": "{\"content-type\":\"text/plain\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1140,
+        "y": 1840,
+        "wires": [
+            [
+                "c0f311bbfc8d346a"
+            ]
+        ]
+    },
+    {
+        "id": "c0f311bbfc8d346a",
+        "type": "http response",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1320,
+        "y": 1840,
+        "wires": []
+    },
+    {
+        "id": "68a3c31298d82cc0",
+        "type": "change",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{ \"type\":\"json\" }",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "headers",
+                "pt": "msg",
+                "to": "{\"content-type\":\"application/json\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1140,
+        "y": 1960,
+        "wires": [
+            [
+                "19311e74fb2a3167"
+            ]
+        ]
+    },
+    {
+        "id": "19311e74fb2a3167",
+        "type": "http response",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1320,
+        "y": 1960,
+        "wires": []
+    },
+    {
+        "id": "8fa440683ca55861",
+        "type": "file in",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "filename": "Mandelbrot_240x240.png",
+        "filenameType": "str",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 1280,
+        "y": 2020,
+        "wires": [
+            [
+                "7fb230d107b1b06f"
+            ]
+        ]
+    },
+    {
+        "id": "7fb230d107b1b06f",
+        "type": "change",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "headers",
+                "pt": "msg",
+                "to": "{\"content-type\":\"image/png\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1130,
+        "y": 2080,
+        "wires": [
+            [
+                "39689ce2448f0aba"
+            ]
+        ]
+    },
+    {
+        "id": "39689ce2448f0aba",
+        "type": "http response",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1320,
+        "y": 2080,
+        "wires": []
+    },
+    {
+        "id": "793f39abe9f8cda8",
+        "type": "change",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "headers",
+                "pt": "msg",
+                "to": "{\"content-type\":\"image/png\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1450,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b0cc2bedc1b68787",
+        "type": "http response",
+        "z": "47e2824120b2a9e0",
+        "d": true,
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1500,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "b1163c3636f82954",
+        "type": "mqtt in",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "topic": "camera/myroom",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "a7804332c06e238f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 280,
+        "y": 240,
+        "wires": [
+            [
+                "7df1bdd34f900e31"
+            ]
+        ]
+    },
+    {
+        "id": "7bc1fdd740a684a6",
+        "type": "http request",
+        "z": "d10b6744b70a9f6d",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.1.160:11500/chat",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 450,
+        "y": 140,
+        "wires": [
+            [
+                "bec2630c3be51374"
+            ]
+        ]
+    },
+    {
+        "id": "e5448d8f8c89111b",
+        "type": "function",
+        "z": "d10b6744b70a9f6d",
+        "name": "payload",
+        "func": "function retriveValues() {\n    var keys = [\"storedValues\"];\n    var retrievedValues = {};\n\n    keys.forEach(function (key) {\n        retrievedValues[key] = global.get(key) || { description: key, value: \"Not set\" };\n    });\n\n    return JSON.stringify(retrievedValues);\n}\n\n\nmsg.payload = JSON.stringify(\n    {\n        \"messages\": [\n            {\n                \"role\": \"you an AI assistant in smart home, you have to decide what should be switched on, or off or anything what you decide to do to have a better living, use json to answer\",\n                \"content\": \"we are retrived this values:\" + retriveValues(),\n                \"answer\": \"json formatted answer, containing the same pair of object value\"\n            }\n        ],\n        \"model\": \"deepseek/deepseek-r1-distill-qwen-1.5b\"\n    }\n);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 140,
+        "wires": [
+            [
+                "7bc1fdd740a684a6",
+                "79bbce7f92a89d38"
+            ]
+        ]
+    },
+    {
+        "id": "3819eee374404559",
+        "type": "inject",
+        "z": "d10b6744b70a9f6d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 140,
+        "wires": [
+            [
+                "e5448d8f8c89111b"
+            ]
+        ]
+    },
+    {
+        "id": "bec2630c3be51374",
+        "type": "debug",
+        "z": "d10b6744b70a9f6d",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "0a803a0c1f15e6bc",
+        "type": "http request",
+        "z": "d10b6744b70a9f6d",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.1.160:11500",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 450,
+        "y": 220,
+        "wires": [
+            [
+                "4897306c6fab8876"
+            ]
+        ]
+    },
+    {
+        "id": "e49c81bd046c9308",
+        "type": "inject",
+        "z": "d10b6744b70a9f6d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 220,
+        "wires": [
+            [
+                "0a803a0c1f15e6bc"
+            ]
+        ]
+    },
+    {
+        "id": "4897306c6fab8876",
+        "type": "debug",
+        "z": "d10b6744b70a9f6d",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "c33440d41f076cfa",
+        "type": "inject",
+        "z": "d10b6744b70a9f6d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 260,
+        "y": 380,
+        "wires": [
+            [
+                "fd2b90dfe2b4eb63"
+            ]
+        ]
+    },
+    {
+        "id": "fd2b90dfe2b4eb63",
+        "type": "function",
+        "z": "d10b6744b70a9f6d",
+        "name": "function 1",
+        "func": "// Get all flow variables  \nlet flowKeys = flow.keys();\nlet flowValues = {};\nflowKeys.forEach(key => {\n    flowValues[key] = flow.get(key);\n});\n\n// Get all global variables  \nlet globalKeys = global.keys();\nlet globalValues = {};\nglobalKeys.forEach(key => {\n    globalValues[key] = global.get(key);\n});\n\n// Send the retrieved values as output  \nmsg.payload = {\n    flowVariables: flowValues,\n    globalVariables: globalValues\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 380,
+        "wires": [
+            [
+                "f7019058255df373"
+            ]
+        ]
+    },
+    {
+        "id": "f7019058255df373",
+        "type": "debug",
+        "z": "d10b6744b70a9f6d",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "3f9022e8ea5d98bc",
+        "type": "inject",
+        "z": "d10b6744b70a9f6d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 260,
+        "y": 480,
+        "wires": [
+            [
+                "b6a024376eec1653"
+            ]
+        ]
+    },
+    {
+        "id": "b6a024376eec1653",
+        "type": "function",
+        "z": "d10b6744b70a9f6d",
+        "name": "function 2",
+        "func": "var allFlow = flow.keys();\nvar allFlowValues = {};\nallFlow.forEach(key => {\n    allFlowValues[key] = flow.get(key);\n});\nreturn { payload: allFlowValues };\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 480,
+        "wires": [
+            [
+                "22ab953b4bf8e794"
+            ]
+        ]
+    },
+    {
+        "id": "22ab953b4bf8e794",
+        "type": "debug",
+        "z": "d10b6744b70a9f6d",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "79bbce7f92a89d38",
+        "type": "debug",
+        "z": "d10b6744b70a9f6d",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 100,
+        "wires": []
     },
     {
         "id": "f02311ac.c8019",
@@ -6435,648 +8613,6 @@
         ]
     },
     {
-        "id": "95ff1632.6243b8",
-        "type": "telegram sender",
-        "z": "d2d769b0.c57da8",
-        "name": "sender",
-        "bot": "170adc9ec64f9f80",
-        "haserroroutput": false,
-        "outputs": 1,
-        "x": 910,
-        "y": 160,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "92568c50.87034",
-        "type": "telegram receiver",
-        "z": "d2d769b0.c57da8",
-        "name": "",
-        "bot": "170adc9ec64f9f80",
-        "saveDataDir": "",
-        "filterCommands": false,
-        "x": 230,
-        "y": 300,
-        "wires": [
-            [
-                "f8e08d57.743f4",
-                "f9bd0ea73fb5b228"
-            ],
-            []
-        ]
-    },
-    {
-        "id": "fca261f6.1b4e6",
-        "type": "catch",
-        "z": "d2d769b0.c57da8",
-        "name": "",
-        "scope": null,
-        "uncaught": false,
-        "x": 460,
-        "y": 520,
-        "wires": [
-            [
-                "a1b079ea.70ea18"
-            ]
-        ]
-    },
-    {
-        "id": "2e8b7a81.d0b546",
-        "type": "telegram sender",
-        "z": "d2d769b0.c57da8",
-        "d": true,
-        "name": "Error",
-        "bot": "ca786bad.5ac7a8",
-        "haserroroutput": false,
-        "outputs": 1,
-        "x": 750,
-        "y": 520,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "72b99f41.af20b",
-        "type": "function",
-        "z": "d2d769b0.c57da8",
-        "d": true,
-        "name": "message",
-        "func": "var content = msg.topic + \" payload:\" + msg.payload;\ncontent = \"smart home loaded\"\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\nvar ObjectPayload = {\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\": content\n}\n\nmsg.payload = ObjectPayload;\nreturn msg;",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 660,
-        "y": 160,
-        "wires": [
-            [
-                "95ff1632.6243b8",
-                "e818309d9e9d7308"
-            ]
-        ]
-    },
-    {
-        "id": "6d3ac462.a2e47c",
-        "type": "inject",
-        "z": "d2d769b0.c57da8",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 250,
-        "y": 160,
-        "wires": [
-            [
-                "9138f065.10c7"
-            ]
-        ]
-    },
-    {
-        "id": "a1b079ea.70ea18",
-        "type": "function",
-        "z": "d2d769b0.c57da8",
-        "name": "message",
-        "func": "var content = msg.topic+\" payload:\"+msg.payload;\nvar ObjectPayload={\n    \"chatId\": \"843873284\",\n    \"type\": \"message\",\n    \"content\":content \n}\nmsg.payload=ObjectPayload;\n\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 620,
-        "y": 520,
-        "wires": [
-            [
-                "2e8b7a81.d0b546"
-            ]
-        ]
-    },
-    {
-        "id": "f8e08d57.743f4",
-        "type": "function",
-        "z": "d2d769b0.c57da8",
-        "d": true,
-        "name": "reply telegram",
-        "func": "//var content = msg.topic+\" payload:\"+msg.payload;\nvar msg_get_ip=null;\nvar payoladmsg = (msg.payload);\n\nvar content_that_Object ={payload: payoladmsg.content};\nvar content_send;\n\nif (content_that_Object.payload==\"ip\"){\n   content_send= context.get ('ip');\n   \n    var ObjectPayload={\n        \"chatId\": [\"843873284\", \"584925756\"],\n        \"type\": \"message\",\n        \"content\":content_send \n    }\n    \n    msg.payload=ObjectPayload;\n    \n    msg_get_ip={\n        \"topic\":1,\n        \"payload\":1\n    }\n    msg=null;\n}\n\n\n\n\n\n\nreturn [msg,msg_get_ip];",
-        "outputs": 2,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 540,
-        "y": 260,
-        "wires": [
-            [],
-            []
-        ]
-    },
-    {
-        "id": "bde56faf.4dad6",
-        "type": "debug",
-        "z": "d2d769b0.c57da8",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 990,
-        "y": 340,
-        "wires": []
-    },
-    {
-        "id": "9138f065.10c7",
-        "type": "change",
-        "z": "d2d769b0.c57da8",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "TelegramChatIds",
-                "pt": "global",
-                "to": "[\"843873284\",\"584925756\"]",
-                "tot": "json"
-            },
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "TelegramChatIds",
-                "tot": "global"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 440,
-        "y": 160,
-        "wires": [
-            [
-                "72b99f41.af20b"
-            ]
-        ]
-    },
-    {
-        "id": "6172b419c2fe9006",
-        "type": "telegram sender",
-        "z": "d2d769b0.c57da8",
-        "name": "sender",
-        "bot": "170adc9ec64f9f80",
-        "haserroroutput": false,
-        "outputs": 1,
-        "x": 990,
-        "y": 280,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "f9bd0ea73fb5b228",
-        "type": "function",
-        "z": "d2d769b0.c57da8",
-        "name": "reverse message back",
-        "func": "var content = msg.topic+\" payload:\"+msg.payload;\n\nvar ObjectPayload={\n    \"chatId\": msg.payload.chatId,\n    \"type\": \"message\",\n    \"content\": JSON.stringify(\"chatId:\" + msg.payload.chatId) \n}\nmsg.payload=ObjectPayload;\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 540,
-        "y": 300,
-        "wires": [
-            [
-                "6172b419c2fe9006",
-                "bde56faf.4dad6"
-            ]
-        ]
-    },
-    {
-        "id": "e818309d9e9d7308",
-        "type": "debug",
-        "z": "d2d769b0.c57da8",
-        "name": "debug 3",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 920,
-        "y": 100,
-        "wires": []
-    },
-    {
-        "id": "3c1987dcc97c0950",
-        "type": "function",
-        "z": "a69381581f637ec6",
-        "name": "myroom",
-        "func": "var topicObjects = [];\nvar parsed = (msg.payload);\nvar topic = (msg.topic)\n\n\n\nvar outputCount_number = node.outputCount\nif (topic == \"initial\") {\n    for (var i = 0; i < parsed.stat.length; i++) {\n        var topicObject = {\n            payload: parseFloat(parsed.stat[i]),\n            topic: i\n        };\n        topicObjects.push(topicObject);\n    }\n}\nelse {// topic is not initial\n    for (var i = 0; i < outputCount_number; i++) {\n        if (i == parseInt(topic)) {\n            topicObject = {\n                payload: parseFloat(parsed),\n                topic: parseInt(topic)\n            }\n            topicObjects.push(topicObject);\n        };\n        topicObjects.push(null);\n    }\n}\n\nreturn topicObjects;",
-        "outputs": 4,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 580,
-        "y": 220,
-        "wires": [
-            [
-                "68b8f5b24c81ca18"
-            ],
-            [],
-            [
-                "087ce8cf184d7dbb",
-                "36ca1aa910c3c841"
-            ],
-            []
-        ]
-    },
-    {
-        "id": "101ccdf189e1cff4",
-        "type": "inject",
-        "z": "a69381581f637ec6",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "10",
-        "crontab": "",
-        "once": false,
-        "onceDelay": "10",
-        "topic": "initial",
-        "payload": "",
-        "payloadType": "date",
-        "x": 210,
-        "y": 220,
-        "wires": [
-            [
-                "b2b4a0fa144078ac"
-            ]
-        ]
-    },
-    {
-        "id": "b2b4a0fa144078ac",
-        "type": "http request",
-        "z": "a69381581f637ec6",
-        "name": "myroom",
-        "method": "GET",
-        "ret": "obj",
-        "paytoqs": "ignore",
-        "url": "192.168.1.151/sendAJAX?json={%22t%22:127,%22v%22:0}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 400,
-        "y": 220,
-        "wires": [
-            [
-                "3c1987dcc97c0950"
-            ]
-        ]
-    },
-    {
-        "id": "68b8f5b24c81ca18",
-        "type": "ui_switch",
-        "z": "a69381581f637ec6",
-        "name": "light car",
-        "label": "light car",
-        "tooltip": "",
-        "group": "1d2608aa5cac07fa",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "0",
-        "topicType": "str",
-        "style": "",
-        "onvalue": "0",
-        "onvalueType": "num",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "1",
-        "offvalueType": "num",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 760,
-        "y": 140,
-        "wires": [
-            [
-                "883b31fc5a7146c5"
-            ]
-        ]
-    },
-    {
-        "id": "cbbe677965b8d8aa",
-        "type": "http request",
-        "z": "a69381581f637ec6",
-        "name": "",
-        "method": "GET",
-        "ret": "obj",
-        "paytoqs": "ignore",
-        "url": "http://192.168.1.151/sendAJAX?json={%22t%22:{{topic}},%22v%22:{{payload}}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 1170,
-        "y": 240,
-        "wires": [
-            [
-                "087ce8cf184d7dbb"
-            ]
-        ]
-    },
-    {
-        "id": "883b31fc5a7146c5",
-        "type": "rbe",
-        "z": "a69381581f637ec6",
-        "name": "",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "septopics": true,
-        "property": "payload",
-        "topi": "topic",
-        "x": 910,
-        "y": 140,
-        "wires": [
-            [
-                "cbbe677965b8d8aa"
-            ]
-        ]
-    },
-    {
-        "id": "7ae5c35c50beaf21",
-        "type": "mqtt in",
-        "z": "a69381581f637ec6",
-        "name": "mqtt-messages",
-        "topic": "",
-        "qos": "0",
-        "datatype": "auto-detect",
-        "broker": "a7804332c06e238f",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 1,
-        "x": 500,
-        "y": 500,
-        "wires": [
-            [
-                "d7ad5768a115e0fa"
-            ]
-        ]
-    },
-    {
-        "id": "d66a2bdd1265524a",
-        "type": "mqtt out",
-        "z": "a69381581f637ec6",
-        "name": "",
-        "topic": "",
-        "qos": "0",
-        "retain": "false",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "a7804332c06e238f",
-        "x": 1630,
-        "y": 480,
-        "wires": []
-    },
-    {
-        "id": "cfdba40e5be55a13",
-        "type": "function",
-        "z": "a69381581f637ec6",
-        "name": "subscribe",
-        "func": "var subcsciptionLoop = []\n\nfor (var i = 0; i < 5; i++) {\n    var subscriptionVar = {\n        action: \"subscribe\",\n        topic: \"node-red/roof/control/\" + i\n    }\n    subcsciptionLoop.push(subscriptionVar);\n}\nreturn [subcsciptionLoop];",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 300,
-        "y": 500,
-        "wires": [
-            [
-                "7ae5c35c50beaf21"
-            ]
-        ]
-    },
-    {
-        "id": "6582a88230d87d39",
-        "type": "inject",
-        "z": "a69381581f637ec6",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 130,
-        "y": 500,
-        "wires": [
-            [
-                "cfdba40e5be55a13"
-            ]
-        ]
-    },
-    {
-        "id": "d7ad5768a115e0fa",
-        "type": "function",
-        "z": "a69381581f637ec6",
-        "name": "decoder",
-        "func": "var topicIn = msg.topic; //node-red/room/control/0\nvar parts = topicIn.split('/');\nvar lastPart = parts[parts.length - 1];\nvar number = parseInt(lastPart, 10);\n\nmsg.topic = number;\nmsg.payload = msg.payload;\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 700,
-        "y": 500,
-        "wires": [
-            [
-                "3c1987dcc97c0950"
-            ]
-        ]
-    },
-    {
-        "id": "087ce8cf184d7dbb",
-        "type": "function",
-        "z": "a69381581f637ec6",
-        "name": "encoder node-red/room/{{topic}}",
-        "func": "msg.topic = \"node-red/roof/\" + msg.topic;\nmsg.qos = 0;\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1350,
-        "y": 480,
-        "wires": [
-            [
-                "d66a2bdd1265524a"
-            ]
-        ]
-    },
-    {
-        "id": "ce9b2a3b7b2e04f1",
-        "type": "function",
-        "z": "a69381581f637ec6",
-        "name": "Error",
-        "func": "if (msg.payload.startsWith(\"Error:\")){\nmsg.url = \"192.168.1.150/function?json={reboot:1}\"\n\nreturn msg;\n}\nreturn null;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 970,
-        "y": 400,
-        "wires": [
-            [
-                "c96f813582677fe2"
-            ]
-        ]
-    },
-    {
-        "id": "c96f813582677fe2",
-        "type": "http request",
-        "z": "a69381581f637ec6",
-        "name": "reboot",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 1110,
-        "y": 400,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "344dbb3b2b9a1329",
-        "type": "ui_chart",
-        "z": "a69381581f637ec6",
-        "name": "temp",
-        "group": "1d2608aa5cac07fa",
-        "order": 6,
-        "width": 0,
-        "height": 0,
-        "label": "temp roof",
-        "chartType": "line",
-        "legend": "false",
-        "xformat": "HH:mm:ss",
-        "interpolate": "linear",
-        "nodata": "",
-        "dot": false,
-        "ymin": "",
-        "ymax": "",
-        "removeOlder": 1,
-        "removeOlderPoints": "",
-        "removeOlderUnit": "604800",
-        "cutout": 0,
-        "useOneColor": false,
-        "useUTC": false,
-        "colors": [
-            "#1f77b4",
-            "#aec7e8",
-            "#ff7f0e",
-            "#2ca02c",
-            "#98df8a",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
-        ],
-        "outputs": 1,
-        "useDifferentColor": false,
-        "className": "",
-        "x": 970,
-        "y": 300,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "36ca1aa910c3c841",
-        "type": "function",
-        "z": "a69381581f637ec6",
-        "name": "set topic and payload filter",
-        "func": "if (msg.payload > 60){\n    return null;\n}\nmsg.topic = 2;\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 770,
-        "y": 300,
-        "wires": [
-            [
-                "344dbb3b2b9a1329"
-            ]
-        ]
-    },
-    {
         "id": "ed27cae4.70b728",
         "type": "inject",
         "z": "772e6979.67cd08",
@@ -7808,1195 +9344,6 @@
         "className": "",
         "x": 740,
         "y": 840,
-        "wires": []
-    },
-    {
-        "id": "27305ebce4a2d493",
-        "type": "inject",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": "3",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 300,
-        "y": 340,
-        "wires": [
-            [
-                "7df1bdd34f900e31"
-            ]
-        ]
-    },
-    {
-        "id": "7df1bdd34f900e31",
-        "type": "http request",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "method": "GET",
-        "ret": "bin",
-        "paytoqs": "ignore",
-        "url": "http://192.168.1.163:8080/shot.jpg",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 490,
-        "y": 340,
-        "wires": [
-            [
-                "0a4bc3d7ef6e5525"
-            ]
-        ]
-    },
-    {
-        "id": "0a4bc3d7ef6e5525",
-        "type": "good-object-detection",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "returnValue": 0,
-        "model": "yolov8n",
-        "threshold": "0.4",
-        "absolutePathDir": "",
-        "x": 740,
-        "y": 340,
-        "wires": [
-            [
-                "5a0bcede9b2f95bb"
-            ]
-        ]
-    },
-    {
-        "id": "d41c11332894c274",
-        "type": "telegram sender",
-        "z": "47e2824120b2a9e0",
-        "name": "sender",
-        "bot": "ca786bad.5ac7a8",
-        "haserroroutput": false,
-        "outputs": 1,
-        "x": 1770,
-        "y": 300,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "1661ecf3d0a55af0",
-        "type": "function",
-        "z": "47e2824120b2a9e0",
-        "d": true,
-        "name": "checkForPersonArrays",
-        "func": "\n\nfunction checkForPersonArrays(input) {\n    // Check if the input object has a property named 'person' and it's an array\n    if (input.hasOwnProperty('person') && Array.isArray(input.person)) {\n        let personArray = input.person;\n        let personCount = personArray.length;\n        return personCount;\n    } else {\n        return null; // Return null if 'person' array is not found\n    }\n}\n\nlet result = checkForPersonArrays(msg.payload.data);\nif (result != null) {\n    msg.payload = result\n    // node.error(msg.payload);\n    return msg;\n}",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1080,
-        "y": 420,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "4517be7281db9072",
-        "type": "ui_text",
-        "z": "47e2824120b2a9e0",
-        "group": "d933d053d66f5444",
-        "order": 6,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "objects",
-        "format": "{{msg.payload}}",
-        "layout": "row-spread",
-        "className": "",
-        "style": false,
-        "font": "",
-        "fontSize": 16,
-        "color": "#000000",
-        "x": 1320,
-        "y": 260,
-        "wires": []
-    },
-    {
-        "id": "ad14deb3db078355",
-        "type": "inject",
-        "z": "47e2824120b2a9e0",
-        "d": true,
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "6",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 290,
-        "y": 860,
-        "wires": [
-            [
-                "0c3744b75951e07b"
-            ]
-        ]
-    },
-    {
-        "id": "0c3744b75951e07b",
-        "type": "http request",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "method": "GET",
-        "ret": "bin",
-        "paytoqs": "ignore",
-        "url": "http://192.168.1.162:8080/shot.jpg",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 520,
-        "y": 740,
-        "wires": [
-            [
-                "1fbe083c1961f2c2"
-            ]
-        ]
-    },
-    {
-        "id": "1fbe083c1961f2c2",
-        "type": "good-object-detection",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "returnValue": 0,
-        "model": "yolov8n",
-        "threshold": "0.5",
-        "absolutePathDir": "",
-        "x": 740,
-        "y": 740,
-        "wires": [
-            [
-                "56fb91a6414ddd32"
-            ]
-        ]
-    },
-    {
-        "id": "ec2f807dbbc0c3f4",
-        "type": "telegram sender",
-        "z": "47e2824120b2a9e0",
-        "name": "AlinkaBot",
-        "bot": "170adc9ec64f9f80",
-        "haserroroutput": false,
-        "outputs": 1,
-        "x": 1660,
-        "y": 700,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "c4b1621834b168c9",
-        "type": "function",
-        "z": "47e2824120b2a9e0",
-        "d": true,
-        "name": "check persons on a photo",
-        "func": "\n\nfunction checkForPersonArrays(input) {\n    // Check if the input object has a property named 'person' and it's an array\n    if (input.hasOwnProperty('person') && Array.isArray(input.person)) {\n        let personArray = input.person;\n        let personCount = personArray.length;\n        return personCount;\n    } else {\n        return null; // Return null if 'person' array is not found\n    }\n}\n\nlet result = checkForPersonArrays(msg.payload.data);\nif (result != null) {\n    msg.payload = result\n    // node.error(msg.payload);\n    return msg;\n}",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 990,
-        "y": 820,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "7ff3e570548d8d87",
-        "type": "function",
-        "z": "47e2824120b2a9e0",
-        "name": "message",
-        "func": "var content = msg.payload;\n    // \"chatId\": [\"843873284\", \"584925756\"],\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\n\nif (!Array.isArray(TelegramChatIds)) {\n    node.error(\"TelegramChatIds is not an array\");\n    return null;\n}\n\nvar ObjectPayload = {\n        \"chatId\": \"584925756\",\n        \"type\": \"message\",\n        \"content\": \"camera front: \"+JSON.stringify(content) // Convert content to a string\n};\nmsg.payload = ObjectPayload;\nreturn msg;\n\n",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1200,
-        "y": 700,
-        "wires": [
-            [
-                "ec2f807dbbc0c3f4"
-            ]
-        ]
-    },
-    {
-        "id": "c44682f7751424cf",
-        "type": "ui_text",
-        "z": "47e2824120b2a9e0",
-        "group": "d933d053d66f5444",
-        "order": 6,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "front camera",
-        "format": "{{msg.payload}}",
-        "layout": "row-spread",
-        "className": "",
-        "style": false,
-        "font": "",
-        "fontSize": 16,
-        "color": "#000000",
-        "x": 1210,
-        "y": 660,
-        "wires": []
-    },
-    {
-        "id": "c0a81247331a26e9",
-        "type": "function",
-        "z": "47e2824120b2a9e0",
-        "d": true,
-        "name": "filter data",
-        "func": "var originImg = {\n    payload: msg.payload.originImg,\n    topic: \"\"\n};\n\nfunction checkForDataArrays(input) {\n    let result = {};\n\n    // Iterate over each property in the input object\n    for (let key in input) {\n        if (Array.isArray(input[key])) {\n            // Add the array name and its count to the result object\n            result[key] = input[key].length;\n        }\n    }\n\n    // Return the result object if it has any properties, otherwise return null\n    return Object.keys(result).length > 0 ? result : null;\n}\n\nlet result = checkForDataArrays(msg.payload.data);\nif (result != null) {\n    msg.payload = result;\n    originImg.topic = JSON.stringify(result);\n    return [msg, originImg];\n} else {\n    return [null]; // Return null if no arrays are found\n}\n",
-        "outputs": 2,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 940,
-        "y": 780,
-        "wires": [
-            [],
-            []
-        ]
-    },
-    {
-        "id": "88d8ff214f48ece7",
-        "type": "function",
-        "z": "47e2824120b2a9e0",
-        "name": "Create image for Telegram",
-        "func": "var TelegramChatIds = global.get(\"TelegramChatIds\");\n\n\n\nmsg.payload = { chatId: TelegramChatIds, type: \"photo\", content: msg.payload, caption: msg.topic};\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1440,
-        "y": 740,
-        "wires": [
-            [
-                "95114cabc3339005"
-            ]
-        ]
-    },
-    {
-        "id": "95114cabc3339005",
-        "type": "telegram sender",
-        "z": "47e2824120b2a9e0",
-        "name": "Alinka bot",
-        "bot": "170adc9ec64f9f80",
-        "haserroroutput": false,
-        "outputs": 1,
-        "x": 1660,
-        "y": 740,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "47abe4fc60e4e1ae",
-        "type": "image viewer",
-        "z": "47e2824120b2a9e0",
-        "name": "Camera view detector",
-        "width": 160,
-        "data": "payload",
-        "dataType": "msg",
-        "active": true,
-        "x": 1660,
-        "y": 1020,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "63af9dad70803d6a",
-        "type": "function",
-        "z": "47e2824120b2a9e0",
-        "name": "annotate",
-        "func": "function checkForDataArrays(input) {\n    let result = {};\n    for (let key in input) {\n        if (Array.isArray(input[key])) {\n            result[key] = input[key].length;\n        }\n    }\n    return Object.keys(result).length > 0 ? result : null;\n}\n\n\nif (msg.payload.data != null && Object.keys(msg.payload.data).length > 0) {\n\n    msg.annotations = [];\n    msg.payload = msg.payload.originImg;\n    for (let key in msg.payload.data) {\n        if (Array.isArray(msg.payload.data[key])) {\n            msg.payload.data[key].forEach(obj => {\n                msg.annotations.push({\n                    type: \"rect\",\n                    x: obj.x,\n                    y: obj.y,\n                    w: obj.w,\n                    h: obj.h,\n                    stroke: \"red\",\n                    label: key,\n                    probability: obj.prob\n                });\n            });\n        }\n    }\n    msg.topic = checkForDataArrays(msg.payload.data)\n\n\nreturn msg;\n}\n\n\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1180,
-        "y": 1020,
-        "wires": [
-            [
-                "5c93b68cdeb0678f"
-            ]
-        ]
-    },
-    {
-        "id": "98bcd80fe51e2b3d",
-        "type": "function",
-        "z": "47e2824120b2a9e0",
-        "name": "message",
-        "func": "var content = msg.payload;\n// \"chatId\": [\"843873284\", \"584925756\"],\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\n\nif (!Array.isArray(TelegramChatIds)) {\n    node.error(\"TelegramChatIds is not an array\");\n    return null;\n}\n\nvar ObjectPayload = {\n    \"chatId\": \"584925756\",\n    \"type\": \"message\",\n    \"content\": \"camera front: \" + JSON.stringify(content) // Convert content to a string\n};\nmsg.payload = ObjectPayload;\nreturn msg;\n\n",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1320,
-        "y": 300,
-        "wires": [
-            [
-                "e38efc3224e9772c"
-            ]
-        ]
-    },
-    {
-        "id": "e38efc3224e9772c",
-        "type": "rbe",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "septopics": true,
-        "property": "payload",
-        "topi": "topic",
-        "x": 1490,
-        "y": 300,
-        "wires": [
-            [
-                "d41c11332894c274"
-            ]
-        ]
-    },
-    {
-        "id": "5a0bcede9b2f95bb",
-        "type": "function",
-        "z": "47e2824120b2a9e0",
-        "name": "filter data",
-        "func": "var msg_data = {\n    payload: msg.payload.data,\n    topic: \"text\"\n}\n\nvar msg_image = {\n    payload: msg.payload.originImg,\n    topic: \"image\"\n};\nfunction checkForDataArrays(input) {\n    let result = {};\n    for (let key in input) {\n        if (Array.isArray(input[key])) {\n            result[key] = input[key].length;\n        }\n    }\n    return Object.keys(result).length > 0 ? result : null;\n\n}\n\nlet result = checkForDataArrays(msg_data.payload);\nif (result != null) {\n    msg_data.payload = result;\n    msg_image.topic = JSON.stringify(result);\n    return [msg_data, msg_image];\n} else {\n    msg_data.payload = \"nothing detected\";\n    msg_image.topic = \"nothing detected\";\n    return [null, null];\n}\n\n",
-        "outputs": 2,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1120,
-        "y": 340,
-        "wires": [
-            [
-                "98bcd80fe51e2b3d",
-                "4517be7281db9072",
-                "b0cc2bedc1b68787"
-            ],
-            [
-                "02bb2c609c4f254a",
-                "d1afd76befff7d33"
-            ]
-        ]
-    },
-    {
-        "id": "02bb2c609c4f254a",
-        "type": "function",
-        "z": "47e2824120b2a9e0",
-        "name": "Create image for Telegram",
-        "func": "var TelegramChatIds = global.get(\"TelegramChatIds\");\n\n\n\nmsg.payload = { chatId: TelegramChatIds, type: \"photo\", content: msg.payload, caption: msg.topic };\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1560,
-        "y": 400,
-        "wires": [
-            [
-                "4305a75aa44524fd"
-            ]
-        ]
-    },
-    {
-        "id": "4305a75aa44524fd",
-        "type": "telegram sender",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "bot": "ca786bad.5ac7a8",
-        "haserroroutput": false,
-        "outputs": 1,
-        "x": 1810,
-        "y": 400,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "d1afd76befff7d33",
-        "type": "image viewer",
-        "z": "47e2824120b2a9e0",
-        "name": "Camera view detector",
-        "width": 160,
-        "data": "payload",
-        "dataType": "msg",
-        "active": true,
-        "x": 1540,
-        "y": 460,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "763258556ff0476b",
-        "type": "function",
-        "z": "47e2824120b2a9e0",
-        "name": "cutimage",
-        "func": "let result = msg.payload.data;\nif (result != null && Object.keys(result).length > 0) {\n    msg.payload = result;\n    // node.error(msg.payload);\n    return msg;\n}\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1120,
-        "y": 300,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "fc5fb9ef18216633",
-        "type": "good-object-detection",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "returnValue": 0,
-        "model": "yolov8n",
-        "threshold": 0.5,
-        "absolutePathDir": "",
-        "x": 940,
-        "y": 1020,
-        "wires": [
-            [
-                "63af9dad70803d6a"
-            ]
-        ]
-    },
-    {
-        "id": "97cfa6434ae1021c",
-        "type": "inject",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 940,
-        "y": 1140,
-        "wires": [
-            [
-                "39cb28a5e74d29d4"
-            ]
-        ]
-    },
-    {
-        "id": "39cb28a5e74d29d4",
-        "type": "file in",
-        "z": "47e2824120b2a9e0",
-        "name": "read img.jpg",
-        "filename": "/data/IMG.jpg",
-        "filenameType": "str",
-        "format": "",
-        "chunk": false,
-        "sendError": false,
-        "encoding": "none",
-        "allProps": false,
-        "x": 730,
-        "y": 1020,
-        "wires": [
-            [
-                "fc5fb9ef18216633"
-            ]
-        ]
-    },
-    {
-        "id": "955a9193feae1567",
-        "type": "function",
-        "z": "47e2824120b2a9e0",
-        "name": "Create image for Telegram",
-        "func": "var cId = 843873284;\n\n\n\nmsg.payload = { chatId: cId, type:\"photo\", content:msg.payload, caption:\"Snapshot\"+JSON.stringify(msg.topic)};\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1660,
-        "y": 940,
-        "wires": [
-            [
-                "c1d9dc180bad3de2"
-            ]
-        ]
-    },
-    {
-        "id": "c1d9dc180bad3de2",
-        "type": "telegram sender",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "bot": "ca786bad.5ac7a8",
-        "haserroroutput": false,
-        "outputs": 1,
-        "x": 1910,
-        "y": 940,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "b4abdbbab8b1a068",
-        "type": "function",
-        "z": "47e2824120b2a9e0",
-        "name": "annotate Example",
-        "func": "if (msg.payload.data != null && Object.keys(msg.payload.data).length > 0) {\n    if (msg.payload.data) {\n        msg.annotations = [];\n        msg.payload = msg.payload.originImg;\n        msg.annotations = [\n            {\n                type: \"circle\",\n                x: 50, y: 50, r: 20,\n                lineWidth: 10\n\n            },\n            {\n                type: \"rect\",\n                x: 30, y: 30, w: 40, h: 40,\n                stroke: \"blue\"\n            }\n        ]\n    }\n\n    return msg;\n}\n\n\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1170,
-        "y": 1100,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "5c93b68cdeb0678f",
-        "type": "annotate-image",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "fill": "",
-        "stroke": "#ffC000",
-        "lineWidth": 5,
-        "fontSize": 24,
-        "fontColor": "#ffC000",
-        "x": 1400,
-        "y": 1020,
-        "wires": [
-            [
-                "47abe4fc60e4e1ae",
-                "955a9193feae1567"
-            ]
-        ]
-    },
-    {
-        "id": "5e18c7cbf398fdda",
-        "type": "mqtt in",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "topic": "camera/front",
-        "qos": "2",
-        "datatype": "auto",
-        "broker": "a7804332c06e238f",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 290,
-        "y": 740,
-        "wires": [
-            [
-                "0c3744b75951e07b"
-            ]
-        ]
-    },
-    {
-        "id": "56fb91a6414ddd32",
-        "type": "function",
-        "z": "47e2824120b2a9e0",
-        "name": "create Data",
-        "func": "var msg_data = {\n    payload: msg.payload.data,\n    topic: \"text\"\n}\n\nvar msg_image = {\n    payload: msg.payload.originImg,\n    topic: \"image\"\n};\nfunction checkForDataArrays(input) {\n    let result = {};\n    for (let key in input) {\n        if (Array.isArray(input[key])) {\n            result[key] = input[key].length;\n        }\n    }\n    return Object.keys(result).length > 0 ? result : null;\n\n}\n\nlet result = checkForDataArrays(msg_data.payload);\nif (result != null) {\n    msg_data.payload = result;\n    msg_image.topic = JSON.stringify(result);\n} else {\n    msg_data.payload = \"nothing detected\";\n    msg_image.topic = \"nothing detected\";\n}\n\nreturn [msg_data, msg_image];",
-        "outputs": 2,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 950,
-        "y": 740,
-        "wires": [
-            [
-                "7ff3e570548d8d87",
-                "c44682f7751424cf"
-            ],
-            [
-                "88d8ff214f48ece7",
-                "53b88a16c65bd4af"
-            ]
-        ]
-    },
-    {
-        "id": "53b88a16c65bd4af",
-        "type": "image viewer",
-        "z": "47e2824120b2a9e0",
-        "name": "Camera view detector",
-        "width": 160,
-        "data": "payload",
-        "dataType": "msg",
-        "active": true,
-        "x": 1440,
-        "y": 780,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "866d7c3685924c66",
-        "type": "inject",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 280,
-        "y": 640,
-        "wires": [
-            [
-                "0c3744b75951e07b"
-            ]
-        ]
-    },
-    {
-        "id": "7682a3f9e0bd1694",
-        "type": "http in",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "url": "/myroomcamera",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 300,
-        "y": 420,
-        "wires": [
-            [
-                "7df1bdd34f900e31"
-            ]
-        ]
-    },
-    {
-        "id": "6a156025.b1c9f",
-        "type": "inject",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "props": [
-            {
-                "p": "payload",
-                "v": "",
-                "vt": "date"
-            },
-            {
-                "p": "topic",
-                "v": "",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 880,
-        "y": 1560,
-        "wires": [
-            [
-                "fd62708f.a560a"
-            ]
-        ]
-    },
-    {
-        "id": "9c0b2081.b1ac6",
-        "type": "function",
-        "z": "47e2824120b2a9e0",
-        "name": "Format the header and payload",
-        "func": "msg.headers = {\n    \"Content-Type\": \"multipart/form-data; boundary=------------------------d74496d66958873e\"\n}\n\n\nmsg.payload = '--------------------------d74496d66958873e\\r\\n'+\n'Content-Disposition: form-data; name=\"select\"\\r\\n'+\n'\\r\\n'+\n'true\\r\\n'+\n'--------------------------d74496d66958873e\\r\\n'+\n'Content-Disposition: form-data; name=\"print\"\\r\\n'+\n'\\r\\n'+\n'true\\r\\n'+\n'--------------------------d74496d66958873e\\r\\n'+\n'Content-Disposition: form-data; name=\"file\"; filename=\"'+msg.filename+'\"\\r\\n'+\n'Content-Type: application/octet-stream\\r\\n'+\n'\\r\\n'+\nmsg.payload+'\\r\\n'+\n'--------------------------d74496d66958873e--\\r\\n';\n\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1010,
-        "y": 1620,
-        "wires": [
-            [
-                "85c748e8.2d1f88"
-            ]
-        ]
-    },
-    {
-        "id": "85c748e8.2d1f88",
-        "type": "http request",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": false,
-        "url": "http://localhost:1880/files",
-        "tls": "",
-        "proxy": "",
-        "x": 1250,
-        "y": 1620,
-        "wires": [
-            [
-                "a4810d7a.f652a"
-            ]
-        ]
-    },
-    {
-        "id": "a4810d7a.f652a",
-        "type": "debug",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 1430,
-        "y": 1620,
-        "wires": []
-    },
-    {
-        "id": "fd62708f.a560a",
-        "type": "file in",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "filename": "/tmp/file.txt",
-        "filenameType": "str",
-        "format": "",
-        "chunk": false,
-        "sendError": false,
-        "x": 1060,
-        "y": 1560,
-        "wires": [
-            [
-                "9c0b2081.b1ac6"
-            ]
-        ]
-    },
-    {
-        "id": "2f32071ef7bb110d",
-        "type": "comment",
-        "z": "47e2824120b2a9e0",
-        "name": "delivering different Types of Data (at /data-of-type-XXX)",
-        "info": "",
-        "x": 1040,
-        "y": 1720,
-        "wires": []
-    },
-    {
-        "id": "238793311dabfdd6",
-        "type": "http in",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "url": "data-of-type-text-plain",
-        "method": "get",
-        "upload": true,
-        "swaggerDoc": "",
-        "x": 960,
-        "y": 1780,
-        "wires": [
-            [
-                "cffded47ea1c03d0"
-            ]
-        ]
-    },
-    {
-        "id": "b51281afcd501289",
-        "type": "http in",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "url": "data-of-type-application-json",
-        "method": "get",
-        "upload": true,
-        "swaggerDoc": "",
-        "x": 980,
-        "y": 1900,
-        "wires": [
-            [
-                "68a3c31298d82cc0"
-            ]
-        ]
-    },
-    {
-        "id": "3e924f0ff93cd624",
-        "type": "http in",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "url": "data-of-type-image-png",
-        "method": "get",
-        "upload": true,
-        "swaggerDoc": "",
-        "x": 960,
-        "y": 2020,
-        "wires": [
-            [
-                "8fa440683ca55861"
-            ]
-        ]
-    },
-    {
-        "id": "cffded47ea1c03d0",
-        "type": "change",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "this is some plain text",
-                "tot": "str"
-            },
-            {
-                "t": "set",
-                "p": "headers",
-                "pt": "msg",
-                "to": "{\"content-type\":\"text/plain\"}",
-                "tot": "json"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1140,
-        "y": 1840,
-        "wires": [
-            [
-                "c0f311bbfc8d346a"
-            ]
-        ]
-    },
-    {
-        "id": "c0f311bbfc8d346a",
-        "type": "http response",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "statusCode": "200",
-        "headers": {},
-        "x": 1320,
-        "y": 1840,
-        "wires": []
-    },
-    {
-        "id": "68a3c31298d82cc0",
-        "type": "change",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "{ \"type\":\"json\" }",
-                "tot": "str"
-            },
-            {
-                "t": "set",
-                "p": "headers",
-                "pt": "msg",
-                "to": "{\"content-type\":\"application/json\"}",
-                "tot": "json"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1140,
-        "y": 1960,
-        "wires": [
-            [
-                "19311e74fb2a3167"
-            ]
-        ]
-    },
-    {
-        "id": "19311e74fb2a3167",
-        "type": "http response",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "statusCode": "200",
-        "headers": {},
-        "x": 1320,
-        "y": 1960,
-        "wires": []
-    },
-    {
-        "id": "8fa440683ca55861",
-        "type": "file in",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "filename": "Mandelbrot_240x240.png",
-        "filenameType": "str",
-        "format": "",
-        "chunk": false,
-        "sendError": false,
-        "encoding": "none",
-        "allProps": false,
-        "x": 1280,
-        "y": 2020,
-        "wires": [
-            [
-                "7fb230d107b1b06f"
-            ]
-        ]
-    },
-    {
-        "id": "7fb230d107b1b06f",
-        "type": "change",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "headers",
-                "pt": "msg",
-                "to": "{\"content-type\":\"image/png\"}",
-                "tot": "json"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1130,
-        "y": 2080,
-        "wires": [
-            [
-                "39689ce2448f0aba"
-            ]
-        ]
-    },
-    {
-        "id": "39689ce2448f0aba",
-        "type": "http response",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "statusCode": "200",
-        "headers": {},
-        "x": 1320,
-        "y": 2080,
-        "wires": []
-    },
-    {
-        "id": "793f39abe9f8cda8",
-        "type": "change",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "headers",
-                "pt": "msg",
-                "to": "{\"content-type\":\"image/png\"}",
-                "tot": "json"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1450,
-        "y": 100,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "b0cc2bedc1b68787",
-        "type": "http response",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "statusCode": "200",
-        "headers": {},
-        "x": 1500,
-        "y": 220,
-        "wires": []
-    },
-    {
-        "id": "b1163c3636f82954",
-        "type": "mqtt in",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "topic": "camera/myroom",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "a7804332c06e238f",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 280,
-        "y": 240,
-        "wires": [
-            [
-                "7df1bdd34f900e31"
-            ]
-        ]
-    },
-    {
-        "id": "7bc1fdd740a684a6",
-        "type": "http request",
-        "z": "d10b6744b70a9f6d",
-        "name": "",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "http://192.168.1.159:11500/chat",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 450,
-        "y": 140,
-        "wires": [
-            [
-                "bec2630c3be51374"
-            ]
-        ]
-    },
-    {
-        "id": "e5448d8f8c89111b",
-        "type": "function",
-        "z": "d10b6744b70a9f6d",
-        "name": "payload",
-        "func": "msg.payload = JSON.stringify(\n    {\n        \"messages\": [\n            {\n                \"role\": \"user\",\n                \"content\": \"say hello?\",\n                \"answer\": \"short answer\"\n            }\n        ]\n    }\n);\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 280,
-        "y": 140,
-        "wires": [
-            [
-                "7bc1fdd740a684a6"
-            ]
-        ]
-    },
-    {
-        "id": "3819eee374404559",
-        "type": "inject",
-        "z": "d10b6744b70a9f6d",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 120,
-        "y": 140,
-        "wires": [
-            [
-                "e5448d8f8c89111b"
-            ]
-        ]
-    },
-    {
-        "id": "bec2630c3be51374",
-        "type": "debug",
-        "z": "d10b6744b70a9f6d",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 640,
-        "y": 140,
         "wires": []
     }
 ]

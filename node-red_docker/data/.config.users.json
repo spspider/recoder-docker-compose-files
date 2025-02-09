@@ -17,8 +17,8 @@
             },
             "dialog": {
                 "export": {
-                    "pretty": true,
-                    "json-view": false
+                    "pretty": false,
+                    "json-view": true
                 }
             }
         },

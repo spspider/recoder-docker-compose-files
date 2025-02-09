@@ -16,13 +16,14 @@ services:
       - TZ=Europe/Amsterdam
     ports:
       - "1880:1880"
-    networks:
-      - node-red-net
     volumes:
       - /home/recoder/RECODER-COMPOSE/node-red_docker/data:/data
+    networks:
+      - app_network  # Use the shared network
 
 volumes:
   node-red-data:
 
 networks:
-  node-red-net:
+  app_network:
+    external: true

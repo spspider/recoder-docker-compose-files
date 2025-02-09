@@ -17,12 +17,12 @@
             },
             "dialog": {
                 "export": {
-                    "pretty": true,
+                    "pretty": false,
                     "json-view": false
                 }
             }
         },
-        "menu-menu-item-sidebar": false,
+        "menu-menu-item-sidebar": true,
         "menu-menu-item-palette": true
     }
 }
