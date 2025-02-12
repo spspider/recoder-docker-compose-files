@@ -20,7 +20,8 @@ services:
       - /home/recoder/RECODER-COMPOSE/node-red_docker/data:/data
     networks:
       - app_network  # Use the shared network
-
+    # depends_on:
+    #   - homeassistant
 volumes:
   node-red-data:
 

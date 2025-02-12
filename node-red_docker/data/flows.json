@@ -488,7 +488,7 @@
                 "a5d85328c784360f"
             ],
             [
-                "ea867eb9f71bd30c"
+                "f8a9809c8cd54691"
             ]
         ]
     },
@@ -1114,64 +1114,10 @@
         "finalize": "",
         "libs": [],
         "x": 910,
-        "y": 400,
+        "y": 420,
         "wires": [
             [
                 "7e31b05aed36e8da"
-            ]
-        ]
-    },
-    {
-        "id": "ea867eb9f71bd30c",
-        "type": "ui_switch",
-        "z": "65bf31c16d103884",
-        "name": "power Night Light",
-        "label": "power Night Light",
-        "tooltip": "",
-        "group": "d933d053d66f5444",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "6",
-        "topicType": "str",
-        "style": "",
-        "onvalue": "0",
-        "onvalueType": "num",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "1",
-        "offvalueType": "num",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 830,
-        "y": 340,
-        "wires": [
-            [
-                "52919967bac76e22"
-            ]
-        ]
-    },
-    {
-        "id": "52919967bac76e22",
-        "type": "rbe",
-        "z": "65bf31c16d103884",
-        "name": "",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "septopics": true,
-        "property": "payload",
-        "topi": "topic",
-        "x": 990,
-        "y": 340,
-        "wires": [
-            [
-                "a23ad46d36d12c16"
             ]
         ]
     },
@@ -1304,6 +1250,53 @@
         "x": 760,
         "y": 760,
         "wires": []
+    },
+    {
+        "id": "f8a9809c8cd54691",
+        "type": "ui_slider",
+        "z": "65bf31c16d103884",
+        "name": "power Night Light",
+        "label": "power Night Light",
+        "tooltip": "",
+        "group": "d933d053d66f5444",
+        "order": 9,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "6",
+        "topicType": "str",
+        "min": 0,
+        "max": "1024",
+        "step": 1,
+        "className": "",
+        "x": 830,
+        "y": 340,
+        "wires": [
+            [
+                "0fd075e9f7ca29d0"
+            ]
+        ]
+    },
+    {
+        "id": "0fd075e9f7ca29d0",
+        "type": "rbe",
+        "z": "65bf31c16d103884",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 990,
+        "y": 340,
+        "wires": [
+            [
+                "a23ad46d36d12c16"
+            ]
+        ]
     },
     {
         "id": "95ff1632.6243b8",
@@ -1757,7 +1750,7 @@
         "type": "function",
         "z": "a69381581f637ec6",
         "name": "subscribe",
-        "func": "var subcsciptionLoop = []\n\nfor (var i = 0; i < 5; i++) {\n    var subscriptionVar = {\n        action: \"subscribe\",\n        topic: \"node-red/roof/control/\" + i\n    }\n    subcsciptionLoop.push(subscriptionVar);\n}\nreturn [subcsciptionLoop];",
+        "func": "var subcsciptionLoop = []\n\nfor (var i = 0; i < 6; i++) {\n    var subscriptionVar = {\n        action: \"subscribe\",\n        topic: \"node-red/roof/control/\" + i\n    }\n    subcsciptionLoop.push(subscriptionVar);\n}\nreturn [subcsciptionLoop];",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -3077,7 +3070,7 @@
         "type": "function",
         "z": "d10b6744b70a9f6d",
         "name": "payload",
-        "func": "function retriveValues() {\n    var keys = [\"storedValues\"];\n    var retrievedValues = {};\n\n    keys.forEach(function (key) {\n        retrievedValues[key] = global.get(key) || { description: key, value: \"Not set\" };\n    });\n\n    return JSON.stringify(retrievedValues.storedValues);\n}\n\n\nmsg.payload = JSON.stringify(\n    {\n        \"messages\": [\n            {\n                \"role\": \"you an AI assistant in smart home, you have to decide what should be switched on, or off or anything what you decide to do to have a better living, use json to answer\",\n                \"content\": \"we are retrived this values:\" + retriveValues(),\n                \"answer\": \"json formatted answer, containing the same pair of object value\"\n            }\n        ],\n        \"model\": \"deepseek/deepseek-r1-distill-qwen-1.5b\"\n    }\n);\nreturn msg;",
+        "func": "function retriveValues() {\n    var keys = [\"storedValues\"];\n    var retrievedValues = {};\n\n    keys.forEach(function (key) {\n        retrievedValues[key] = global.get(key) || { description: key, value: \"Not set\" };\n    });\n\n    return JSON.stringify(retrievedValues.storedValues);\n}\n\n\nmsg.payload = JSON.stringify(\n    {\n        \"messages\": [\n            {\n                \"role\": \"system\",\n                \"content\": \"You are an AI that strictly returns responses in valid JSON format. input to you: ```json\" + retriveValues() + \"```\"\n            },\n            {\n                \"role\": \"user\",\n                \"content\": \"you an AI assistant in smart home, you have some payload of objects controlled remotely, based on provided input, you have to decide which if them needs to be controlled\"\n            }\n        ],\n        \"model\": \"nvidia/llama-3.1-nemotron-70b-instruct:free\"\n    }\n);\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
