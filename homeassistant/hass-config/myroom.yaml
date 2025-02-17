@@ -1,0 +1,201 @@
+######################################  150  ####################################
+######################################  150  ####################################
+rest_command:
+
+      curtainup_on:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":0,\"v\":0}"
+        method: GET
+      curtainup_off:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":0,\"v\":1}"
+        method: GET
+    
+      curtaindown_on:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":1,\"v\":0}"
+        method: GET
+      curtaindown_off:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":1,\"v\":1}"
+        method: GET
+    
+      lightbackyard_on:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":2,\"v\":0}"
+        method: GET
+      lightbackyard_off:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":2,\"v\":1}"
+        method: GET
+    
+      set_nightlight:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":3,\"v\":{{ value }}}"
+        method: GET
+    
+      powerlight_on:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":4,\"v\":0}"
+        method: GET
+      powerlight_off:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":4,\"v\":1}"
+        method: GET
+    
+      set_nightled:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":6,\"v\":{{ value }}}"
+        method: GET
+    
+switch:
+
+      - platform: template
+        switches:
+          curtainup:
+            friendly_name: "curtainUp"
+            value_template: >
+              {% if states('sensor.esp8266_status150') != 'unavailable' %}
+                {% set value = states('sensor.esp8266_status150') | from_json %}
+                {{ int(value.stat[0]) == 0  }}
+              {% else %}
+                False
+              {% endif %}
+            turn_on:
+              service: rest_command.curtainup_on
+            turn_off:
+              service: rest_command.curtainup_off
+            icon_template: mdi:lightbulb-outline
+            unique_id: "150curtainup"
+    
+      - platform: template
+        switches:
+          curtaindown:
+            friendly_name: "curtainDown"
+            value_template: >
+              {% if states('sensor.esp8266_status150') != 'unavailable' %}
+                {% set value = states('sensor.esp8266_status150') | from_json %}
+                {{ int(value.stat[1]) == 0  }}
+              {% else %}
+                False
+              {% endif %}
+            turn_on:
+              service: rest_command.curtaindown_on
+            turn_off:
+              service: rest_command.curtaindown_off
+            icon_template: mdi:lightbulb-outline
+            unique_id: "150curtaindown"
+    
+      - platform: template
+        switches:
+          lightbackyard:
+            friendly_name: "lightBackYard"
+            value_template: >
+              {% if states('sensor.esp8266_status150') != 'unavailable' %}
+                {% set value = states('sensor.esp8266_status150') | from_json %}
+                {{ int(value.stat[2]) == 0  }}
+              {% else %}
+                False
+              {% endif %}
+            turn_on:
+              service: rest_command.lightbackyard_on
+            turn_off:
+              service: rest_command.lightbackyard_off
+            icon_template: mdi:lightbulb-outline
+            unique_id: "150lightbackyard"
+    
+      - platform: template
+        switches:
+          powerlight:
+            friendly_name: "PowerLight"
+            value_template: >
+              {% if states('sensor.esp8266_status150') != 'unavailable' %}
+                {% set value = states('sensor.esp8266_status150') | from_json %}
+                {{ int(value.stat[4]) == 0  }}
+              {% else %}
+                False
+              {% endif %}
+            turn_on:
+              service: rest_command.powerlight_on
+            turn_off:
+              service: rest_command.powerlight_off
+            icon_template: mdi:lightbulb-outline
+            unique_id: "150powerlight"
+    
+sensor:
+  
+    - platform: rest
+      name: esp8266_status150
+      resource: "http://192.168.1.150/sendAJAX?json=%7B%22t%22:127,%22v%22:0%7D"
+      scan_interval: 10
+      method: GET
+      value_template: >
+        {% if value_json is defined and value_json.stat is defined %}
+          {{ value }}
+        {% else %}
+          Unavailable
+        {% endif %}
+        
+template:
+  - sensor:
+      - name: "esp8266_status150_5"
+        unit_of_measurement: "°C"
+        state: >
+          {% set sensor_value_array = states('sensor.esp8266_status150') | from_json %}
+          {% if sensor_value_array.stat is defined and sensor_value_array.stat[5] is defined %}
+            {{ sensor_value_array.stat[5] | float }}
+          {% else %}
+            unavailable
+          {% endif %}
+
+input_number:
+
+      nightlight_slider:
+        name: NightLight Slider
+        min: 0
+        max: 1024
+        step: 1
+    
+      nightled_slider:
+        name: NightLed Slider
+        min: 0
+        max: 1024
+        step: 1
+    
+automation:
+
+      - alias: "Set NightLight Value"
+        trigger:
+          platform: state
+          entity_id: input_number.nightlight_slider
+        action:
+          - service: rest_command.set_nightlight
+            data:
+              value: "{{ states('input_number.nightlight_slider') }}"
+
+      - alias: "Update NightLight from Sensor"
+        trigger:
+          platform: state
+          entity_id: sensor.esp8266_status150
+        action:
+          - variables:
+              sensor_value_array: "{{ states('sensor.esp8266_status150') | from_json }}"
+              sensor_value: "{{ sensor_value_array.stat[3] | int }}"
+          - condition: "{{ states('input_number.nightlight_slider') | int != sensor_value }}"
+          - service: input_number.set_value
+            data:
+              entity_id: input_number.nightlight_slider
+              value: "{{ sensor_value }}"
+    
+      - alias: "Set NightLed Value"
+        trigger:
+          platform: state
+          entity_id: input_number.nightled_slider
+        action:
+          - service: rest_command.set_nightled
+            data:
+              value: "{{ states('input_number.nightled_slider') }}"
+
+      - alias: "Update NightLed from Sensor"
+        trigger:
+          platform: state
+          entity_id: sensor.esp8266_status150
+        action:
+          - variables:
+              sensor_value_array: "{{ states('sensor.esp8266_status150') | from_json }}"
+              sensor_value: "{{ sensor_value_array.stat[6] | int }}"
+          - condition: "{{ states('input_number.nightled_slider') | int != sensor_value }}"
+          - service: input_number.set_value
+            data:
+              entity_id: input_number.nightled_slider
+              value: "{{ sensor_value }}"

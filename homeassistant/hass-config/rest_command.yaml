@@ -1,0 +1,56 @@
+      myroomcurtainup_on:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":0,\"v\":0}"
+        method: GET
+      myroomcurtainup_off:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":0,\"v\":1}"
+        method: GET
+    
+      myroomcurtaindown_on:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":1,\"v\":0}"
+        method: GET
+      myroomcurtaindown_off:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":1,\"v\":1}"
+        method: GET
+    
+      myroomlightbackyard_on:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":2,\"v\":0}"
+        method: GET
+      myroomlightbackyard_off:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":2,\"v\":1}"
+        method: GET
+    
+      set_myroomnightlight:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":3,\"v\":{{ value }}}"
+        method: GET
+    
+      myroompowerlight_on:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":4,\"v\":0}"
+        method: GET
+      myroompowerlight_off:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":4,\"v\":1}"
+        method: GET
+    
+      set_myroomnightled:
+        url: "http://192.168.1.150/sendAJAX?json={\"t\":6,\"v\":{{ value }}}"
+        method: GET
+
+      rooflight1_on:
+        url: "http://192.168.1.151/sendAJAX?json={\"t\":0,\"v\":0}"
+        method: GET
+      rooflight1_off:
+        url: "http://192.168.1.151/sendAJAX?json={\"t\":0,\"v\":1}"
+        method: GET
+    
+      rooflight2_on:
+        url: "http://192.168.1.151/sendAJAX?json={\"t\":1,\"v\":0}"
+        method: GET
+      rooflight2_off:
+        url: "http://192.168.1.151/sendAJAX?json={\"t\":1,\"v\":1}"
+        method: GET
+    
+      roofpcpowerbtn_on:
+        url: "http://192.168.1.151/sendAJAX?json={\"t\":3,\"v\":1}"
+        method: GET
+      roofpcpowerbtn_off:
+        url: "http://192.168.1.151/sendAJAX?json={\"t\":3,\"v\":0}"
+        method: GET        

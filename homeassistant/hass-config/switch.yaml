@@ -1,0 +1,125 @@
+      - platform: template
+        switches:
+          myroomcurtainup:
+            friendly_name: "myroom curtainUp"
+            value_template: >
+              {% if states('sensor.esp8266_status150') != 'unavailable' %}
+                {% set value = states('sensor.esp8266_status150') | from_json %}
+                {{ int(value.stat[0]) == 0  }}
+              {% else %}
+                False
+              {% endif %}
+            turn_on:
+              service: rest_command.myroomcurtainup_on
+            turn_off:
+              service: rest_command.myroomcurtainup_off
+            icon_template: mdi:lightbulb-outline
+            unique_id: "150myroomcurtainup"
+    
+      - platform: template
+        switches:
+          myroomcurtaindown:
+            friendly_name: "myroom curtainDown"
+            value_template: >
+              {% if states('sensor.esp8266_status150') != 'unavailable' %}
+                {% set value = states('sensor.esp8266_status150') | from_json %}
+                {{ int(value.stat[1]) == 0  }}
+              {% else %}
+                False
+              {% endif %}
+            turn_on:
+              service: rest_command.myroomcurtaindown_on
+            turn_off:
+              service: rest_command.myroomcurtaindown_off
+            icon_template: mdi:lightbulb-outline
+            unique_id: "150myroomcurtaindown"
+    
+      - platform: template
+        switches:
+          myroomlightbackyard:
+            friendly_name: "myroom lightBackYard"
+            value_template: >
+              {% if states('sensor.esp8266_status150') != 'unavailable' %}
+                {% set value = states('sensor.esp8266_status150') | from_json %}
+                {{ int(value.stat[2]) == 0  }}
+              {% else %}
+                False
+              {% endif %}
+            turn_on:
+              service: rest_command.myroomlightbackyard_on
+            turn_off:
+              service: rest_command.myroomlightbackyard_off
+            icon_template: mdi:lightbulb-outline
+            unique_id: "150myroomlightbackyard"
+    
+      - platform: template
+        switches:
+          myroompowerlight:
+            friendly_name: "myroom PowerLight"
+            value_template: >
+              {% if states('sensor.esp8266_status150') != 'unavailable' %}
+                {% set value = states('sensor.esp8266_status150') | from_json %}
+                {{ int(value.stat[4]) == 0  }}
+              {% else %}
+                False
+              {% endif %}
+            turn_on:
+              service: rest_command.myroompowerlight_on
+            turn_off:
+              service: rest_command.myroompowerlight_off
+            icon_template: mdi:lightbulb-outline
+            unique_id: "150myroompowerlight"
+
+      - platform: template
+        switches:
+          rooflight1:
+            friendly_name: "roof light1"
+            value_template: >
+              {% if states('sensor.esp8266_status151') != 'unavailable' %}
+                {% set value = states('sensor.esp8266_status151') | from_json %}
+                {{ int(value.stat[0]) == 0  }}
+              {% else %}
+                False
+              {% endif %}
+            turn_on:
+              service: rest_command.rooflight1_on
+            turn_off:
+              service: rest_command.rooflight1_off
+            icon_template: mdi:lightbulb-outline
+            unique_id: "151rooflight1"
+    
+      - platform: template
+        switches:
+          rooflight2:
+            friendly_name: "roof light2"
+            value_template: >
+              {% if states('sensor.esp8266_status151') != 'unavailable' %}
+                {% set value = states('sensor.esp8266_status151') | from_json %}
+                {{ int(value.stat[1]) == 0  }}
+              {% else %}
+                False
+              {% endif %}
+            turn_on:
+              service: rest_command.rooflight2_on
+            turn_off:
+              service: rest_command.rooflight2_off
+            icon_template: mdi:lightbulb-outline
+            unique_id: "151rooflight2"
+    
+      - platform: template
+        switches:
+          roofpcpowerbtn:
+            friendly_name: "roof PCPowerBTN"
+            value_template: >
+              {% if states('sensor.esp8266_status151') != 'unavailable' %}
+                {% set value = states('sensor.esp8266_status151') | from_json %}
+                {{ int(value.stat[3]) == 1  }}
+              {% else %}
+                False
+              {% endif %}
+            turn_on:
+              service: rest_command.roofpcpowerbtn_on
+            turn_off:
+              service: rest_command.roofpcpowerbtn_off
+            icon_template: mdi:lightbulb-outline
+            unique_id: "151roofpcpowerbtn"            

@@ -1,0 +1,35 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+rest_command: !include rest_command.yaml
+switch: !include switch.yaml
+sensor: !include sensor.yaml
+template: !include template.yaml
+input_number: !include input_number.yaml
+
+
+binary_sensor:
+  - platform: hikvision
+    host: 94.53.116.43:8000
+    username: parinte
+    password: 24Magica
+    customize:
+      motion:
+        delay: 30
+      line_crossing:
+        ignored: true
+
+
+
+
+######################################  150  ####################################
+
+   

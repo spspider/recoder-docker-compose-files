@@ -1,0 +1,21 @@
+# rest_command:
+#   set_nightlight:
+#     url: "http://192.168.1.150/sendAJAX?json={\"t\":3,\"v\":{{ value }}}"
+#     method: GET
+
+# input_number:
+#   nightlight_slider:
+#     name: NightLight Slider
+#     min: 0
+#     max: 200
+#     step: 1
+
+# automation:
+#   - alias: "Set NightLight Value"
+#     trigger:
+#       platform: state
+#       entity_id: input_number.nightlight_slider
+#     action:
+#       - service: rest_command.set_nightlight
+#         data:
+#           value: "{{ states('input_number.nightlight_slider') }}"

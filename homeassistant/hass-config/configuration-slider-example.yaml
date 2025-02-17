@@ -1,0 +1,35 @@
+rest_command:
+  set_nightlight:
+    url: "http://192.168.1.150/sendAJAX?json={\"t\":3,\"v\":{{ value }}}"
+    method: GET
+
+input_number:
+  nightlight_slider:
+    name: NightLight Slider
+    min: 0
+    max: 200
+    step: 1
+
+automation:
+  - alias: "Set NightLight Value"
+    trigger:
+      platform: state
+      entity_id: input_number.nightlight_slider
+    action:
+      - service: rest_command.set_nightlight
+        data:
+          value: "{{ states('input_number.nightlight_slider') }}"
+          
+  - alias: "Update Slider from Sensor"
+    trigger:
+      platform: state
+      entity_id: sensor.esp8266_status150
+    action:
+      - variables:
+          sensor_value_array: "{{ states('sensor.esp8266_status150') | from_json }}"
+          sensor_value: "{{ sensor_value_array.stat[3] | int }}"
+      - condition: "{{ states('input_number.nightlight_slider') | int != sensor_value }}"
+      - service: input_number.set_value
+        data:
+          entity_id: input_number.nightlight_slider
+          value: "{{ sensor_value }}"     

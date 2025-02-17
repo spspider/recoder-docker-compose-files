@@ -1,0 +1,24 @@
+template:
+  - sensor:
+      - name: "esp8266_status150_5"
+        unit_of_measurement: "°C"
+        state: >
+          {% set sensor_value_array = states('sensor.esp8266_status150') | from_json %}
+          {% if sensor_value_array.stat is defined and sensor_value_array.stat[5] is defined %}
+            {{ sensor_value_array.stat[5] | float }}
+          {% else %}
+            unavailable
+          {% endif %}
+
+sensor:
+  - platform: rest
+    name: esp8266_status150
+    resource: "http://192.168.1.150/sendAJAX?json=%7B%22t%22:127,%22v%22:0%7D" # t=127 is status and here is respond, {"stat":["1.00","1.00","1.00","0.00","1.00","37.19","0.00"]}
+    scan_interval: 10
+    method: GET
+    value_template: >
+      {% if value_json is defined and value_json.stat is defined %}
+        {{ value }}
+      {% else %}
+        Unavailable
+      {% endif %} 

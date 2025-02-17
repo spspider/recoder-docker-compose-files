@@ -11,19 +11,3 @@ services:
     network_mode: host
     # networks:
     #    - app_network  # Use the shared network 
-  code-server:
-    container_name: code_server
-    image: lscr.io/linuxserver/code-server:latest
-    environment:
-      - TZ=<TIMEZONE>
-      - DEFAULT_WORKSPACE=/config
-    ports:
-      - 8443:8443
-    volumes:
-      - ./hass-config:/config
-    restart: unless-stopped    
-    networks:
-      - app_network  # Use the shared network    
-networks:
-  app_network:
-    external: true      

@@ -1,0 +1,45 @@
+      - alias: "Set myroom NightLight Value"
+        trigger:
+          platform: state
+          entity_id: input_number.myroomnightlight_slider
+        action:
+          - service: rest_command.set_myroomnightlight
+            data:
+              value: "{{ states('input_number.myroomnightlight_slider') }}"
+
+      - alias: "Update myroom NightLight from Sensor"
+        trigger:
+          platform: state
+          entity_id: sensor.esp8266_status150
+        action:
+          - variables:
+              sensor_value_array: "{{ states('sensor.esp8266_status150') | from_json }}"
+              sensor_value: "{{ sensor_value_array.stat[3] | int }}"
+          - condition: "{{ states('input_number.myroomnightlight_slider') | int != sensor_value }}"
+          - service: input_number.set_value
+            data:
+              entity_id: input_number.myroomnightlight_slider
+              value: "{{ sensor_value }}"
+    
+      - alias: "Set myroom NightLed Value"
+        trigger:
+          platform: state
+          entity_id: input_number.myroomnightled_slider
+        action:
+          - service: rest_command.set_myroomnightled
+            data:
+              value: "{{ states('input_number.myroomnightled_slider') }}"
+
+      - alias: "Update myroom NightLed from Sensor"
+        trigger:
+          platform: state
+          entity_id: sensor.esp8266_status150
+        action:
+          - variables:
+              sensor_value_array: "{{ states('sensor.esp8266_status150') | from_json }}"
+              sensor_value: "{{ sensor_value_array.stat[6] | int }}"
+          - condition: "{{ states('input_number.myroomnightled_slider') | int != sensor_value }}"
+          - service: input_number.set_value
+            data:
+              entity_id: input_number.myroomnightled_slider
+              value: "{{ sensor_value }}"

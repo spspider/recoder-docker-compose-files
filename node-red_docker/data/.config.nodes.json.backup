@@ -865,5 +865,24 @@
                 "file": "/data/node_modules/@smcgann/node-red-annotate-image-plus/annotate-image-plus.js"
             }
         }
+    },
+    "node-red-node-annotate-image": {
+        "name": "node-red-node-annotate-image",
+        "version": "0.1.2",
+        "local": true,
+        "user": true,
+        "nodes": {
+            "annotate": {
+                "name": "annotate",
+                "types": [
+                    "annotate-image"
+                ],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "node-red-node-annotate-image",
+                "file": "/data/node_modules/node-red-node-annotate-image/annotate.js"
+            }
+        }
     }
 }

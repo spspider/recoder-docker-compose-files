@@ -1,0 +1,23 @@
+  - sensor:
+      - name: "myroom temp(150)"
+        unit_of_measurement: ""
+        unique_id: "150myroomtemp"
+        state: >
+          {% set sensor_value_array = states('sensor.esp8266_status150') | from_json %}
+          {% if sensor_value_array.stat is defined and sensor_value_array.stat[5] is defined %}
+            {{ sensor_value_array.stat[5] | float }}
+          {% else %}
+            unavailable
+          {% endif %}
+
+  - sensor:
+      - name: "roof temp(151)"
+        unit_of_measurement: ""
+        unique_id: "151rooftemp"
+        state: >
+          {% set sensor_value_array = states('sensor.esp8266_status151') | from_json %}
+          {% if sensor_value_array.stat is defined and sensor_value_array.stat[2] is defined %}
+            {{ sensor_value_array.stat[2] | float }}
+          {% else %}
+            unavailable
+          {% endif %}          

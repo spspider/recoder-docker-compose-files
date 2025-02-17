@@ -8,7 +8,7 @@
     <entries>
       <entry>
         <userident />
-        <Views>[{"name":"0","ident":"42d308f3-583c-435c-8abe-66c0c68d399a","isLayout":true,"objects":[{"oid":6,"ot":2,"position":2},{"oid":1,"ot":2,"position":2},{"oid":4,"ot":2,"position":2}],"plans":[],"maxWidth":2134,"maxHeight":1090,"backColor":"#0f2537","id":6,"typeID":2,"focused":false,"initDevice":"","autoFilter":false},{"name":"1","ident":"42d308f3-583c-435c-8abe-66c0c68d399a","isLayout":true,"objects":[],"plans":[],"maxWidth":2134,"maxHeight":1090,"backColor":"#0f2537","id":1,"typeID":2,"focused":false,"initDevice":"","autoFilter":false},{"name":"2","ident":"ffdc18ed-a6dc-4f56-a7ac-2c491309c4ca","isLayout":true,"objects":[{"oid":2,"ot":2,"position":1},{"oid":1,"ot":1,"position":1},{"oid":5,"ot":2,"position":1},{"oid":1,"ot":2,"position":1},{"oid":4,"ot":2,"position":1},{"oid":6,"ot":2,"position":1}],"plans":[],"maxWidth":2134,"maxHeight":1090,"backColor":"#0f2537","id":1,"typeID":2,"focused":false,"initDevice":"2,6","autoFilter":false},{"name":"3","ident":"42d308f3-583c-435c-8abe-66c0c68d399a","isLayout":true,"objects":[],"plans":[],"maxWidth":2134,"maxHeight":1090,"backColor":"#0f2537","id":1,"typeID":2,"focused":false},{"name":"4","ident":"42d308f3-583c-435c-8abe-66c0c68d399a","isLayout":true,"objects":[],"plans":[]},{"name":"5","ident":"42d308f3-583c-435c-8abe-66c0c68d399a","isLayout":true,"objects":[],"plans":[]},{"name":"6","ident":"42d308f3-583c-435c-8abe-66c0c68d399a","isLayout":true,"objects":[],"plans":[]},{"name":"7","ident":"42d308f3-583c-435c-8abe-66c0c68d399a","isLayout":true,"objects":[],"plans":[]},{"name":"8","ident":"42d308f3-583c-435c-8abe-66c0c68d399a","isLayout":true,"objects":[],"plans":[]}]</Views>
+        <Views>[{"name":"0","ident":"42d308f3-583c-435c-8abe-66c0c68d399a","isLayout":true,"objects":[{"oid":6,"ot":2,"position":2},{"oid":1,"ot":2,"position":2},{"oid":4,"ot":2,"position":2},{"oid":5,"ot":2,"position":2}],"plans":[],"maxWidth":2134,"maxHeight":1122,"backColor":"#222222","id":6,"typeID":2,"focused":false,"initDevice":"","autoFilter":false},{"name":"1","ident":"42d308f3-583c-435c-8abe-66c0c68d399a","isLayout":true,"objects":[],"plans":[],"maxWidth":2134,"maxHeight":1090,"backColor":"#0f2537","id":1,"typeID":2,"focused":false,"initDevice":"","autoFilter":false},{"name":"2","ident":"ffdc18ed-a6dc-4f56-a7ac-2c491309c4ca","isLayout":true,"objects":[{"oid":2,"ot":2,"position":1},{"oid":1,"ot":1,"position":1},{"oid":5,"ot":2,"position":1},{"oid":1,"ot":2,"position":1},{"oid":4,"ot":2,"position":1},{"oid":6,"ot":2,"position":1}],"plans":[],"maxWidth":2134,"maxHeight":1090,"backColor":"#0f2537","id":1,"typeID":2,"focused":false,"initDevice":"2,6","autoFilter":false},{"name":"3","ident":"42d308f3-583c-435c-8abe-66c0c68d399a","isLayout":true,"objects":[],"plans":[],"maxWidth":2134,"maxHeight":1090,"backColor":"#0f2537","id":1,"typeID":2,"focused":false},{"name":"4","ident":"42d308f3-583c-435c-8abe-66c0c68d399a","isLayout":true,"objects":[],"plans":[]},{"name":"5","ident":"42d308f3-583c-435c-8abe-66c0c68d399a","isLayout":true,"objects":[],"plans":[]},{"name":"6","ident":"42d308f3-583c-435c-8abe-66c0c68d399a","isLayout":true,"objects":[],"plans":[]},{"name":"7","ident":"42d308f3-583c-435c-8abe-66c0c68d399a","isLayout":true,"objects":[],"plans":[]},{"name":"8","ident":"42d308f3-583c-435c-8abe-66c0c68d399a","isLayout":true,"objects":[],"plans":[]}]</Views>
         <Plans>[{"name":"0","image":"", "objects":[]},{"name":"1","image":"", "objects":[]},{"name":"2","image":"", "objects":[]},{"name":"3","image":"", "objects":[]},{"name":"4","image":"", "objects":[]},{"name":"5","image":"", "objects":[]},{"name":"6","image":"", "objects":[]},{"name":"7","image":"", "objects":[]},{"name":"8","image":"", "objects":[]}]</Plans>
         <Filters>[]</Filters>
         <KeyMap>[]</KeyMap>
@@ -102,7 +102,7 @@
         <prefer_tcp>true</prefer_tcp>
         <low_delay>true</low_delay>
         <procAmpConfig />
-        <messaging>false</messaging>
+        <messaging>true</messaging>
         <directoryIndex>0</directoryIndex>
         <order>0</order>
         <ffmpegoptions />
@@ -331,7 +331,7 @@
         <detailmode>low</detailmode>
       </openai>
       <recorder inactiverecord="8" minrecordtime="15" timelapse="0" timelapseframes="0" quality="5" />
-      <alerts minimuminterval="60" active="false" mode="detected" />
+      <alerts minimuminterval="60" active="true" mode="detected" />
       <alertevents>
         <entries />
       </alertevents>
@@ -440,7 +440,7 @@
 :file-caching=3000</vlcoptions>
         <dvrmodel>Mobile</dvrmodel>
         <dvrchannel>0</dvrchannel>
-        <schedule>true</schedule>
+        <schedule>false</schedule>
         <zPoint>-1,-1</zPoint>
         <zFactor>1</zFactor>
         <findbeststream>true</findbeststream>
@@ -674,7 +674,7 @@
         <entries />
       </ptzpatrol>
     </camera>
-    <camera id="4" name="super_camera" description="" directory="DKEVK" flipx="false" flipy="false" rotateMode="None" flipmode="0" spin="0" x="57" y="37" width="1280" height="720" resolution="320x240" ptz="-1">
+    <camera id="4" name="super_camera" description="" directory="DKEVK" flipx="false" flipy="false" rotateMode="None" flipmode="0" spin="0" x="57" y="37" width="640" height="480" resolution="320x240" ptz="-1" alertGroupIndex="0">
       <settings resize="false" desktopmouse="false">
         <sourceindex>2</sourceindex>
         <iconindex>-1</iconindex>
@@ -705,7 +705,7 @@
         <maskzonemap>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</maskzonemap>
         <timestampformatter>FPS: {FPS} {0:G} </timestampformatter>
         <timestamplocation>1</timestamplocation>
-        <timestampfontsize>22</timestampfontsize>
+        <timestampfontsize>11</timestampfontsize>
         <timestampfontsizeauto>true</timestampfontsizeauto>
         <timestampoutlinecolor>0,0,0</timestampoutlinecolor>
         <timestampoutlinesize>0</timestampoutlinesize>
@@ -760,7 +760,7 @@
         <prefer_tcp>false</prefer_tcp>
         <low_delay>true</low_delay>
         <procAmpConfig />
-        <messaging>false</messaging>
+        <messaging>true</messaging>
         <directoryIndex>0</directoryIndex>
         <order>0</order>
         <ffmpegoptions />
@@ -989,7 +989,7 @@
         <detailmode>low</detailmode>
       </openai>
       <recorder inactiverecord="8" minrecordtime="15" timelapse="0" timelapseframes="0" quality="5" />
-      <alerts minimuminterval="60" active="false" mode="detected" />
+      <alerts minimuminterval="60" active="true" mode="detected" />
       <alertevents>
         <entries />
       </alertevents>
@@ -1007,7 +1007,8 @@
       <settings desktopmouse="false">
         <sourceindex>2</sourceindex>
         <iconindex>12</iconindex>
-        <substream>http://192.168.1.140:8080/video</substream>
+        <substream>http://192.168.1.138:8080/video</substream>
+        <mainstream />
         <ndilevel>80</ndilevel>
         <rtmpident />
         <p2pstreamhd>false</p2pstreamhd>
@@ -1022,12 +1023,12 @@
         <appendfake>true</appendfake>
         <useragent>Mozilla/5.0</useragent>
         <suppressnoise>true</suppressnoise>
-        <audiomodel>None</audiomodel>
+        <audiomodel>IP Webcam (Android)</audiomodel>
         <usehttp10>false</usehttp10>
         <active>true</active>
         <notifyondisconnect>false</notifyondisconnect>
         <framerate>10</framerate>
-        <micpair>-1</micpair>
+        <micpair>3</micpair>
         <enablemask>false</enablemask>
         <maskimage>None</maskimage>
         <maskzonemap>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</maskzonemap>
@@ -1070,7 +1071,7 @@
         <imagereloadinterval>0</imagereloadinterval>
         <urlreloadinterval>300</urlreloadinterval>
         <maxframerate>10</maxframerate>
-        <maxframeraterecord>10</maxframeraterecord>
+        <maxframeraterecord>30</maxframeraterecord>
         <reconnectinterval>0</reconnectinterval>
         <namevaluesettings />
         <accessgroups />
@@ -1097,7 +1098,7 @@
 :file-caching=3000</vlcoptions>
         <dvrmodel>Mobile</dvrmodel>
         <dvrchannel>0</dvrchannel>
-        <schedule>true</schedule>
+        <schedule>false</schedule>
         <zPoint>-1,-1</zPoint>
         <zFactor>1</zFactor>
         <findbeststream>true</findbeststream>
@@ -1105,7 +1106,7 @@
         <videostreamindex>0</videostreamindex>
         <scalemode>1</scalemode>
         <p2pport>5000</p2pport>
-        <mqttpush>false</mqttpush>
+        <mqttpush>true</mqttpush>
         <geofenceevents>true</geofenceevents>
         <enableoverlay>false</enableoverlay>
         <overlayimage />
@@ -1184,7 +1185,7 @@
       </settings>
       <dewarp />
       <gpu />
-      <gpuNew encoderMethod="Raw Record" gpuEncode="true" gpuDecoder="cuda" />
+      <gpuNew encoderMethod="Motion Adaptive Encode" gpuEncode="true" gpuDecoder="cuda" />
       <ftp>
         <enabled>false</enabled>
         <ident />
@@ -1316,7 +1317,7 @@
         <motionpassthrough>true</motionpassthrough>
         <detailmode>low</detailmode>
       </openai>
-      <recorder inactiverecord="8" minrecordtime="15" timelapse="0" timelapseframes="0" quality="5" />
+      <recorder inactiverecord="8" minrecordtime="15" timelapse="0" timelapseframes="0" quality="7" />
       <alerts minimuminterval="60" active="true" mode="detected" />
       <alertevents>
         <entries />
@@ -1356,7 +1357,7 @@
         <active>true</active>
         <notifyondisconnect>false</notifyondisconnect>
         <framerate>10</framerate>
-        <micpair>-1</micpair>
+        <micpair>2</micpair>
         <enablemask>false</enablemask>
         <maskimage>None</maskimage>
         <maskzonemap>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</maskzonemap>
@@ -1398,8 +1399,8 @@
         <ptzdigitalzoom>true</ptzdigitalzoom>
         <imagereloadinterval>0</imagereloadinterval>
         <urlreloadinterval>300</urlreloadinterval>
-        <maxframerate>10</maxframerate>
-        <maxframeraterecord>10</maxframeraterecord>
+        <maxframerate>25</maxframerate>
+        <maxframeraterecord>25</maxframeraterecord>
         <reconnectinterval>0</reconnectinterval>
         <namevaluesettings />
         <accessgroups />
@@ -1426,7 +1427,7 @@
 :file-caching=3000</vlcoptions>
         <dvrmodel>Mobile</dvrmodel>
         <dvrchannel>0</dvrchannel>
-        <schedule>true</schedule>
+        <schedule>false</schedule>
         <zPoint>320,240</zPoint>
         <zFactor>1</zFactor>
         <findbeststream>true</findbeststream>
@@ -1742,39 +1743,199 @@
         <overlay>false</overlay>
       </listen>
     </microphone>
+    <microphone id="2" name="Mic front camera" description="" directory="ILJJQ" x="98" y="99" width="160" height="40" locationIndex="0">
+      <settings>
+        <playspeed>1</playspeed>
+        <sourceindex>3</sourceindex>
+        <iconindex>0</iconindex>
+        <samples>8000</samples>
+        <bits>16</bits>
+        <channels>1</channels>
+        <needsupdate>false</needsupdate>
+        <active>true</active>
+        <sourcename>http://192.168.1.162:8080/audio.wav</sourcename>
+        <volume>50</volume>
+        <gain>100</gain>
+        <messaging>true</messaging>
+        <order>0</order>
+        <displaymode>0</displaymode>
+        <audiostreamindex>0</audiostreamindex>
+        <findbeststream>true</findbeststream>
+        <audioforecolor>50,160,255</audioforecolor>
+        <audiobackcolor>22,22,22</audiobackcolor>
+        <audiolimitcolor>255,0,0</audiolimitcolor>
+        <color />
+        <ndilevel>80</ndilevel>
+        <prefer_tcp>true</prefer_tcp>
+        <rtspmodenew>tcp</rtspmodenew>
+        <low_delay>false</low_delay>
+        <deletewav>true</deletewav>
+        <decompress>true</decompress>
+        <notifyondisconnect>false</notifyondisconnect>
+        <ffmpegoptions />
+        <vlcoptions>:network-caching=1000
+:live-caching=10
+:file-caching=3000</vlcoptions>
+        <reconnectinterval>0</reconnectinterval>
+        <accessgroups />
+        <timeout>8000</timeout>
+        <analyzeduration>2000</analyzeduration>
+        <decoder>ffmpeg</decoder>
+        <mqttpush>false</mqttpush>
+        <geofenceevents>true</geofenceevents>
+        <reconnectstrategy>0</reconnectstrategy>
+        <storagemanagement>
+          <enabled>false</enabled>
+          <maxsize>1024</maxsize>
+          <maxage>72</maxage>
+          <archive>false</archive>
+        </storagemanagement>
+        <directoryIndex>0</directoryIndex>
+        <plugin />
+        <pluginconfig />
+        <pluginenabled>true</pluginenabled>
+        <schedule>false</schedule>
+        <loopfile>false</loopfile>
+        <cloudprovider>
+          <provider />
+          <recordings>false</recordings>
+          <path>{MEDIATYPE}/{NAME}/</path>
+          <recordingfilename />
+          <countermax>20</countermax>
+        </cloudprovider>
+      </settings>
+      <detector sensitivity="60" minsensitivity="60" nosoundinterval="30" soundinterval="0" recordondetect="false" recordonalert="false" recordmode="2" enabled="false" />
+      <recorder inactiverecord="8" minrecordtime="15" maxrecordtime="900" />
+      <alerts minimuminterval="60" active="false" mode="detected">
+        <executefile />
+      </alerts>
+      <alertevents>
+        <entries />
+      </alertevents>
+      <tasks>
+        <entries />
+      </tasks>
+      <listen>
+        <enabled>false</enabled>
+        <findobject />
+        <confidence>60</confidence>
+        <mode>2</mode>
+        <overlay>false</overlay>
+      </listen>
+    </microphone>
+    <microphone id="3" name="Mic myphone" description="" directory="IHEVR" x="98" y="99" width="160" height="40" locationIndex="0">
+      <settings>
+        <playspeed>1</playspeed>
+        <sourceindex>3</sourceindex>
+        <iconindex>0</iconindex>
+        <samples>8000</samples>
+        <bits>16</bits>
+        <channels>1</channels>
+        <needsupdate>false</needsupdate>
+        <active>true</active>
+        <sourcename>http://192.168.1.138:8080/audio.wav</sourcename>
+        <volume>50</volume>
+        <gain>100</gain>
+        <messaging>true</messaging>
+        <order>1</order>
+        <displaymode>0</displaymode>
+        <audiostreamindex>0</audiostreamindex>
+        <findbeststream>true</findbeststream>
+        <audioforecolor>50,160,255</audioforecolor>
+        <audiobackcolor>22,22,22</audiobackcolor>
+        <audiolimitcolor>255,0,0</audiolimitcolor>
+        <color />
+        <ndilevel>80</ndilevel>
+        <prefer_tcp>false</prefer_tcp>
+        <rtspmodenew>tcp</rtspmodenew>
+        <low_delay>false</low_delay>
+        <deletewav>true</deletewav>
+        <decompress>true</decompress>
+        <notifyondisconnect>false</notifyondisconnect>
+        <ffmpegoptions />
+        <vlcoptions>:network-caching=1000
+:live-caching=10
+:file-caching=3000</vlcoptions>
+        <reconnectinterval>0</reconnectinterval>
+        <accessgroups />
+        <timeout>8000</timeout>
+        <analyzeduration>2000</analyzeduration>
+        <decoder>ffmpeg</decoder>
+        <mqttpush>false</mqttpush>
+        <geofenceevents>true</geofenceevents>
+        <reconnectstrategy>0</reconnectstrategy>
+        <storagemanagement>
+          <enabled>false</enabled>
+          <maxsize>1024</maxsize>
+          <maxage>72</maxage>
+          <archive>false</archive>
+        </storagemanagement>
+        <directoryIndex>0</directoryIndex>
+        <plugin />
+        <pluginconfig />
+        <pluginenabled>true</pluginenabled>
+        <schedule>false</schedule>
+        <loopfile>false</loopfile>
+        <cloudprovider>
+          <provider />
+          <recordings>false</recordings>
+          <path>{MEDIATYPE}/{NAME}/</path>
+          <recordingfilename />
+          <countermax>20</countermax>
+        </cloudprovider>
+      </settings>
+      <detector sensitivity="60" minsensitivity="60" nosoundinterval="30" soundinterval="0" recordondetect="false" recordonalert="false" recordmode="2" enabled="false" />
+      <recorder inactiverecord="8" minrecordtime="15" maxrecordtime="900" />
+      <alerts minimuminterval="60" active="false" mode="detected">
+        <executefile />
+      </alerts>
+      <alertevents>
+        <entries />
+      </alertevents>
+      <tasks>
+        <entries />
+      </tasks>
+      <listen>
+        <enabled>false</enabled>
+        <findobject />
+        <confidence>60</confidence>
+        <mode>2</mode>
+        <overlay>false</overlay>
+      </listen>
+    </microphone>
   </microphones>
   <schedule>
     <entries />
   </schedule>
   <actions>
     <entries>
-      <entry type="S" objecttypeid="2" objectid="4" mode="detected" ident="198655a1-9c1d-473c-8f8e-d2ab4aa795a9" zonematch="1,2,3,4,5,6,7,8,9" repeattimeout="60">
+      <entry type="S" objecttypeid="2" objectid="4" mode="alert" ident="198655a1-9c1d-473c-8f8e-d2ab4aa795a9" zonematch="1,2,3,4,5,6,7,8,9" repeattimeout="60">
         <actionEntries>
           <entry type="MQTT" param1="camera/alerts" param2="super - {0:H:mm:ss}" param3="False" />
         </actionEntries>
       </entry>
-      <entry type="S" objecttypeid="2" objectid="1" mode="detected" ident="17d8737f-7943-494a-b8da-3d64f975be30" zonematch="1,2,3,4,5,6,7,8,9" repeattimeout="60">
+      <entry type="S" objecttypeid="2" objectid="1" mode="alert" ident="17d8737f-7943-494a-b8da-3d64f975be30" zonematch="1,2,3,4,5,6,7,8,9" repeattimeout="60">
         <actionEntries>
           <entry type="MQTT" param1="camera/myroom" param2="myroom - {0:H:mm:ss}" param3="False" />
           <entry type="URL" param1="http://localhost:1880/myroomcamera" param2="0" param4="GET" param5="1" />
         </actionEntries>
       </entry>
-      <entry type="S" objecttypeid="2" objectid="2" mode="detected" ident="61490fd0-44a8-4849-a19e-ce5fc8c6abf1" zonematch="1,2,3,4,5,6,7,8,9" repeattimeout="60">
+      <entry type="S" objecttypeid="2" objectid="2" mode="alert" ident="61490fd0-44a8-4849-a19e-ce5fc8c6abf1" zonematch="1,2,3,4,5,6,7,8,9" repeattimeout="60">
         <actionEntries>
           <entry type="MQTT" param1="camera/alerts" param2="roof - {0:H:mm:ss}" param3="False" />
         </actionEntries>
       </entry>
-      <entry type="S" objecttypeid="2" objectid="5" mode="detected" ident="ec10f821-bb66-45b5-a5c9-40de2f5c689c" repeattimeout="60">
+      <entry type="S" objecttypeid="2" objectid="5" mode="alert" ident="ec10f821-bb66-45b5-a5c9-40de2f5c689c" zonematch="1,2,3,4,5,6,7,8,9" repeattimeout="60">
         <actionEntries>
-          <entry type="MQTT" param1="camera/alerts" param2="myphone -  {0:H:mm:ss}" param3="False" />
+          <entry type="MQTT" param1="camera/myphone" param2="myphone -  {0:H:mm:ss}" param3="False" />
         </actionEntries>
       </entry>
-      <entry type="S" objecttypeid="2" objectid="6" mode="detected" ident="78c55ba5-e723-48bb-a70a-9aab75ca2dd2" zonematch="2,3,4,5,6,7,8,9,1" repeattimeout="60">
+      <entry type="S" objecttypeid="2" objectid="6" mode="alert" ident="78c55ba5-e723-48bb-a70a-9aab75ca2dd2" zonematch="2,3,4,5,6,7,8,9,1" repeattimeout="60">
         <actionEntries>
           <entry type="MQTT" param1="camera/front" param2="front motion - {0:H:mm:ss}" param3="False" />
         </actionEntries>
       </entry>
-      <entry type="S" objecttypeid="2" objectid="1" mode="detected" ident="9365acf8-2ce5-4ee3-9060-039ab6172b06" zonematch="1,2,3,4,5,6,7,8,9">
+      <entry type="S" objecttypeid="2" objectid="1" mode="alert" ident="9365acf8-2ce5-4ee3-9060-039ab6172b06" zonematch="1,2,3,4,5,6,7,8,9">
         <actionEntries>
           <entry type="URL" param1="http://localhost:1880/myroomcamera" param2="0" param4="GET" />
         </actionEntries>
@@ -1788,14 +1949,28 @@
   </locations>
   <alertGroups>
     <entries>
-      <entry name="mqtt_group" lastAlert="2025-02-12T20:37:32.0668956Z" />
+      <entry name="mqtt_group" lastAlert="2025-02-17T07:38:25.7440239Z" />
       <entry name="telegram_info" lastAlert="2025-02-02T13:03:06.316783Z" />
     </entries>
   </alertGroups>
   <profiles>
     <entries>
-      <profile name="Home" />
-      <profile name="Away" />
+      <profile name="at home">
+        <entry objecttypeid="2" objectid="1" recordmode="0" enabled="true" photos_enabled="false" ftp_enabled="false" timelapse_enabled="false" face_enabled="false" object_enabled="false" ftp_photos_enabled="false" lpr_enabled="false" detector_enabled="true" cloud_enabled="false" cloud_photos_enabled="false" alerts_enabled="true" detector_type="Simple" detector_gain="10" action_config="[{&quot;ident&quot;:&quot;17d8737f-7943-494a-b8da-3d64f975be30&quot;, &quot;active&quot;:true},{&quot;ident&quot;:&quot;9365acf8-2ce5-4ee3-9060-039ab6172b06&quot;, &quot;active&quot;:true}]" push_enabled="true" messaging_enabled="true" minimum_interval="60" />
+        <entry objecttypeid="2" objectid="2" recordmode="0" enabled="true" photos_enabled="false" ftp_enabled="false" timelapse_enabled="false" face_enabled="false" object_enabled="false" ftp_photos_enabled="false" lpr_enabled="false" detector_enabled="true" cloud_enabled="false" cloud_photos_enabled="false" alerts_enabled="false" detector_type="Simple" detector_gain="10" action_config="[{&quot;ident&quot;:&quot;61490fd0-44a8-4849-a19e-ce5fc8c6abf1&quot;, &quot;active&quot;:true}]" push_enabled="true" messaging_enabled="false" minimum_interval="60" />
+        <entry objecttypeid="2" objectid="4" recordmode="0" enabled="true" photos_enabled="false" ftp_enabled="false" timelapse_enabled="false" face_enabled="false" object_enabled="false" ftp_photos_enabled="false" lpr_enabled="false" detector_enabled="true" cloud_enabled="false" cloud_photos_enabled="false" alerts_enabled="true" detector_type="Simple" detector_gain="10" action_config="[{&quot;ident&quot;:&quot;198655a1-9c1d-473c-8f8e-d2ab4aa795a9&quot;, &quot;active&quot;:true}]" push_enabled="true" messaging_enabled="true" minimum_interval="60" />
+        <entry objecttypeid="2" objectid="5" recordmode="0" enabled="true" photos_enabled="false" ftp_enabled="false" timelapse_enabled="false" face_enabled="false" object_enabled="false" ftp_photos_enabled="false" lpr_enabled="false" detector_enabled="true" cloud_enabled="false" cloud_photos_enabled="false" alerts_enabled="true" detector_type="Simple" detector_gain="10" action_config="[{&quot;ident&quot;:&quot;ec10f821-bb66-45b5-a5c9-40de2f5c689c&quot;, &quot;active&quot;:true}]" push_enabled="true" messaging_enabled="true" minimum_interval="60" />
+        <entry objecttypeid="2" objectid="6" recordmode="0" enabled="true" photos_enabled="false" ftp_enabled="false" timelapse_enabled="false" face_enabled="false" object_enabled="false" ftp_photos_enabled="false" lpr_enabled="false" detector_enabled="true" cloud_enabled="false" cloud_photos_enabled="false" alerts_enabled="true" detector_type="Simple" detector_gain="10" action_config="[{&quot;ident&quot;:&quot;78c55ba5-e723-48bb-a70a-9aab75ca2dd2&quot;, &quot;active&quot;:true}]" push_enabled="true" messaging_enabled="true" minimum_interval="60" />
+        <entry objecttypeid="1" objectid="1" recordmode="0" enabled="true" detector_enabled="true" alerts_enabled="true" detector_gain="1" action_config="[]" push_enabled="true" messaging_enabled="true" minimum_interval="60" />
+      </profile>
+      <profile name="Away">
+        <entry objecttypeid="2" objectid="1" recordmode="0" enabled="true" photos_enabled="false" ftp_enabled="false" timelapse_enabled="false" face_enabled="false" object_enabled="false" ftp_photos_enabled="false" lpr_enabled="false" detector_enabled="true" cloud_enabled="false" cloud_photos_enabled="false" alerts_enabled="true" detector_type="Simple" detector_gain="10" action_config="[{&quot;ident&quot;:&quot;17d8737f-7943-494a-b8da-3d64f975be30&quot;, &quot;active&quot;:true},{&quot;ident&quot;:&quot;9365acf8-2ce5-4ee3-9060-039ab6172b06&quot;, &quot;active&quot;:true}]" push_enabled="true" messaging_enabled="true" minimum_interval="60" />
+        <entry objecttypeid="2" objectid="2" recordmode="0" enabled="true" photos_enabled="false" ftp_enabled="false" timelapse_enabled="false" face_enabled="false" object_enabled="false" ftp_photos_enabled="false" lpr_enabled="false" detector_enabled="true" cloud_enabled="false" cloud_photos_enabled="false" alerts_enabled="false" detector_type="Simple" detector_gain="10" action_config="[{&quot;ident&quot;:&quot;61490fd0-44a8-4849-a19e-ce5fc8c6abf1&quot;, &quot;active&quot;:true}]" push_enabled="true" messaging_enabled="false" minimum_interval="60" />
+        <entry objecttypeid="2" objectid="4" recordmode="0" enabled="true" photos_enabled="false" ftp_enabled="false" timelapse_enabled="false" face_enabled="false" object_enabled="false" ftp_photos_enabled="false" lpr_enabled="false" detector_enabled="true" cloud_enabled="false" cloud_photos_enabled="false" alerts_enabled="true" detector_type="Simple" detector_gain="10" action_config="[{&quot;ident&quot;:&quot;198655a1-9c1d-473c-8f8e-d2ab4aa795a9&quot;, &quot;active&quot;:true}]" push_enabled="true" messaging_enabled="true" minimum_interval="60" />
+        <entry objecttypeid="2" objectid="5" recordmode="0" enabled="true" photos_enabled="false" ftp_enabled="false" timelapse_enabled="false" face_enabled="false" object_enabled="false" ftp_photos_enabled="false" lpr_enabled="false" detector_enabled="true" cloud_enabled="false" cloud_photos_enabled="false" alerts_enabled="true" detector_type="Simple" detector_gain="10" action_config="[{&quot;ident&quot;:&quot;ec10f821-bb66-45b5-a5c9-40de2f5c689c&quot;, &quot;active&quot;:true}]" push_enabled="true" messaging_enabled="true" minimum_interval="60" />
+        <entry objecttypeid="2" objectid="6" recordmode="0" enabled="true" photos_enabled="false" ftp_enabled="false" timelapse_enabled="false" face_enabled="false" object_enabled="false" ftp_photos_enabled="false" lpr_enabled="false" detector_enabled="true" cloud_enabled="false" cloud_photos_enabled="false" alerts_enabled="true" detector_type="Simple" detector_gain="10" action_config="[{&quot;ident&quot;:&quot;78c55ba5-e723-48bb-a70a-9aab75ca2dd2&quot;, &quot;active&quot;:true}]" push_enabled="true" messaging_enabled="true" minimum_interval="60" />
+        <entry objecttypeid="1" objectid="1" recordmode="0" enabled="true" detector_enabled="true" alerts_enabled="true" detector_gain="1" action_config="[]" push_enabled="true" messaging_enabled="true" minimum_interval="60" />
+      </profile>
       <profile name="Night" />
       <profile name="Disabled" />
     </entries>

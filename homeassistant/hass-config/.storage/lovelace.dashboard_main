@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_main",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "title": "Home",
+          "cards": [
+            {
+              "states": [
+                "arm_home",
+                "arm_away",
+                "arm_night"
+              ],
+              "type": "alarm-panel",
+              "entity": "alarm_control_panel.recoder_roof_alarm_panel",
+              "name": "Security"
+            },
+            {
+              "show_current": true,
+              "show_forecast": true,
+              "type": "weather-forecast",
+              "entity": "weather.forecast_home",
+              "forecast_type": "hourly",
+              "name": "weather"
+            },
+            {
+              "show_state": true,
+              "show_name": true,
+              "camera_view": "live",
+              "type": "picture-entity",
+              "entity": "camera.recoder_roof_camera_front_mobile_phone_camera_front_mobile_phone",
+              "name": "camera front"
+            },
+            {
+              "type": "tile",
+              "entity": "sensor.sun_next_dawn"
+            }
+          ],
+          "badges": [
+            {
+              "type": "entity",
+              "entity": "sensor.system_monitor_disk_free"
+            },
+            {
+              "type": "entity",
+              "entity": "sensor.system_monitor_last_boot"
+            },
+            {
+              "type": "entity",
+              "entity": "sensor.system_monitor_load_1m"
+            },
+            {
+              "type": "entity",
+              "entity": "sensor.system_monitor_memory_usage"
+            },
+            {
+              "type": "entity",
+              "entity": "sensor.system_monitor_swap_usage"
+            },
+            {
+              "type": "entity",
+              "entity": "sensor.system_monitor_swap_use"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

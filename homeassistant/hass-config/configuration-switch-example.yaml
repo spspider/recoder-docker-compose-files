@@ -1,0 +1,41 @@
+rest_command:
+  backyard_light_on:
+    url: "http://192.168.1.150/sendAJAX?json=%7B%22t%22:4,%22v%22:0%7D"
+    method: GET
+
+  backyard_light_off:
+    url: "http://192.168.1.150/sendAJAX?json=%7B%22t%22:4,%22v%22:1%7D"
+    method: GET
+  # Backyard Light
+
+sensor:
+  - platform: rest
+    name: esp8266_status150
+    resource: "http://192.168.1.150/sendAJAX?json=%7B%22t%22:127,%22v%22:0%7D" # t=127 is status and here is respond, {"stat":["1.00","1.00","1.00","0.00","1.00","37.19","0.00"]}
+    scan_interval: 10
+    method: GET
+    value_template: >
+      {% if value_json is defined and value_json.stat is defined %}
+        {{ value }}
+      {% else %}
+        Unavailable
+      {% endif %}
+
+switch:  
+  - platform: template
+    switches:
+      backyard_light:
+        friendly_name: "Backyard2 Light"
+        value_template: >
+          {% if states('sensor.esp8266_status150') != 'unavailable' %}
+            {% set value = states('sensor.esp8266_status150') | from_json %}
+            {{ int(value.stat[4]) == 0  }}
+          {% else %}
+            False
+          {% endif %}
+        turn_on:
+          service: rest_command.backyard_light_on
+        turn_off:
+          service: rest_command.backyard_light_off
+        icon_template: mdi:lightbulb-outline
+        unique_id: "backyard2_light"

@@ -86,6 +86,14 @@
         "label": "System"
     },
     {
+        "id": "5ea280241f0d3676",
+        "type": "tab",
+        "label": "homeassistant",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "e9df3544.ca85a8",
         "type": "ui_base",
         "theme": {
@@ -453,6 +461,29 @@
         "useselfsignedcertificate": false,
         "sslterminated": false,
         "verboselogging": false
+    },
+    {
+        "id": "6f986a5ef3be9ad0",
+        "type": "server",
+        "name": "Home Assistant",
+        "version": 5,
+        "addon": false,
+        "rejectUnauthorizedCerts": true,
+        "ha_boolean": "y|yes|true|on|home|open",
+        "connectionDelay": true,
+        "cacheJson": true,
+        "heartbeat": false,
+        "heartbeatInterval": 30,
+        "areaSelector": "friendlyName",
+        "deviceSelector": "friendlyName",
+        "entitySelector": "friendlyName",
+        "statusSeparator": ": ",
+        "statusYear": "hidden",
+        "statusMonth": "short",
+        "statusDay": "numeric",
+        "statusHourCycle": "default",
+        "statusTimeFormat": "h:m",
+        "enableGlobalContextStore": false
     },
     {
         "id": "e1eafc56a30f1862",
@@ -1989,7 +2020,9 @@
         "y": 340,
         "wires": [
             [
-                "0a4bc3d7ef6e5525"
+                "0a4bc3d7ef6e5525",
+                "4583c5f156b24838",
+                "4ee01d95e0d70df1"
             ]
         ]
     },
@@ -2002,7 +2035,7 @@
         "model": "yolov8n",
         "threshold": "0.4",
         "absolutePathDir": "",
-        "x": 740,
+        "x": 860,
         "y": 340,
         "wires": [
             [
@@ -2114,7 +2147,8 @@
         "y": 740,
         "wires": [
             [
-                "1fbe083c1961f2c2"
+                "1fbe083c1961f2c2",
+                "0fe980fc2f64cdc1"
             ]
         ]
     },
@@ -2303,7 +2337,7 @@
         "type": "function",
         "z": "47e2824120b2a9e0",
         "name": "message",
-        "func": "var content = msg.payload;\n// \"chatId\": [\"843873284\", \"584925756\"],\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\n\nif (!Array.isArray(TelegramChatIds)) {\n    node.error(\"TelegramChatIds is not an array\");\n    return null;\n}\n\nvar ObjectPayload = {\n    \"chatId\": \"584925756\",\n    \"type\": \"message\",\n    \"content\": \"camera front: \" + JSON.stringify(content) // Convert content to a string\n};\nmsg.payload = ObjectPayload;\nreturn msg;\n\n",
+        "func": "var content = msg.payload;\n// \"chatId\": [\"843873284\", \"584925756\"],\nvar TelegramChatIds = global.get(\"TelegramChatIds\")[0];\n\n\nvar ObjectPayload = {\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\": \"camera front: \" + JSON.stringify(content) // Convert content to a string\n};\nmsg.payload = ObjectPayload;\nreturn msg;\n\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -2369,7 +2403,7 @@
         "type": "function",
         "z": "47e2824120b2a9e0",
         "name": "Create image for Telegram",
-        "func": "var TelegramChatIds = global.get(\"TelegramChatIds\");\n\n\n\nmsg.payload = { chatId: TelegramChatIds, type: \"photo\", content: msg.payload, caption: msg.topic };\nreturn msg;\n",
+        "func": "var TelegramChatIds = global.get(\"TelegramChatIds\")[0];\n\n\n\nmsg.payload = { chatId: TelegramChatIds, type: \"photo\", content: msg.payload, caption: msg.topic };\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -3038,6 +3072,95 @@
         "wires": [
             [
                 "7df1bdd34f900e31"
+            ]
+        ]
+    },
+    {
+        "id": "b40fa0f0d65a204e",
+        "type": "file",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 1120,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4583c5f156b24838",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "generatefilename",
+        "func": "\n\n// Получение текущей даты и времени\nvar now = new Date();\nvar year = now.getFullYear();\nvar month = (\"0\" + (now.getMonth() + 1)).slice(-2);\nvar day = (\"0\" + now.getDate()).slice(-2);\nvar hour = (\"0\" + now.getHours()).slice(-2);\nvar minute = (\"0\" + now.getMinutes()).slice(-2);\nvar second = (\"0\" + now.getSeconds()).slice(-2);\n\n// Формирование имени файла\nvar filename = year + month + day + \"_\" + hour + minute + second + \".jpg\";\n\n// Путь к файлу\nvar filepath = '/data/camerashoots/myroom/' + filename;\n\nmsg.filename = filepath\n// Возвращаем сообщение для дальнейшей обработки\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 180,
+        "wires": [
+            [
+                "b40fa0f0d65a204e"
+            ]
+        ]
+    },
+    {
+        "id": "4ee01d95e0d70df1",
+        "type": "image viewer",
+        "z": "47e2824120b2a9e0",
+        "name": "view",
+        "width": 160,
+        "data": "payload",
+        "dataType": "msg",
+        "active": true,
+        "x": 810,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e71e04b73366529d",
+        "type": "file",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 1100,
+        "y": 920,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0fe980fc2f64cdc1",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "generatefilename",
+        "func": "\n\n// Получение текущей даты и времени\nvar now = new Date();\nvar year = now.getFullYear();\nvar month = (\"0\" + (now.getMonth() + 1)).slice(-2);\nvar day = (\"0\" + now.getDate()).slice(-2);\nvar hour = (\"0\" + now.getHours()).slice(-2);\nvar minute = (\"0\" + now.getMinutes()).slice(-2);\nvar second = (\"0\" + now.getSeconds()).slice(-2);\n\n// Формирование имени файла\nvar filename = year + month + day + \"_\" + hour + minute + second + \".jpg\";\n\n// Путь к файлу\nvar filepath = '/data/camerashoots/camerafront/' + filename;\n\nmsg.filename = filepath\n// Возвращаем сообщение для дальнейшей обработки\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 920,
+        "wires": [
+            [
+                "e71e04b73366529d"
             ]
         ]
     },
@@ -5221,9 +5344,13 @@
         "type": "function",
         "z": "d8baf37f.71552",
         "name": "decode_temp",
-        "func": " var wheather=msg.payload;\n\n    var wheather_parse = JSON.parse(wheather);\n    var feels_like = Math.round(wheather_parse.main.feels_like - 273, 15);\n    var temp = Math.round(wheather_parse.main.temp - 273, 15);\n\nmsg.payload = temp;\n\nmsg_wind = {};\nmsg_cloud = {};\n\nmsg_wind.payload = wheather_parse.wind.speed;\nmsg_cloud.payload = wheather_parse.clouds.all;\n\nreturn [msg,msg_wind,msg_cloud];",
+        "func": " var wheather=msg.payload;\n\n    var wheather_parse = JSON.parse(wheather);\n    var feels_like = Math.round(wheather_parse.main.feels_like - 273);\n    var temp = Math.round(wheather_parse.main.temp - 273);\n\nmsg.payload = temp;\n\nmsg_wind = msg;\nmsg_cloud = msg;\n\nmsg_wind.payload = wheather_parse.wind.speed;\nmsg_cloud.payload = wheather_parse.clouds.all;\n\nreturn [msg,msg_wind,msg_cloud];",
         "outputs": 3,
+        "timeout": "",
         "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
         "x": 680,
         "y": 820,
         "wires": [
@@ -5485,7 +5612,7 @@
         "type": "function",
         "z": "d8baf37f.71552",
         "name": "Request Wheather",
-        "func": "var city=\"Radauti\";\nvar APIkey=\"c3e9cf7a63b7fb63e4ee7504ae3dd41e\";\nmsg.url =\"api.openweathermap.org/data/2.5/weather?q=\"+city+\"&appid=\"+APIkey+\"\";\n\nreturn msg;",
+        "func": "var city=\"Radauti\";\nvar APIkey =\"YL5zApGH2V5gPX6BXSuGG8Zi7GpjYAvn\";\nmsg.url =\"api.openweathermap.org/data/2.5/weather?q=\"+city+\"&appid=\"+APIkey+\"\";\n\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -9338,5 +9465,36 @@
         "x": 740,
         "y": 840,
         "wires": []
+    },
+    {
+        "id": "bd51398d30ee250f",
+        "type": "server-events",
+        "z": "5ea280241f0d3676",
+        "name": "",
+        "server": "6f986a5ef3be9ad0",
+        "version": 3,
+        "exposeAsEntityConfig": "",
+        "eventType": "",
+        "eventData": "",
+        "waitForRunning": true,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "$outputData(\"eventData\").event_type",
+                "valueType": "jsonata"
+            }
+        ],
+        "x": 280,
+        "y": 160,
+        "wires": [
+            []
+        ]
     }
 ]
