@@ -1,7 +1,7 @@
     - platform: rest
       name: esp8266_status150
       resource: "http://192.168.1.150/sendAJAX?json=%7B%22t%22:127,%22v%22:0%7D"
-      scan_interval: 10
+      scan_interval: 60
       method: GET
       unique_id: "150myroom"
       value_template: >
@@ -14,7 +14,7 @@
     - platform: rest
       name: esp8266_status151
       resource: "http://192.168.1.151/sendAJAX?json=%7B%22t%22:127,%22v%22:0%7D"
-      scan_interval: 10
+      scan_interval: 60
       method: GET
       unique_id: "151roof"
       value_template: >

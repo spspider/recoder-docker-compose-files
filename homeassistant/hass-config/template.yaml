@@ -1,5 +1,5 @@
   - sensor:
-      - name: "myroom temp(150)"
+      - name: "myroom temp"
         unit_of_measurement: ""
         unique_id: "150myroomtemp"
         state: >
@@ -11,7 +11,7 @@
           {% endif %}
 
   - sensor:
-      - name: "roof temp(151)"
+      - name: "roof temp"
         unit_of_measurement: ""
         unique_id: "151rooftemp"
         state: >

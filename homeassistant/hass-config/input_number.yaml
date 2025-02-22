@@ -1,11 +1,11 @@
       myroomnightlight_slider:
-        name: myroom NightLight Slider
+        name: my NLight
         min: 0
-        max: 1024
+        max: 60
         step: 1
     
       myroomnightled_slider:
-        name: myroom NightLed Slider
+        name: my NLed
         min: 0
         max: 1024
         step: 1

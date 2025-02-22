@@ -50,3 +50,7 @@ node-red_docker/package-lock.json
 *.db-wal
 *.jpg
 *.png
+**/*core
+**/*.*/
+**/.storage
+homeassistant/hass-config/.storage
