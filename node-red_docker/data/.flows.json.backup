@@ -2010,8 +2010,7 @@
         "y": 340,
         "wires": [
             [
-                "7df1bdd34f900e31",
-                "88cee15f39447d53"
+                "7df1bdd34f900e31"
             ]
         ]
     },
@@ -2037,7 +2036,9 @@
             [
                 "0a4bc3d7ef6e5525",
                 "4583c5f156b24838",
-                "4ee01d95e0d70df1"
+                "4ee01d95e0d70df1",
+                "3cf004cc123213e4",
+                "7b8b57b6fd86e466"
             ]
         ]
     },
@@ -3101,8 +3102,8 @@
         "createDir": true,
         "overwriteFile": "true",
         "encoding": "none",
-        "x": 1120,
-        "y": 180,
+        "x": 1060,
+        "y": 100,
         "wires": [
             []
         ]
@@ -3119,8 +3120,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 730,
-        "y": 180,
+        "x": 670,
+        "y": 100,
         "wires": [
             [
                 "b40fa0f0d65a204e"
@@ -3184,11 +3185,11 @@
         "type": "ui_chart",
         "z": "47e2824120b2a9e0",
         "name": "",
-        "group": "d933d053d66f5444",
+        "group": "f027919d2a75152b",
         "order": 9,
         "width": 0,
         "height": 0,
-        "label": "chart",
+        "label": "move detection",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm:ss",
@@ -3199,7 +3200,7 @@
         "ymax": "1",
         "removeOlder": 1,
         "removeOlderPoints": "",
-        "removeOlderUnit": "3600",
+        "removeOlderUnit": "86400",
         "cutout": 0,
         "useOneColor": false,
         "useUTC": false,
@@ -3217,10 +3218,82 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 510,
-        "y": 280,
+        "x": 1200,
+        "y": 240,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "3cf004cc123213e4",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "msg payload",
+        "func": "msg.payload = 1\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 240,
+        "wires": [
+            [
+                "88cee15f39447d53"
+            ]
+        ]
+    },
+    {
+        "id": "7b8b57b6fd86e466",
+        "type": "delay",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 730,
+        "y": 180,
+        "wires": [
+            [
+                "98f45d8791d3185c"
+            ]
+        ]
+    },
+    {
+        "id": "98f45d8791d3185c",
+        "type": "change",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 950,
+        "y": 180,
+        "wires": [
+            [
+                "88cee15f39447d53"
+            ]
         ]
     },
     {
@@ -5376,15 +5449,19 @@
         "id": "5f9e0bcc.7d9844",
         "type": "http request",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "включить свет дверь",
         "method": "GET",
         "ret": "txt",
-        "paytoqs": false,
+        "paytoqs": "ignore",
         "url": "192.168.1.110/sendAJAX?json={\"t\":7,\"v\":{{payload}}}",
         "tls": "",
         "persist": false,
         "proxy": "",
+        "insecureHTTPParser": false,
         "authType": "",
+        "senderr": false,
+        "headers": [],
         "x": 1240,
         "y": 280,
         "wires": [
@@ -5424,7 +5501,7 @@
         "type": "function",
         "z": "d8baf37f.71552",
         "name": "decode_temp",
-        "func": "var weatherData = msg.payload\n// Convert temperature from Kelvin to Celsius\nconst kelvinToCelsius = (kelvin) => kelvin - 273.15;\n// Convert wind speed from m/s to km/h\nconst mpsToKmph = (mps) => mps * 3.6;\n\n// Compare sunrise and sunset times with current time\nconst isTimePassed = (timestamp, timezoneOffset) => {\n    const currentTime = Math.floor(Date.now() / 1000);\n    const localTime = currentTime + timezoneOffset;\n    return localTime > timestamp;\n};\n\n// Extract and format the data\nconst payloadTemp = {\n    payload: Math.round(kelvinToCelsius(weatherData.main.temp)),\n    topic: \"temp\"\n};\n\nconst payloadWind = {\n    payload: Math.round(mpsToKmph(weatherData.wind.speed)),\n    topic: \"wind\"\n};\n\nconst payloadCloud = {\n    payload: Math.round(weatherData.clouds.all),\n    topic: \"cloud\"\n};\n\nconst payloadSunrise = {\n    payload: isTimePassed(weatherData.sys.sunrise, weatherData.timezone),\n    topic: \"sunrise\"\n};\n\nconst payloadSunset = {\n    payload: isTimePassed(weatherData.sys.sunset, weatherData.timezone),\n    topic: \"sunset\"\n};\n\n// Return the formatted data\nreturn [payloadTemp, payloadWind, payloadCloud, payloadSunrise, payloadSunset];",
+        "func": "var weatherData = msg.payload;\n\n// Convert temperature from Kelvin to Celsius\nconst kelvinToCelsius = (kelvin) => kelvin - 273.15;\n// Convert wind speed from m/s to km/h\nconst mpsToKmph = (mps) => mps * 3.6;\n\n// Compare sunrise and sunset times with current time\nconst isTimePassed = (timestamp, timezoneOffset) => {\n    const currentTime = Math.floor(Date.now() / 1000);\n    const localTime = currentTime + timezoneOffset;\n    return localTime > timestamp;\n};\n\n// Convert UTC timestamp to local time\nconst convertUtcToLocal = (utcTimestamp, timezoneOffset) => {\n    const utcTime = new Date(utcTimestamp * 1000);\n    const localTime = new Date(utcTime.getTime() + timezoneOffset * 1000);\n    return localTime;\n};\n\n// Extract and format the data\nconst payloadTemp = {\n    payload: Math.round(kelvinToCelsius(weatherData.main.temp)),\n    topic: \"temp\"\n};\n\nconst payloadWind = {\n    payload: Math.round(mpsToKmph(weatherData.wind.speed)),\n    topic: \"wind\"\n};\n\nconst payloadCloud = {\n    payload: Math.round(weatherData.clouds.all),\n    topic: \"cloud\"\n};\n\nconst payloadSunrise = {\n    payload: convertUtcToLocal(weatherData.sys.sunrise, weatherData.timezone),\n    topic: \"sunrise\",\n    isSunrise: true,\n    isSunset: false\n};\n\nconst payloadSunset = {\n    payload: convertUtcToLocal(weatherData.sys.sunset, weatherData.timezone),\n    topic: \"sunset\",\n    isSunrise: false,\n    isSunset: true\n};\n\n// Ensure sunrise and sunset cannot both be true at the same time\nif (isTimePassed(weatherData.sys.sunrise, weatherData.timezone)) {\n    payloadSunrise.isSunrise = false;\n}\n\nif (isTimePassed(weatherData.sys.sunset, weatherData.timezone)) {\n    payloadSunset.isSunset = false;\n}\n\n// Return the formatted data\nreturn [payloadTemp, payloadWind, payloadCloud, payloadSunrise, payloadSunset];",
         "outputs": 5,
         "timeout": "",
         "noerr": 0,

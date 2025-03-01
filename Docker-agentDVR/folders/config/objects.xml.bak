@@ -1071,7 +1071,7 @@
         <imagereloadinterval>0</imagereloadinterval>
         <urlreloadinterval>300</urlreloadinterval>
         <maxframerate>10</maxframerate>
-        <maxframeraterecord>30</maxframeraterecord>
+        <maxframeraterecord>6</maxframeraterecord>
         <reconnectinterval>0</reconnectinterval>
         <namevaluesettings />
         <accessgroups />
@@ -1317,7 +1317,7 @@
         <motionpassthrough>true</motionpassthrough>
         <detailmode>low</detailmode>
       </openai>
-      <recorder inactiverecord="8" minrecordtime="15" timelapse="0" timelapseframes="0" quality="7" />
+      <recorder inactiverecord="8" minrecordtime="15" timelapse="0" timelapseframes="0" quality="6" />
       <alerts minimuminterval="60" active="true" mode="detected" />
       <alertevents>
         <entries />
@@ -1400,7 +1400,7 @@
         <imagereloadinterval>0</imagereloadinterval>
         <urlreloadinterval>300</urlreloadinterval>
         <maxframerate>25</maxframerate>
-        <maxframeraterecord>25</maxframeraterecord>
+        <maxframeraterecord>15</maxframeraterecord>
         <reconnectinterval>0</reconnectinterval>
         <namevaluesettings />
         <accessgroups />
@@ -1646,7 +1646,7 @@
         <motionpassthrough>true</motionpassthrough>
         <detailmode>low</detailmode>
       </openai>
-      <recorder inactiverecord="8" minrecordtime="15" timelapse="0" timelapseframes="0" quality="5" />
+      <recorder inactiverecord="8" minrecordtime="15" timelapse="0" timelapseframes="0" quality="6" />
       <alerts minimuminterval="60" active="true" mode="detected" pushvideo="true" />
       <alertevents>
         <entries />
@@ -1686,7 +1686,7 @@
         <audiolimitcolor>255,0,0</audiolimitcolor>
         <color />
         <ndilevel>80</ndilevel>
-        <prefer_tcp>true</prefer_tcp>
+        <prefer_tcp>false</prefer_tcp>
         <rtspmodenew>tcp</rtspmodenew>
         <low_delay>false</low_delay>
         <deletewav>true</deletewav>
@@ -1766,7 +1766,7 @@
         <audiolimitcolor>255,0,0</audiolimitcolor>
         <color />
         <ndilevel>80</ndilevel>
-        <prefer_tcp>true</prefer_tcp>
+        <prefer_tcp>false</prefer_tcp>
         <rtspmodenew>tcp</rtspmodenew>
         <low_delay>false</low_delay>
         <deletewav>true</deletewav>
@@ -1949,7 +1949,7 @@
   </locations>
   <alertGroups>
     <entries>
-      <entry name="mqtt_group" lastAlert="2025-03-01T10:36:50.3445113Z" />
+      <entry name="mqtt_group" lastAlert="2025-03-01T21:04:47.6977594Z" />
       <entry name="telegram_info" lastAlert="2025-02-02T13:03:06.316783Z" />
     </entries>
   </alertGroups>
