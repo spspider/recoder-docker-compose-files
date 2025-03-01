@@ -9,7 +9,7 @@
         "node-red-contrib-home-assistant-websocket": "~0.75.0",
         "node-red-contrib-image-tools": "~2.1.1",
         "node-red-contrib-os": "~0.2.1",
-        "node-red-contrib-telegrambot": "~16.1.2",
+        "node-red-contrib-telegrambot": "~16.2.0",
         "node-red-dashboard": "~3.6.5",
         "node-red-node-annotate-image": "~0.1.2",
         "node-red-node-email": "~3.0.2",

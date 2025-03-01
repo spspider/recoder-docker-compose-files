@@ -1,7 +1,7 @@
 {
     "node-red": {
         "name": "node-red",
-        "version": "4.0.8",
+        "version": "4.0.9",
         "local": false,
         "user": false,
         "nodes": {
@@ -427,31 +427,6 @@
             }
         }
     },
-    "node-red-contrib-telegrambot": {
-        "name": "node-red-contrib-telegrambot",
-        "version": "16.1.2",
-        "local": true,
-        "user": true,
-        "nodes": {
-            "telegrambot": {
-                "name": "telegrambot",
-                "types": [
-                    "telegram bot",
-                    "telegram receiver",
-                    "telegram command",
-                    "telegram event",
-                    "telegram sender",
-                    "telegram reply",
-                    "telegram control"
-                ],
-                "enabled": true,
-                "local": true,
-                "user": false,
-                "module": "node-red-contrib-telegrambot",
-                "file": "/data/node_modules/node-red-contrib-telegrambot/telegrambot/99-telegrambot.js"
-            }
-        }
-    },
     "node-red-dashboard": {
         "name": "node-red-dashboard",
         "version": "3.6.5",
@@ -691,68 +666,28 @@
             }
         }
     },
-    "node-red-node-email": {
-        "name": "node-red-node-email",
-        "version": "3.0.2",
+    "node-red-contrib-telegrambot": {
+        "name": "node-red-contrib-telegrambot",
+        "version": "16.2.0",
         "local": true,
         "user": true,
         "nodes": {
-            "email": {
-                "name": "email",
+            "telegrambot": {
+                "name": "telegrambot",
                 "types": [
-                    "e-mail",
-                    "e-mail in",
-                    "e-mail mta"
+                    "telegram bot",
+                    "telegram receiver",
+                    "telegram command",
+                    "telegram event",
+                    "telegram sender",
+                    "telegram reply",
+                    "telegram control"
                 ],
                 "enabled": true,
                 "local": true,
                 "user": false,
-                "module": "node-red-node-email",
-                "file": "/data/node_modules/node-red-node-email/61-email.js"
-            }
-        }
-    },
-    "node-red-node-tail": {
-        "name": "node-red-node-tail",
-        "version": "0.4.0",
-        "local": true,
-        "user": true,
-        "nodes": {
-            "tail": {
-                "name": "tail",
-                "types": [
-                    "tail"
-                ],
-                "enabled": true,
-                "local": true,
-                "user": false,
-                "module": "node-red-node-tail",
-                "file": "/data/node_modules/node-red-node-tail/28-tail.js"
-            }
-        }
-    },
-    "node-red-contrib-os": {
-        "name": "node-red-contrib-os",
-        "version": "0.2.1",
-        "local": true,
-        "user": true,
-        "nodes": {
-            "os": {
-                "name": "os",
-                "types": [
-                    "OS",
-                    "Drives",
-                    "Uptime",
-                    "CPUs",
-                    "Loadavg",
-                    "Memory",
-                    "NetworkIntf"
-                ],
-                "enabled": true,
-                "local": true,
-                "user": false,
-                "module": "node-red-contrib-os",
-                "file": "/data/node_modules/node-red-contrib-os/os/os.js"
+                "module": "node-red-contrib-telegrambot",
+                "file": "/data/node_modules/node-red-contrib-telegrambot/telegrambot/99-telegrambot.js"
             }
         }
     },
@@ -844,44 +779,6 @@
                 "user": false,
                 "module": "node-red-contrib-image-tools",
                 "file": "/data/node_modules/node-red-contrib-image-tools/app.js"
-            }
-        }
-    },
-    "@smcgann/node-red-annotate-image-plus": {
-        "name": "@smcgann/node-red-annotate-image-plus",
-        "version": "0.0.3",
-        "local": true,
-        "user": true,
-        "nodes": {
-            "annotate-image-plus": {
-                "name": "annotate-image-plus",
-                "types": [
-                    "annotate-image-plus"
-                ],
-                "enabled": true,
-                "local": true,
-                "user": false,
-                "module": "@smcgann/node-red-annotate-image-plus",
-                "file": "/data/node_modules/@smcgann/node-red-annotate-image-plus/annotate-image-plus.js"
-            }
-        }
-    },
-    "node-red-node-annotate-image": {
-        "name": "node-red-node-annotate-image",
-        "version": "0.1.2",
-        "local": true,
-        "user": true,
-        "nodes": {
-            "annotate": {
-                "name": "annotate",
-                "types": [
-                    "annotate-image"
-                ],
-                "enabled": true,
-                "local": true,
-                "user": false,
-                "module": "node-red-node-annotate-image",
-                "file": "/data/node_modules/node-red-node-annotate-image/annotate.js"
             }
         }
     }

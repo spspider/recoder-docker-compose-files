@@ -465,6 +465,7 @@
     {
         "id": "6f986a5ef3be9ad0",
         "type": "server",
+        "d": true,
         "name": "Home Assistant",
         "version": 5,
         "addon": false,
@@ -484,6 +485,17 @@
         "statusHourCycle": "default",
         "statusTimeFormat": "h:m",
         "enableGlobalContextStore": false
+    },
+    {
+        "id": "f027919d2a75152b",
+        "type": "ui_group",
+        "name": "tab2",
+        "tab": "7db79158682fc8ec",
+        "order": 3,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
     },
     {
         "id": "e1eafc56a30f1862",
@@ -583,7 +595,7 @@
         "name": "curtainUp",
         "label": "curtain Up",
         "tooltip": "",
-        "group": "d933d053d66f5444",
+        "group": "f027919d2a75152b",
         "order": 0,
         "width": 0,
         "height": 0,
@@ -617,7 +629,7 @@
         "name": "curtainDown",
         "label": "curtain Down",
         "tooltip": "",
-        "group": "d933d053d66f5444",
+        "group": "f027919d2a75152b",
         "order": 0,
         "width": 0,
         "height": 0,
@@ -1047,7 +1059,7 @@
         "type": "ui_chart",
         "z": "65bf31c16d103884",
         "name": "",
-        "group": "d933d053d66f5444",
+        "group": "f027919d2a75152b",
         "order": 7,
         "width": 0,
         "height": 0,
@@ -1080,8 +1092,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1090,
-        "y": 400,
+        "x": 1110,
+        "y": 420,
         "wires": [
             []
         ]
@@ -1090,6 +1102,7 @@
         "id": "842067f3ca74b50a",
         "type": "delay",
         "z": "65bf31c16d103884",
+        "d": true,
         "name": "",
         "pauseType": "delay",
         "timeout": "35",
@@ -1115,6 +1128,7 @@
         "id": "94997020bfecbf87",
         "type": "function",
         "z": "65bf31c16d103884",
+        "d": true,
         "name": "msg payload = 1",
         "func": "msg.payload = 1;\nreturn msg;",
         "outputs": 1,
@@ -1996,7 +2010,8 @@
         "y": 340,
         "wires": [
             [
-                "7df1bdd34f900e31"
+                "7df1bdd34f900e31",
+                "88cee15f39447d53"
             ]
         ]
     },
@@ -3162,6 +3177,50 @@
             [
                 "e71e04b73366529d"
             ]
+        ]
+    },
+    {
+        "id": "88cee15f39447d53",
+        "type": "ui_chart",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "group": "d933d053d66f5444",
+        "order": 9,
+        "width": 0,
+        "height": 0,
+        "label": "chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "1",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#2177b5",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 510,
+        "y": 280,
+        "wires": [
+            []
         ]
     },
     {
@@ -4354,10 +4413,15 @@
         "id": "2ba1d512.35030a",
         "type": "function",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "двери",
         "func": "\nfunction returnTrueFalse(message_input_value){\n    if (message_input_value == 1){\n        return true;\n    }\n    else {\n        return false;\n    }\n}\n\nvar parsed =(msg.payload);\nvar stat0 ={payload: parsed.stat[0],topic:\"открытие двери\"};//открытие двери\nvar stat1 ={payload: parsed.stat[1]};//звонок\nvar stat2 ={payload: parsed.stat[2]};//детектор движения\nvar stat3 ={payload: parsed.stat[3]};//3 - домофон питание\nvar stat4 ={payload: parsed.stat[4]};//домофон вкл D4\nvar stat5 ={payload: parsed.stat[5]};//замок D3\nvar stat6 ={payload: parsed.stat[6]};///мощность\n//var stat7 ={payload: returnTrueFalse(parsed.stat[7])};///свет D6\nvar stat7 ={payload: parsed.stat[7]};///свет D6\n\nvar stat8 ={payload: parsed.stat[8],topic:\"детектор внутри\"};\n\nreturn [ stat0, stat1, stat2 , stat3 , stat4 , stat5 , stat6, stat7 , stat8 ];\n\n",
         "outputs": 9,
+        "timeout": "",
         "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
         "x": 630,
         "y": 240,
         "wires": [
@@ -4416,15 +4480,19 @@
         "id": "1c79d414.eb201c",
         "type": "http request",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "двери",
         "method": "GET",
         "ret": "obj",
-        "paytoqs": false,
+        "paytoqs": "ignore",
         "url": "http://192.168.1.110/sendAJAX?json={%22t%22:127,%22v%22:0}",
         "tls": "",
         "persist": false,
         "proxy": "",
+        "insecureHTTPParser": false,
         "authType": "",
+        "senderr": false,
+        "headers": [],
         "x": 330,
         "y": 180,
         "wires": [
@@ -4569,10 +4637,15 @@
         "id": "1faf79cc.dd8616",
         "type": "function",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "двери",
         "func": "\nfunction returnTrueFalse(message_input_value){\n    if (message_input_value == 1){\n        return true;\n    }\n    else {\n        return false;\n    }\n}\n\n\nvar parsed =(msg.payload);\nvar stat0 ={payload: parsed.stat[0]};//открытие двери\nvar stat1 ={payload: parsed.stat[1]};//детектор внутри\nvar stat2 ={payload: parsed.stat[2]};//детектор движения\nvar stat3 ={payload: parsed.stat[3]};//3 - домофон питание\nvar stat4 ={payload: parsed.stat[4]};//домофон вкл D4\nvar stat5 ={payload: parsed.stat[5]};//замок D3\nvar stat6 ={payload: Math.round(parsed.stat[6])};///мощность\nvar stat7 ={payload: parsed.stat[7]};///свет D6\nvar stat8 ={payload: parsed.stat[8]};///звонок D7\nstat0.topic=\"открытие двери\";\n\n\nreturn [ stat0, stat1, stat2 , stat3 , stat4 , stat5 , stat6, stat7 , stat8 ];",
         "outputs": 9,
+        "timeout": "",
         "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
         "x": 470,
         "y": 600,
         "wires": [
@@ -4943,12 +5016,15 @@
         "id": "8df66265.84674",
         "type": "function",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "Error",
         "func": "msg.payload = msg.payload+\"\";\n\nif (msg.payload.startsWith(\"Error:\")){\n    \n    var content = msg.topic+\" :\"+msg.payload;\n    var TelegramChatIds = global.get(\"TelegramChatIds\");\n    var ObjectPayload={\n        \"chatId\": TelegramChatIds,\n        \"type\": \"message\",\n        \"content\":content \n    }\n    msg.payload=ObjectPayload;\n    \n    var nowDate = new Date();\n    var Hour = nowDate.getHours();\n    if ((Hour>2)&&(Hour<6)){\n        return null;\n    }\n    return msg;\n}\nreturn null;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
+        "libs": [],
         "x": 110,
         "y": 240,
         "wires": [
@@ -4961,12 +5037,15 @@
         "id": "a5754353.794f",
         "type": "rbe",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "",
         "func": "rbe",
         "gap": "",
         "start": "",
         "inout": "out",
+        "septopics": true,
         "property": "payload",
+        "topi": "topic",
         "x": 270,
         "y": 240,
         "wires": [
@@ -5297,15 +5376,19 @@
         "id": "5f9e0bcc.7d9844",
         "type": "http request",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "включить свет дверь",
         "method": "GET",
         "ret": "txt",
-        "paytoqs": false,
+        "paytoqs": "ignore",
         "url": "192.168.1.110/sendAJAX?json={\"t\":7,\"v\":{{payload}}}",
         "tls": "",
         "persist": false,
         "proxy": "",
+        "insecureHTTPParser": false,
         "authType": "",
+        "senderr": false,
+        "headers": [],
         "x": 1240,
         "y": 280,
         "wires": [
@@ -5324,7 +5407,7 @@
         "gtype": "donut",
         "title": "Temp",
         "label": "C",
-        "format": "{{value}}",
+        "format": "{{msg.payload}}",
         "min": "-20",
         "max": "30",
         "colors": [
@@ -5334,9 +5417,10 @@
         ],
         "seg1": "",
         "seg2": "",
+        "diff": false,
         "className": "",
-        "x": 850,
-        "y": 800,
+        "x": 910,
+        "y": 840,
         "wires": []
     },
     {
@@ -5344,15 +5428,15 @@
         "type": "function",
         "z": "d8baf37f.71552",
         "name": "decode_temp",
-        "func": " var wheather=msg.payload;\n\n    var wheather_parse = JSON.parse(wheather);\n    var feels_like = Math.round(wheather_parse.main.feels_like - 273);\n    var temp = Math.round(wheather_parse.main.temp - 273);\n\nmsg.payload = temp;\n\nmsg_wind = msg;\nmsg_cloud = msg;\n\nmsg_wind.payload = wheather_parse.wind.speed;\nmsg_cloud.payload = wheather_parse.clouds.all;\n\nreturn [msg,msg_wind,msg_cloud];",
-        "outputs": 3,
+        "func": "var weatherData = msg.payload\n// Convert temperature from Kelvin to Celsius\nconst kelvinToCelsius = (kelvin) => kelvin - 273.15;\n// Convert wind speed from m/s to km/h\nconst mpsToKmph = (mps) => mps * 3.6;\n\n// Compare sunrise and sunset times with current time\nconst isTimePassed = (timestamp, timezoneOffset) => {\n    const currentTime = Math.floor(Date.now() / 1000);\n    const localTime = currentTime + timezoneOffset;\n    return localTime > timestamp;\n};\n\n// Extract and format the data\nconst payloadTemp = {\n    payload: Math.round(kelvinToCelsius(weatherData.main.temp)),\n    topic: \"temp\"\n};\n\nconst payloadWind = {\n    payload: Math.round(mpsToKmph(weatherData.wind.speed)),\n    topic: \"wind\"\n};\n\nconst payloadCloud = {\n    payload: Math.round(weatherData.clouds.all),\n    topic: \"cloud\"\n};\n\nconst payloadSunrise = {\n    payload: isTimePassed(weatherData.sys.sunrise, weatherData.timezone),\n    topic: \"sunrise\"\n};\n\nconst payloadSunset = {\n    payload: isTimePassed(weatherData.sys.sunset, weatherData.timezone),\n    topic: \"sunset\"\n};\n\n// Return the formatted data\nreturn [payloadTemp, payloadWind, payloadCloud, payloadSunrise, payloadSunset];",
+        "outputs": 5,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 680,
-        "y": 820,
+        "x": 720,
+        "y": 940,
         "wires": [
             [
                 "22dd3bfb.89b444"
@@ -5362,6 +5446,12 @@
             ],
             [
                 "b0a8dcc0.b0bdd"
+            ],
+            [
+                "b99a2d53e11f8de7"
+            ],
+            [
+                "fc28c4c449bdc874"
             ]
         ]
     },
@@ -5377,8 +5467,13 @@
         "label": "облачность",
         "format": "{{msg.payload | uppercase}}",
         "layout": "row-spread",
-        "x": 880,
-        "y": 880,
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "x": 930,
+        "y": 920,
         "wires": []
     },
     {
@@ -5403,6 +5498,7 @@
         "id": "69920448.0b3e6c",
         "type": "ui_slider",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "",
         "label": "свет",
         "tooltip": "",
@@ -5413,9 +5509,11 @@
         "passthru": true,
         "outs": "end",
         "topic": "",
+        "topicType": "str",
         "min": 0,
         "max": "1024",
         "step": 1,
+        "className": "",
         "x": 910,
         "y": 280,
         "wires": [
@@ -5482,7 +5580,7 @@
         "gtype": "gage",
         "title": "ветер",
         "label": "units",
-        "format": "{{value}}",
+        "format": "{{msg.payload}}",
         "min": "1",
         "max": 10,
         "colors": [
@@ -5492,8 +5590,10 @@
         ],
         "seg1": "",
         "seg2": "",
-        "x": 850,
-        "y": 840,
+        "diff": false,
+        "className": "",
+        "x": 910,
+        "y": 880,
         "wires": []
     },
     {
@@ -5549,8 +5649,8 @@
         "repeat": "300",
         "fetch": "auto",
         "inputs": 0,
-        "x": 630,
-        "y": 1000,
+        "x": 750,
+        "y": 1120,
         "wires": [
             [
                 "49718205.87fd1c"
@@ -5561,12 +5661,17 @@
         "id": "49718205.87fd1c",
         "type": "function",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "message",
         "func": "\nmsg = {\n    \"topic\":\"мощность\"\n}\nvar content = msg.topic+\" кВт:\"+msg.payload;\nvar ObjectPayload={\n    \"chatId\":\"843873284\",\n    \"type\": \"message\",\n    \"content\":content \n}\nmsg.payload=ObjectPayload;\n\n\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
-        "x": 800,
-        "y": 1000,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 1120,
         "wires": [
             [
                 "916f13e8.6f447"
@@ -5582,8 +5687,8 @@
         "bot": "ca786bad.5ac7a8",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 1000,
-        "y": 1000,
+        "x": 1120,
+        "y": 1120,
         "wires": [
             []
         ]
@@ -5594,12 +5699,17 @@
         "z": "d8baf37f.71552",
         "name": "",
         "method": "GET",
-        "ret": "txt",
-        "paytoqs": false,
+        "ret": "obj",
+        "paytoqs": "ignore",
         "url": "",
+        "tls": "",
         "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
         "authType": "",
-        "x": 460,
+        "senderr": false,
+        "headers": [],
+        "x": 510,
         "y": 940,
         "wires": [
             [
@@ -5612,14 +5722,14 @@
         "type": "function",
         "z": "d8baf37f.71552",
         "name": "Request Wheather",
-        "func": "var city=\"Radauti\";\nvar APIkey =\"YL5zApGH2V5gPX6BXSuGG8Zi7GpjYAvn\";\nmsg.url =\"api.openweathermap.org/data/2.5/weather?q=\"+city+\"&appid=\"+APIkey+\"\";\n\nreturn msg;",
+        "func": "var city=\"Radauti\";\nvar APIkey =\"c3e9cf7a63b7fb63e4ee7504ae3dd41e\";\nmsg.url =\"api.openweathermap.org/data/2.5/weather?q=\"+city+\"&appid=\"+APIkey+\"\";\n//https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}\n//47.82842571798598, 25.922105778650298\nmsg.url = \"https://api.openweathermap.org/data/2.5/weather?lat=47.83&lon=25.92&appid=\" + APIkey +\"\"\n\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 260,
+        "x": 310,
         "y": 940,
         "wires": [
             [
@@ -5632,6 +5742,18 @@
         "type": "inject",
         "z": "d8baf37f.71552",
         "name": "",
+        "props": [
+            {
+                "p": "payload",
+                "v": "",
+                "vt": "date"
+            },
+            {
+                "p": "topic",
+                "v": "",
+                "vt": "str"
+            }
+        ],
         "repeat": "240",
         "crontab": "",
         "once": true,
@@ -5639,7 +5761,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 80,
+        "x": 130,
         "y": 940,
         "wires": [
             [
@@ -5821,6 +5943,88 @@
                 "6c9218762e233135"
             ]
         ]
+    },
+    {
+        "id": "b99a2d53e11f8de7",
+        "type": "rbe",
+        "z": "d8baf37f.71552",
+        "name": "sunrise",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 920,
+        "y": 960,
+        "wires": [
+            [
+                "c9ed277fe42ae44a"
+            ]
+        ]
+    },
+    {
+        "id": "fc28c4c449bdc874",
+        "type": "rbe",
+        "z": "d8baf37f.71552",
+        "name": "sunset",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 910,
+        "y": 1000,
+        "wires": [
+            [
+                "d942d8fafa19130c"
+            ]
+        ]
+    },
+    {
+        "id": "c9ed277fe42ae44a",
+        "type": "ui_text",
+        "z": "d8baf37f.71552",
+        "group": "d933d053d66f5444",
+        "order": 10,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "sunrise",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1100,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "d942d8fafa19130c",
+        "type": "ui_text",
+        "z": "d8baf37f.71552",
+        "group": "d933d053d66f5444",
+        "order": 10,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "sunset",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1090,
+        "y": 1000,
+        "wires": []
     },
     {
         "id": "a2c0301c.0d567",
@@ -8893,7 +9097,11 @@
         "name": "",
         "func": "msg.payload = msg.payload.memusage;\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
         "x": 242,
         "y": 694,
         "wires": [
@@ -8933,7 +9141,11 @@
         "name": "",
         "func": "function formatBytes(bytes,decimals) {\n   if(bytes === 0) return '0 Byte';\n   var k = 1000; // or 1024 for binary\n   var dm = decimals + 1 || 3;\n   var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];\n   var i = Math.floor(Math.log(bytes) / Math.log(k));\n   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];\n}\n\nmsg.payload = formatBytes(msg.payload.totalmem);\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
         "x": 244,
         "y": 737,
         "wires": [
@@ -8949,7 +9161,11 @@
         "name": "",
         "func": "function formatBytes(bytes,decimals) {\n   if(bytes === 0) return '0 Byte';\n   var k = 1000; // or 1024 for binary\n   var dm = decimals + 1 || 3;\n   var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];\n   var i = Math.floor(Math.log(bytes) / Math.log(k));\n   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];\n}\n\nmsg.payload = formatBytes(msg.payload.freemem);\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
         "x": 242,
         "y": 783,
         "wires": [
@@ -8986,8 +9202,8 @@
         "label": "Free Memory",
         "format": "{{msg.payload}}",
         "layout": "row-spread",
-        "x": 429,
-        "y": 784,
+        "x": 410,
+        "y": 780,
         "wires": []
     },
     {
@@ -9295,8 +9511,8 @@
         "z": "772e6979.67cd08",
         "name": "Memory Usage",
         "info": "",
-        "x": 422,
-        "y": 608,
+        "x": 420,
+        "y": 600,
         "wires": []
     },
     {
@@ -9372,8 +9588,8 @@
         "type": "Memory",
         "z": "772e6979.67cd08",
         "name": "",
-        "x": 237,
-        "y": 526,
+        "x": 260,
+        "y": 500,
         "wires": [
             [
                 "e6b8a679.aff648",
@@ -9422,7 +9638,7 @@
         "type": "function",
         "z": "772e6979.67cd08",
         "name": "function",
-        "func": "// Function to calculate available size percentage for /dev/sda1\nlet data = msg.payload;\nfunction getAvailablePercentage(filesystems) {\n    for (let fs of filesystems) {\n        if (fs.filesystem === \"/dev/sda1\") {\n            let availablePercentage = (fs.available / fs.size) * 100;\n            return availablePercentage.toFixed(2) + \"%\";\n        }\n    }\n    return \"Filesystem not found\";\n}\n\n// Get the available size percentage for /dev/sda1\nlet availablePercentage = getAvailablePercentage(data);\nmsg.payload = availablePercentage\nreturn msg;",
+        "func": "// Function to calculate available size percentage for /dev/sda1\nlet data = msg.payload;\nfunction getAvailablePercentage(filesystems) {\n    for (let fs of filesystems) {\n        if (fs.filesystem === \"/dev/sda3\") {\n            let availablePercentage = (fs.available / fs.size) * 100;\n            return availablePercentage.toFixed(2) + \"%\";\n        }\n    }\n    return \"Filesystem not found\";\n}\n\n// Get the available size percentage for /dev/sda1\nlet availablePercentage = getAvailablePercentage(data);\nmsg.payload = availablePercentage\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -9433,43 +9649,15 @@
         "y": 880,
         "wires": [
             [
-                "45ce266042c71c11",
-                "4335bed2178ac2a2"
+                "45ce266042c71c11"
             ]
         ]
-    },
-    {
-        "id": "4335bed2178ac2a2",
-        "type": "ui_gauge",
-        "z": "772e6979.67cd08",
-        "name": "",
-        "group": "1d1da0fc.6ab84f",
-        "order": 5,
-        "width": 0,
-        "height": 0,
-        "gtype": "gage",
-        "title": "Disk available",
-        "label": "units",
-        "format": "{{value}}",
-        "min": 0,
-        "max": "100",
-        "colors": [
-            "#00b500",
-            "#e6e600",
-            "#ca3838"
-        ],
-        "seg1": "",
-        "seg2": "",
-        "diff": false,
-        "className": "",
-        "x": 740,
-        "y": 840,
-        "wires": []
     },
     {
         "id": "bd51398d30ee250f",
         "type": "server-events",
         "z": "5ea280241f0d3676",
+        "d": true,
         "name": "",
         "server": "6f986a5ef3be9ad0",
         "version": 3,
