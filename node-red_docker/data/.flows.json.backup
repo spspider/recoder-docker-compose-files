@@ -31,6 +31,14 @@
         "env": []
     },
     {
+        "id": "6f216e4069410c84",
+        "type": "tab",
+        "label": "Kitchen",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "d10b6744b70a9f6d",
         "type": "tab",
         "label": "AIChat",
@@ -89,6 +97,14 @@
         "id": "5ea280241f0d3676",
         "type": "tab",
         "label": "homeassistant",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "86d9b15ce96130b5",
+        "type": "tab",
+        "label": "Examples",
         "disabled": false,
         "info": "",
         "env": []
@@ -498,11 +514,30 @@
         "className": ""
     },
     {
+        "id": "c891fa983d6dd35e",
+        "type": "ui_tab",
+        "name": "Kitchen",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "b77886c396feb2d9",
+        "type": "ui_group",
+        "name": "Heater",
+        "tab": "c891fa983d6dd35e",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
         "id": "e1eafc56a30f1862",
         "type": "function",
         "z": "65bf31c16d103884",
         "name": "myroom",
-        "func": "function setStoredValue(objectValue) {\n    var storedValues = global.get(\"storedValues\") || {}; // Retrieve existing data or initialize an empty object\n    var parameterName = objectValue.name; // Example: \"Curtain in my room switch up\"\n    var parameterNumber = objectValue.topic; // Example: 0\n    var parameterValue = objectValue.payload; // Example: 100\n    // If the entry already exists, update only the payload\n    if (storedValues.hasOwnProperty(parameterName)) {\n        storedValues[parameterName].payload = parameterValue;\n    } else {\n        // Otherwise, create a new entry\n        storedValues[parameterName] = {\n            topic: parameterNumber,\n            payload: parameterValue\n        };\n    }\n    global.set(\"storedValues\", storedValues); // Save back to global context\n    return null; // No output needed\n}\n\nvar name = {}\nname[0] = \"Curtain in my room switch up\"\nname[1] = \"Curtain in my room switch down\"\nname[2] = \"Turn light in backyard\"\nname[3] = \"Turn light in my room slider from 0 to 50\"\nname[4] = \"Turn light in my room powerful\"\nname[5] = \"temp in my room\"\nname[6] = \"Turn light Night powerful\"\n\nvar topicObjects = [];\nvar parsed = (msg.payload);\nvar topic = (msg.topic)\nvar  outputCount_number = node.outputCount\nif (topic == \"initial\") {\n    for (var i = 0; i < parsed.stat.length; i++) {\n        var topicObject = {\n            payload: parseFloat(parsed.stat[i]),\n            topic: i,\n            name: name[i]\n        };\n        setStoredValue(topicObject);\n        topicObjects.push(topicObject);\n    }\n    return topicObjects;\n}\nelse {// topic is not initial\n    for (var i = 0; i < outputCount_number; i++) {\n        if (i == parseInt(topic)) {\n            topicObject = {\n                payload: parseInt(parsed),\n                topic: parseInt(topic),\n                name: name[i]\n            }\n            setStoredValue(topicObject);\n            topicObjects.push(topicObject);\n        };\n        topicObjects.push(null);\n    }\n    return topicObjects;\n} \n\n",
+        "func": "function setStoredValue(objectValue) {\n    var storedValues = global.get(\"storedValues\") || {}; // Retrieve existing data or initialize an empty object\n    var parameterName = objectValue.name; // Example: \"Curtain in my room switch up\"\n    var parameterNumber = objectValue.topic; // Example: 0\n    var parameterValue = objectValue.payload; // Example: 100\n    // If the entry already exists, update only the payload\n    if (storedValues.hasOwnProperty(parameterName)) {\n        storedValues[parameterName].payload = parameterValue;\n    } else {\n        // Otherwise, create a new entry\n        storedValues[parameterName] = {\n            topic: parameterNumber,\n            payload: parameterValue\n        };\n    }\n    global.set(\"storedValues\", storedValues); // Save back to global context\n    return null; // No output needed\n}\n\nvar name = {}\nname[0] = \"Curtain room switch up example:{\\\"curain_up\\\":\\\"0\\\"}\"\nname[1] = \"Curtain in my room switch down example:{\\\"curain_down\\\":\\\"0\\\"}\"\nname[2] = \"light in backyard\"\nname[3] = \"light in my room slider from 0 to 50\"\nname[4] = \"light in my room powerful\"\nname[5] = \"temp in my room\"\nname[6] = \"light Night powerful\"\n\nvar topicObjects = [];\nvar parsed = (msg.payload);\nvar topic = (msg.topic)\nvar  outputCount_number = node.outputCount\nif (topic == \"initial\") {\n    for (var i = 0; i < parsed.stat.length; i++) {\n        var topicObject = {\n            payload: parseFloat(parsed.stat[i]),\n            topic: i,\n            name: name[i]\n        };\n        setStoredValue(topicObject);\n        topicObjects.push(topicObject);\n    }\n    return topicObjects;\n}\nelse {// topic is not initial\n    for (var i = 0; i < outputCount_number; i++) {\n        if (i == parseInt(topic)) {\n            topicObject = {\n                payload: parseInt(parsed),\n                topic: parseInt(topic),\n                name: name[i]\n            }\n            setStoredValue(topicObject);\n            topicObjects.push(topicObject);\n        };\n        topicObjects.push(null);\n    }\n    return topicObjects;\n} \n\n",
         "outputs": 7,
         "timeout": "",
         "noerr": 0,
@@ -1344,6 +1379,72 @@
         ]
     },
     {
+        "id": "18af85df81b8f884",
+        "type": "inject",
+        "z": "65bf31c16d103884",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 400,
+        "y": 840,
+        "wires": [
+            [
+                "5a495f68ba6261bc"
+            ]
+        ]
+    },
+    {
+        "id": "5a495f68ba6261bc",
+        "type": "function",
+        "z": "65bf31c16d103884",
+        "name": "flow keys",
+        "func": "// Get all flow context keys\nconst flowKeys = flow.keys();\n\n// Create an object to store the flow names and their values\nlet flowData = {};\n\n// Iterate over each key to get the corresponding value\nflowKeys.forEach(key => {\n    flowData[key] = flow.get(key);\n});\n\n// Set the payload to the flow data object\nmsg.payload = flowData;\n\n// Return the message\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 840,
+        "wires": [
+            [
+                "9e0b16241c8bf3b1"
+            ]
+        ]
+    },
+    {
+        "id": "9e0b16241c8bf3b1",
+        "type": "debug",
+        "z": "65bf31c16d103884",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 840,
+        "wires": []
+    },
+    {
         "id": "95ff1632.6243b8",
         "type": "telegram sender",
         "z": "d2d769b0.c57da8",
@@ -1351,8 +1452,8 @@
         "bot": "170adc9ec64f9f80",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 910,
-        "y": 160,
+        "x": 770,
+        "y": 100,
         "wires": [
             []
         ]
@@ -1362,11 +1463,11 @@
         "type": "telegram receiver",
         "z": "d2d769b0.c57da8",
         "name": "",
-        "bot": "170adc9ec64f9f80",
+        "bot": "ca786bad.5ac7a8",
         "saveDataDir": "",
         "filterCommands": false,
-        "x": 230,
-        "y": 300,
+        "x": 130,
+        "y": 220,
         "wires": [
             [
                 "f8e08d57.743f4",
@@ -1382,8 +1483,8 @@
         "name": "",
         "scope": null,
         "uncaught": false,
-        "x": 460,
-        "y": 520,
+        "x": 120,
+        "y": 360,
         "wires": [
             [
                 "a1b079ea.70ea18"
@@ -1399,8 +1500,8 @@
         "bot": "ca786bad.5ac7a8",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 750,
-        "y": 520,
+        "x": 410,
+        "y": 360,
         "wires": [
             []
         ]
@@ -1418,8 +1519,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 660,
-        "y": 160,
+        "x": 520,
+        "y": 100,
         "wires": [
             [
                 "95ff1632.6243b8",
@@ -1448,8 +1549,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 250,
-        "y": 160,
+        "x": 150,
+        "y": 100,
         "wires": [
             [
                 "9138f065.10c7"
@@ -1464,8 +1565,8 @@
         "func": "var content = msg.topic+\" payload:\"+msg.payload;\nvar ObjectPayload={\n    \"chatId\": \"843873284\",\n    \"type\": \"message\",\n    \"content\":content \n}\nmsg.payload=ObjectPayload;\n\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 620,
-        "y": 520,
+        "x": 280,
+        "y": 360,
         "wires": [
             [
                 "2e8b7a81.d0b546"
@@ -1485,29 +1586,12 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 540,
-        "y": 260,
+        "x": 360,
+        "y": 180,
         "wires": [
             [],
             []
         ]
-    },
-    {
-        "id": "bde56faf.4dad6",
-        "type": "debug",
-        "z": "d2d769b0.c57da8",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 990,
-        "y": 340,
-        "wires": []
     },
     {
         "id": "9138f065.10c7",
@@ -1535,8 +1619,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 440,
-        "y": 160,
+        "x": 340,
+        "y": 100,
         "wires": [
             [
                 "72b99f41.af20b"
@@ -1548,11 +1632,11 @@
         "type": "telegram sender",
         "z": "d2d769b0.c57da8",
         "name": "sender",
-        "bot": "170adc9ec64f9f80",
+        "bot": "ca786bad.5ac7a8",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 990,
-        "y": 280,
+        "x": 590,
+        "y": 200,
         "wires": [
             []
         ]
@@ -1561,20 +1645,20 @@
         "id": "f9bd0ea73fb5b228",
         "type": "function",
         "z": "d2d769b0.c57da8",
+        "d": true,
         "name": "reverse message back",
-        "func": "var content = msg.topic+\" payload:\"+msg.payload;\n\nvar ObjectPayload={\n    \"chatId\": msg.payload.chatId,\n    \"type\": \"message\",\n    \"content\": JSON.stringify(\"chatId:\" + msg.payload.chatId) \n}\nmsg.payload=ObjectPayload;\n\nreturn msg;",
+        "func": "var ObjectPayload={\n    \"chatId\": msg.originalMessage.chat.id,\n    \"type\": \"message\",\n    \"content\": JSON.stringify(\"chatId:\" + msg.originalMessage.chat.id) \n}\nmsg.payload=ObjectPayload;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 540,
-        "y": 300,
+        "x": 360,
+        "y": 220,
         "wires": [
             [
-                "6172b419c2fe9006",
-                "bde56faf.4dad6"
+                "6172b419c2fe9006"
             ]
         ]
     },
@@ -1590,9 +1674,214 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 920,
-        "y": 100,
+        "x": 780,
+        "y": 40,
         "wires": []
+    },
+    {
+        "id": "31914d7f1df11b2e",
+        "type": "inject",
+        "z": "d2d769b0.c57da8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload",
+                "v": "",
+                "vt": "date"
+            },
+            {
+                "p": "topic",
+                "v": "",
+                "vt": "str"
+            }
+        ],
+        "repeat": "86400",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "30",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 520,
+        "wires": [
+            [
+                "72af64b1b61356ba"
+            ]
+        ]
+    },
+    {
+        "id": "72af64b1b61356ba",
+        "type": "http request",
+        "z": "d2d769b0.c57da8",
+        "name": "IP",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://api.ipify.org?format=json",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 290,
+        "y": 520,
+        "wires": [
+            [
+                "416feb9b988ef2e6"
+            ]
+        ]
+    },
+    {
+        "id": "197138408b6055d7",
+        "type": "telegram sender",
+        "z": "d2d769b0.c57da8",
+        "name": "sender",
+        "bot": "ca786bad.5ac7a8",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 630,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "416feb9b988ef2e6",
+        "type": "function",
+        "z": "d2d769b0.c57da8",
+        "name": "message",
+        "func": "var thatIP = msg.payload.ip;\n\nvar storedIP = context.get('ip') || 0;\nif (storedIP !== thatIP) {\n    context.set(\"ip\", thatIP);\n    msg.payload = \"http://\" + thatIP + \":1880/ui\";\n}\nelse {\n    return null;\n}\nif (thatIP === undefined) {\n    return null;\n}\n\n\nvar content = msg.payload;\nvar TelegramChatIds = global.get(\"TelegramChatIds\")[0];\n\nvar ObjectPayload = {\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\": JSON.stringify(content) // Convert content to a string\n};\nmsg.payload = ObjectPayload;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 520,
+        "wires": [
+            [
+                "197138408b6055d7"
+            ]
+        ]
+    },
+    {
+        "id": "f2334125f861be3e",
+        "type": "http request",
+        "z": "d2d769b0.c57da8",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.1.160:11500/chat",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 690,
+        "y": 720,
+        "wires": [
+            [
+                "ca69743dcc655799"
+            ]
+        ]
+    },
+    {
+        "id": "ba897e7672fa2150",
+        "type": "function",
+        "z": "d2d769b0.c57da8",
+        "name": "payload",
+        "func": "function retriveValues() {\n    var keys = [\"storedValues\"];\n    var retrievedValues = {};\n\n    keys.forEach(function (key) {\n        retrievedValues[key] = global.get(key) || { description: key, value: \"Not set\" };\n    });\n\n    return JSON.stringify(retrievedValues.storedValues);\n}\n\nmsg.payload = JSON.stringify(\n    {\n        \"messages\": [\n            {\n                \"role\": \"system\",\n                \"content\": \"You are an AI, you have some initial input of home devices stats ```json\" + retriveValues() + \"```provide short answer\"\n            },\n            {\n                \"role\": \"user\",\n                \"content\": \"actual input from user:\" + msg.payload.content + \"Previous messages, to understand conext:\" + msg.payload.history\n            }\n        ],\n        \"model\": \"nvidia/llama-3.1-nemotron-70b-instruct:free\"\n    }\n);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 720,
+        "wires": [
+            [
+                "f2334125f861be3e"
+            ]
+        ]
+    },
+    {
+        "id": "c48b17bbe732db28",
+        "type": "telegram receiver",
+        "z": "d2d769b0.c57da8",
+        "name": "",
+        "bot": "ca786bad.5ac7a8",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 110,
+        "y": 720,
+        "wires": [
+            [
+                "46efd3259ec4edb9"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "d287173c2dabc345",
+        "type": "telegram sender",
+        "z": "d2d769b0.c57da8",
+        "name": "sender",
+        "bot": "ca786bad.5ac7a8",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1070,
+        "y": 720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ca69743dcc655799",
+        "type": "function",
+        "z": "d2d769b0.c57da8",
+        "name": "message",
+        "func": "var content = msg.payload;\nvar TelegramChatIds = global.get(\"TelegramChatIds\")[0];\n\n// Parse the JSON content to extract the \"text\" field\nvar parsedContent = JSON.parse(content);\nvar textContent = parsedContent.text;\n\nvar ObjectPayload = {\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\": textContent\n};\n\nmsg.payload = ObjectPayload;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 720,
+        "wires": [
+            [
+                "d287173c2dabc345"
+            ]
+        ]
+    },
+    {
+        "id": "46efd3259ec4edb9",
+        "type": "function",
+        "z": "d2d769b0.c57da8",
+        "name": "save history",
+        "func": "// Retrieve the history of inputs from global context\nlet history = global.get('inputHistory') || [];\n\n// Get the current input from the message payload\nlet currentInput = msg.payload.content;\n\n// Add the current input to the history array\nhistory.push(currentInput);\n\n// Update the global context with the new history\nglobal.set('inputHistory', history);\n\nlet previousInputsString = history.slice(0, -1).join(\"\\n\");\n\n// Ensure the actual input text is treated as a string\nlet actualInputText = currentInput;\n\n// Prepare the output payload\nmsg.payload.content = {\n    \"previous text inputs\": previousInputsString, // All elements except the last one\n    \"actual input text\": actualInputText // The last element\n};\n\nmsg.payload.history = previousInputsString //: actualInputText // The last element\nmsg.payload.content = actualInputText;\n// Return the message\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 720,
+        "wires": [
+            [
+                "ba897e7672fa2150"
+            ]
+        ]
     },
     {
         "id": "3c1987dcc97c0950",
@@ -1669,7 +1958,8 @@
         "y": 220,
         "wires": [
             [
-                "3c1987dcc97c0950"
+                "3c1987dcc97c0950",
+                "c8ce4ebd28a2b778"
             ]
         ]
     },
@@ -1986,6 +2276,24 @@
         ]
     },
     {
+        "id": "c8ce4ebd28a2b778",
+        "type": "function",
+        "z": "a69381581f637ec6",
+        "name": "AI input",
+        "func": "var name = {}\nname[0] = \"car light\"\nname[1] = \"nothig connected to this switch\"\nname[2] = \"temperature at the roof\"\nname[3] = \"PC Power button\"\n\n\n\nfunction setStoredValue(objectValue) {\n    var storedValues = global.get(\"storedValues\") || {}; // Retrieve existing data or initialize an empty object\n    var parameterName = objectValue.name; // Example: \"Curtain in my room switch up\"\n    var parameterNumber = objectValue.topic; // Example: 0\n    var parameterValue = objectValue.payload; // Example: 100\n    // If the entry already exists, update only the payload\n    if (storedValues.hasOwnProperty(parameterName)) {\n        storedValues[parameterName].payload = parameterValue;\n    } else {\n        // Otherwise, create a new entry\n        storedValues[parameterName] = {\n            topic: parameterNumber,\n            payload: parameterValue\n        };\n    }\n    global.set(\"storedValues\", storedValues); // Save back to global context\n    return null; // No output needed\n}\n\nvar topicObjects = [];\nvar parsed = (msg.payload);\nvar topic = (msg.topic)\nvar outputCount_number = node.outputCount\nif (topic == \"initial\") {\n    for (var i = 0; i < parsed.stat.length; i++) {\n        var topicObject = {\n            payload: parseFloat(parsed.stat[i]),\n            topic: i,\n            name: name[i]\n        };\n        setStoredValue(topicObject);\n        topicObjects.push(topicObject);\n    }\n    return topicObjects;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
         "id": "27305ebce4a2d493",
         "type": "inject",
         "z": "47e2824120b2a9e0",
@@ -2038,7 +2346,8 @@
                 "4583c5f156b24838",
                 "4ee01d95e0d70df1",
                 "3cf004cc123213e4",
-                "7b8b57b6fd86e466"
+                "7b8b57b6fd86e466",
+                "0c77107bad11e9ca"
             ]
         ]
     },
@@ -3250,8 +3559,8 @@
         "z": "47e2824120b2a9e0",
         "name": "",
         "pauseType": "delay",
-        "timeout": "1",
-        "timeoutUnits": "seconds",
+        "timeout": "500",
+        "timeoutUnits": "milliseconds",
         "rate": "1",
         "nbRateUnits": "1",
         "rateUnits": "second",
@@ -3261,7 +3570,7 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 730,
+        "x": 750,
         "y": 180,
         "wires": [
             [
@@ -3279,7 +3588,7 @@
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "0",
+                "to": "1",
                 "tot": "str"
             }
         ],
@@ -3288,7 +3597,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 950,
+        "x": 970,
         "y": 180,
         "wires": [
             [
@@ -3297,9 +3606,635 @@
         ]
     },
     {
+        "id": "0c77107bad11e9ca",
+        "type": "delay",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 730,
+        "y": 140,
+        "wires": [
+            [
+                "1865a57ac346c432"
+            ]
+        ]
+    },
+    {
+        "id": "1865a57ac346c432",
+        "type": "change",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 970,
+        "y": 140,
+        "wires": [
+            [
+                "88cee15f39447d53"
+            ]
+        ]
+    },
+    {
+        "id": "ccedcfa9da7ec94b",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "myroom",
+        "func": "var topicObjects = [];\nvar parsed = (msg.payload);\nvar topic = (msg.topic)\n\n\n\nvar outputCount_number = node.outputCount\nif (topic == \"initial\") {\n    for (var i = 0; i < parsed.stat.length; i++) {\n        var topicObject = {\n            payload: parseFloat(parsed.stat[i]),\n            topic: i\n        };\n        topicObjects.push(topicObject);\n    }\n}\nelse {// topic is not initial\n    for (var i = 0; i < outputCount_number; i++) {\n        if (i == parseInt(topic)) {\n            topicObject = {\n                payload: parseFloat(parsed),\n                topic: parseInt(topic)\n            }\n            topicObjects.push(topicObject);\n        };\n        topicObjects.push(null);\n    }\n}\n\nreturn topicObjects;",
+        "outputs": 4,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 200,
+        "wires": [
+            [
+                "f1a39fb940e62af5"
+            ],
+            [
+                "2020e22b1243eeb7"
+            ],
+            [
+                "e800ae1962d9974e",
+                "273e84219a8674aa"
+            ],
+            [
+                "2c891dbe36586bb0",
+                "e800ae1962d9974e",
+                "0774783d6db9a21c"
+            ]
+        ]
+    },
+    {
+        "id": "6fd32159444b4f26",
+        "type": "inject",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "30",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "10",
+        "topic": "initial",
+        "payload": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 200,
+        "wires": [
+            [
+                "63c330a41529fc76"
+            ]
+        ]
+    },
+    {
+        "id": "63c330a41529fc76",
+        "type": "http request",
+        "z": "6f216e4069410c84",
+        "name": "kitchen",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "192.168.1.152/sendAJAX?json={%22t%22:127,%22v%22:0}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 400,
+        "y": 200,
+        "wires": [
+            [
+                "ccedcfa9da7ec94b",
+                "ec53b758719b9a4e"
+            ]
+        ]
+    },
+    {
+        "id": "8345ea3189a55ecb",
+        "type": "mqtt in",
+        "z": "6f216e4069410c84",
+        "name": "mqtt-messages",
+        "topic": "",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "a7804332c06e238f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 1,
+        "x": 500,
+        "y": 480,
+        "wires": [
+            [
+                "08fc280b2cda9dc1"
+            ]
+        ]
+    },
+    {
+        "id": "c16bc962398e288d",
+        "type": "mqtt out",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "a7804332c06e238f",
+        "x": 1350,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "db348aa792993403",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "subscribe",
+        "func": "var subcsciptionLoop = []\n\nfor (var i = 0; i < 6; i++) {\n    var subscriptionVar = {\n        action: \"subscribe\",\n        topic: \"node-red/kitchen/control/\" + i\n    }\n    subcsciptionLoop.push(subscriptionVar);\n}\nreturn [subcsciptionLoop];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 480,
+        "wires": [
+            [
+                "8345ea3189a55ecb"
+            ]
+        ]
+    },
+    {
+        "id": "5e755b84f256f385",
+        "type": "inject",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 480,
+        "wires": [
+            [
+                "db348aa792993403"
+            ]
+        ]
+    },
+    {
+        "id": "08fc280b2cda9dc1",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "decoder",
+        "func": "var topicIn = msg.topic; //node-red/room/control/0\nvar parts = topicIn.split('/');\nvar lastPart = parts[parts.length - 1];\nvar number = parseInt(lastPart, 10);\n\nmsg.topic = number;\nmsg.payload = msg.payload;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 480,
+        "wires": [
+            [
+                "ccedcfa9da7ec94b"
+            ]
+        ]
+    },
+    {
+        "id": "e800ae1962d9974e",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "encoder node-red/room/{{topic}}",
+        "func": "msg.topic = \"node-red/kitchen/\" + msg.topic;\nmsg.qos = 0;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1110,
+        "y": 480,
+        "wires": [
+            [
+                "c16bc962398e288d"
+            ]
+        ]
+    },
+    {
+        "id": "f1a39fb940e62af5",
+        "type": "ui_switch",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "label": "heater",
+        "tooltip": "",
+        "group": "b77886c396feb2d9",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "0",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "1",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 850,
+        "y": 180,
+        "wires": [
+            [
+                "5d34d3b760025339"
+            ]
+        ]
+    },
+    {
+        "id": "2020e22b1243eeb7",
+        "type": "ui_switch",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "label": "pump",
+        "tooltip": "",
+        "group": "b77886c396feb2d9",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "0",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "1",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 850,
+        "y": 220,
+        "wires": [
+            [
+                "5ea792dcc7b34d10"
+            ]
+        ]
+    },
+    {
+        "id": "a723fdfb47e5c23b",
+        "type": "http request",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://192.168.1.152/sendAJAX?json={%22t%22:{{topic}},%22v%22:{{payload}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1470,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1d0b1c0cc108f5b6",
+        "type": "delay",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1270,
+        "y": 200,
+        "wires": [
+            [
+                "a723fdfb47e5c23b"
+            ]
+        ]
+    },
+    {
+        "id": "5d34d3b760025339",
+        "type": "rbe",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 990,
+        "y": 180,
+        "wires": [
+            [
+                "1d0b1c0cc108f5b6"
+            ]
+        ]
+    },
+    {
+        "id": "5ea792dcc7b34d10",
+        "type": "rbe",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 990,
+        "y": 220,
+        "wires": [
+            [
+                "1d0b1c0cc108f5b6"
+            ]
+        ]
+    },
+    {
+        "id": "2c891dbe36586bb0",
+        "type": "ui_text",
+        "z": "6f216e4069410c84",
+        "group": "b77886c396feb2d9",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "remote heater",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 880,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "0774783d6db9a21c",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "set topic",
+        "func": "var followheater = true\nif (global.get(\"followheater\") !== undefined || global.get(\"followheater\") !== null) {\n    followheater = global.get(\"followheater\");\n}\nif (followheater) {\n    var msg1 = {\n        topic: 0,\n        payload: msg.payload\n    };\n    var msg2 = {\n        topic: 1,\n        payload: msg.payload\n    };\n\n    return [[msg1, msg2]]\n}\nelse {\n    return null\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 300,
+        "wires": [
+            [
+                "1d0b1c0cc108f5b6"
+            ]
+        ]
+    },
+    {
+        "id": "273e84219a8674aa",
+        "type": "ui_chart",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "group": "b77886c396feb2d9",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "label": "Temp heater",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 870,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fd8f9ed781ef193d",
+        "type": "ui_switch",
+        "z": "6f216e4069410c84",
+        "name": "Follow heater?",
+        "label": "Follow heater?",
+        "tooltip": "",
+        "group": "b77886c396feb2d9",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 880,
+        "y": 80,
+        "wires": [
+            [
+                "001cf15b67a334ac"
+            ]
+        ]
+    },
+    {
+        "id": "001cf15b67a334ac",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "set follow heater value",
+        "func": "if (msg.payload == true) {\n    global.set('followheater', true);\n} else {\n    global.set('followheater', false);\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f4812a266f27b107",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "get followheater",
+        "func": "msg.payload = global.get(\"followheater\");\nif (msg.payload === undefined || msg.payload === null) {\n    msg.payload = true;\n}\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 80,
+        "wires": [
+            [
+                "fd8f9ed781ef193d"
+            ]
+        ]
+    },
+    {
+        "id": "754f04efa789aaa6",
+        "type": "inject",
+        "z": "6f216e4069410c84",
+        "name": "set follow heater",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 470,
+        "y": 80,
+        "wires": [
+            [
+                "f4812a266f27b107"
+            ]
+        ]
+    },
+    {
+        "id": "ec53b758719b9a4e",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "AI input",
+        "func": "var name = {}\nname[0] = \"switch of heater inverted\"\nname[1] = \"switch of warm floor pump inverted\"\nname[2] = \"temperature at heater box\"\nname[3] = \"status of heater of remote controller, inverted\"\n\n\n\nfunction setStoredValue(objectValue) {\n    var storedValues = global.get(\"storedValues\") || {}; // Retrieve existing data or initialize an empty object\n    var parameterName = objectValue.name; // Example: \"Curtain in my room switch up\"\n    var parameterNumber = objectValue.topic; // Example: 0\n    var parameterValue = objectValue.payload; // Example: 100\n    // If the entry already exists, update only the payload\n    if (storedValues.hasOwnProperty(parameterName)) {\n        storedValues[parameterName].payload = parameterValue;\n    } else {\n        // Otherwise, create a new entry\n        storedValues[parameterName] = {\n            topic: parameterNumber,\n            payload: parameterValue\n        };\n    }\n    global.set(\"storedValues\", storedValues); // Save back to global context\n    return null; // No output needed\n}\n\nvar topicObjects = [];\nvar parsed = (msg.payload);\nvar topic = (msg.topic)\nvar outputCount_number = node.outputCount\nif (topic == \"initial\") {\n    for (var i = 0; i < parsed.stat.length; i++) {\n        var topicObject = {\n            payload: parseFloat(parsed.stat[i]),\n            topic: i,\n            name: name[i]\n        };\n        setStoredValue(topicObject);\n        topicObjects.push(topicObject);\n    }\n    return topicObjects;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
         "id": "7bc1fdd740a684a6",
         "type": "http request",
         "z": "d10b6744b70a9f6d",
+        "d": true,
         "name": "",
         "method": "POST",
         "ret": "txt",
@@ -3324,6 +4259,7 @@
         "id": "e5448d8f8c89111b",
         "type": "function",
         "z": "d10b6744b70a9f6d",
+        "d": true,
         "name": "payload",
         "func": "function retriveValues() {\n    var keys = [\"storedValues\"];\n    var retrievedValues = {};\n\n    keys.forEach(function (key) {\n        retrievedValues[key] = global.get(key) || { description: key, value: \"Not set\" };\n    });\n\n    return JSON.stringify(retrievedValues.storedValues);\n}\n\n\nmsg.payload = JSON.stringify(\n    {\n        \"messages\": [\n            {\n                \"role\": \"system\",\n                \"content\": \"You are an AI that strictly returns responses in valid JSON format. input to you: ```json\" + retriveValues() + \"```\"\n            },\n            {\n                \"role\": \"user\",\n                \"content\": \"you an AI assistant in smart home, you have some payload of objects controlled remotely, based on provided input, you have to decide which if them needs to be controlled\"\n            }\n        ],\n        \"model\": \"nvidia/llama-3.1-nemotron-70b-instruct:free\"\n    }\n);\nreturn msg;",
         "outputs": 1,
@@ -3345,6 +4281,7 @@
         "id": "3819eee374404559",
         "type": "inject",
         "z": "d10b6744b70a9f6d",
+        "d": true,
         "name": "",
         "props": [
             {
@@ -3374,6 +4311,7 @@
         "id": "bec2630c3be51374",
         "type": "debug",
         "z": "d10b6744b70a9f6d",
+        "d": true,
         "name": "debug 1",
         "active": true,
         "tosidebar": true,
@@ -3390,6 +4328,7 @@
         "id": "0a803a0c1f15e6bc",
         "type": "http request",
         "z": "d10b6744b70a9f6d",
+        "d": true,
         "name": "",
         "method": "GET",
         "ret": "txt",
@@ -3414,6 +4353,7 @@
         "id": "e49c81bd046c9308",
         "type": "inject",
         "z": "d10b6744b70a9f6d",
+        "d": true,
         "name": "",
         "props": [
             {
@@ -3443,6 +4383,7 @@
         "id": "4897306c6fab8876",
         "type": "debug",
         "z": "d10b6744b70a9f6d",
+        "d": true,
         "name": "debug 2",
         "active": true,
         "tosidebar": true,
@@ -3459,6 +4400,7 @@
         "id": "c33440d41f076cfa",
         "type": "inject",
         "z": "d10b6744b70a9f6d",
+        "d": true,
         "name": "",
         "props": [
             {
@@ -3488,6 +4430,7 @@
         "id": "fd2b90dfe2b4eb63",
         "type": "function",
         "z": "d10b6744b70a9f6d",
+        "d": true,
         "name": "function 1",
         "func": "// Get all flow variables  \nlet flowKeys = flow.keys();\nlet flowValues = {};\nflowKeys.forEach(key => {\n    flowValues[key] = flow.get(key);\n});\n\n// Get all global variables  \nlet globalKeys = global.keys();\nlet globalValues = {};\nglobalKeys.forEach(key => {\n    globalValues[key] = global.get(key);\n});\n\n// Send the retrieved values as output  \nmsg.payload = {\n    flowVariables: flowValues,\n    globalVariables: globalValues\n};\n\nreturn msg;",
         "outputs": 1,
@@ -3508,6 +4451,7 @@
         "id": "f7019058255df373",
         "type": "debug",
         "z": "d10b6744b70a9f6d",
+        "d": true,
         "name": "debug 4",
         "active": true,
         "tosidebar": true,
@@ -3524,6 +4468,7 @@
         "id": "3f9022e8ea5d98bc",
         "type": "inject",
         "z": "d10b6744b70a9f6d",
+        "d": true,
         "name": "",
         "props": [
             {
@@ -3553,6 +4498,7 @@
         "id": "b6a024376eec1653",
         "type": "function",
         "z": "d10b6744b70a9f6d",
+        "d": true,
         "name": "function 2",
         "func": "var allFlow = flow.keys();\nvar allFlowValues = {};\nallFlow.forEach(key => {\n    allFlowValues[key] = flow.get(key);\n});\nreturn { payload: allFlowValues };\n",
         "outputs": 1,
@@ -3573,6 +4519,7 @@
         "id": "22ab953b4bf8e794",
         "type": "debug",
         "z": "d10b6744b70a9f6d",
+        "d": true,
         "name": "debug 5",
         "active": true,
         "tosidebar": true,
@@ -3589,6 +4536,7 @@
         "id": "79bbce7f92a89d38",
         "type": "debug",
         "z": "d10b6744b70a9f6d",
+        "d": true,
         "name": "debug 8",
         "active": true,
         "tosidebar": true,
@@ -4066,110 +5014,6 @@
         ]
     },
     {
-        "id": "128a6d8d.ae3d52",
-        "type": "inject",
-        "z": "81965ae3.dd08a8",
-        "name": "",
-        "repeat": "86400",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "30",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 470,
-        "y": 440,
-        "wires": [
-            [
-                "70ccde70.77381"
-            ]
-        ]
-    },
-    {
-        "id": "70ccde70.77381",
-        "type": "http request",
-        "z": "81965ae3.dd08a8",
-        "name": "IP",
-        "method": "GET",
-        "ret": "obj",
-        "paytoqs": false,
-        "url": "https://api.ipify.org?format=json",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "x": 630,
-        "y": 440,
-        "wires": [
-            [
-                "f185365a.278e48"
-            ]
-        ]
-    },
-    {
-        "id": "ac450f9c.5ad57",
-        "type": "e-mail",
-        "z": "81965ae3.dd08a8",
-        "server": "smtp.gmail.com",
-        "port": "465",
-        "secure": true,
-        "tls": true,
-        "name": "spspider95@gmail.com",
-        "dname": "spspider95",
-        "x": 970,
-        "y": 440,
-        "wires": []
-    },
-    {
-        "id": "f185365a.278e48",
-        "type": "function",
-        "z": "81965ae3.dd08a8",
-        "name": "mail",
-        "func": "\nmsg.topic=\"IP\";\nmsg.to=\"spspider95@gmail.com\";\nmsg.from=\"IPAdress\";\n\nvar thatIP= msg.payload.ip;\n\nvar storedIP = context.get ('ip') || 0;\nif(storedIP!==thatIP){\ncontext.set(\"ip\",thatIP);\nmsg.payload=\"http://\"+thatIP+\":1880/ui\";\n}\nelse{\n    return null;\n}\nif (thatIP===undefined){return null;}\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 770,
-        "y": 440,
-        "wires": [
-            [
-                "ac450f9c.5ad57",
-                "a492b93f.a1b348"
-            ]
-        ]
-    },
-    {
-        "id": "9a81fe6e.7b3c3",
-        "type": "telegram sender",
-        "z": "81965ae3.dd08a8",
-        "name": "sender",
-        "bot": "ca786bad.5ac7a8",
-        "haserroroutput": false,
-        "outputs": 1,
-        "x": 1130,
-        "y": 520,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "a492b93f.a1b348",
-        "type": "function",
-        "z": "81965ae3.dd08a8",
-        "name": "message",
-        "func": "var content = msg.topic+\" :\"+msg.payload;\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\nvar ObjectPayload={\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\":content \n}\nmsg.payload=ObjectPayload;\n\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "x": 940,
-        "y": 520,
-        "wires": [
-            [
-                "9a81fe6e.7b3c3"
-            ]
-        ]
-    },
-    {
         "id": "a18f6f3f.96df2",
         "type": "function",
         "z": "81965ae3.dd08a8",
@@ -4414,6 +5258,7 @@
         "id": "77675f42.b01e6",
         "type": "http request",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "",
         "method": "GET",
         "ret": "txt",
@@ -4435,6 +5280,7 @@
         "id": "d0a0f55b.f34a48",
         "type": "http request",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "включить свет",
         "method": "GET",
         "ret": "txt",
@@ -4454,6 +5300,7 @@
         "id": "73b123a9.7a039c",
         "type": "switch",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "дет внутри",
         "property": "payload",
         "propertyType": "msg",
@@ -4572,7 +5419,6 @@
             [
                 "2ba1d512.35030a",
                 "8df66265.84674",
-                "96c70041.ddf5b",
                 "13f5ea65.9bdae6"
             ]
         ]
@@ -4581,6 +5427,7 @@
         "id": "13f5ea65.9bdae6",
         "type": "delay",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "",
         "pauseType": "rate",
         "timeout": "10",
@@ -4605,6 +5452,7 @@
         "id": "710a0cfd.9b6084",
         "type": "function",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "hours",
         "func": "var nowDate = new Date();\nvar Hour = nowDate.getHours();\n\n\nif ((Hour>=8)&&(Hour<21)){\n    msg.payload = 1024;\n    msg.url =\"192.168.1.110/sendAJAX?json={'t':7,'v':\"+msg.payload+\"}\";\n    context.set(\"nightLight\",0);\n}\nelse{\n//    msg.payload = 0;\n     msg.url =\"http://192.168.1.112/ws2811AJAX?json={'from':[53,44],'to':[88,88],'type':[2,0],'dir':[0,0],'col':[218,128],'wh':[153,128],'br_':[158,128],'num':2,'sp':11,'dr':255,'fd':60,'fdt':3,'br':132}\";\n    \n     context.set(\"nightLight\",1);\n}\nreturn msg;",
         "outputs": 1,
@@ -4621,6 +5469,7 @@
         "id": "8040b5c5.fe83b8",
         "type": "telegram sender",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "send",
         "bot": "ca786bad.5ac7a8",
         "haserroroutput": false,
@@ -4635,6 +5484,7 @@
         "id": "6bcf6f35.9f8da",
         "type": "function",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "message",
         "func": "if (msg.payload ==0) return;\nvar content = msg.topic+\" payload:\"+msg.payload;\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\nvar ObjectPayload={\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\":content \n}\nmsg.payload=ObjectPayload;\n\n\nreturn msg;",
         "outputs": 1,
@@ -4653,6 +5503,7 @@
         "id": "7ff3c529.78e03c",
         "type": "function",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "multi unit delay",
         "func": "let delay = 300 * 1000;\nvar delayName = 'tout_light';\n    myResetFunction();\n//==================================\n\nfunction myDelayFunction() {\n  let t = setTimeout(myEndFunction, delay);\n  context.set(delayName,t);\n}\n\n\nfunction myEndFunction() {\n  //node.send({payload:Date.now()});\n  node.send({payload:msg.payload});  \n}\n\n\nfunction myResetFunction() {\n  let t = context.get(delayName);    \n  clearTimeout(t);\n  //node.send({payload:Date.now()}); \n  //node.send({payload:context.get('pl'),delay:\"reset\"});   \n}\n\n//==================================\n\n\n\n  //node.send({payload:Date.now()});\n  myDelayFunction();  \n\nreturn null;",
         "outputs": 1,
@@ -4662,426 +5513,6 @@
         "wires": [
             [
                 "77675f42.b01e6"
-            ]
-        ]
-    },
-    {
-        "id": "85a25b23.b85418",
-        "type": "ui_chart",
-        "z": "d8baf37f.71552",
-        "name": "",
-        "group": "ce3b49b9.4b9e18",
-        "order": 3,
-        "width": "0",
-        "height": "0",
-        "label": "Мощность",
-        "chartType": "line",
-        "legend": "false",
-        "xformat": "HH:mm:ss",
-        "interpolate": "linear",
-        "nodata": "",
-        "dot": false,
-        "ymin": "",
-        "ymax": "",
-        "removeOlder": 1,
-        "removeOlderPoints": "1000",
-        "removeOlderUnit": "86400",
-        "cutout": 0,
-        "useOneColor": false,
-        "colors": [
-            "#1f77b4",
-            "#aec7e8",
-            "#ff7f0e",
-            "#2ca02c",
-            "#98df8a",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
-        ],
-        "outputs": 1,
-        "x": 1110,
-        "y": 640,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "1faf79cc.dd8616",
-        "type": "function",
-        "z": "d8baf37f.71552",
-        "d": true,
-        "name": "двери",
-        "func": "\nfunction returnTrueFalse(message_input_value){\n    if (message_input_value == 1){\n        return true;\n    }\n    else {\n        return false;\n    }\n}\n\n\nvar parsed =(msg.payload);\nvar stat0 ={payload: parsed.stat[0]};//открытие двери\nvar stat1 ={payload: parsed.stat[1]};//детектор внутри\nvar stat2 ={payload: parsed.stat[2]};//детектор движения\nvar stat3 ={payload: parsed.stat[3]};//3 - домофон питание\nvar stat4 ={payload: parsed.stat[4]};//домофон вкл D4\nvar stat5 ={payload: parsed.stat[5]};//замок D3\nvar stat6 ={payload: Math.round(parsed.stat[6])};///мощность\nvar stat7 ={payload: parsed.stat[7]};///свет D6\nvar stat8 ={payload: parsed.stat[8]};///звонок D7\nstat0.topic=\"открытие двери\";\n\n\nreturn [ stat0, stat1, stat2 , stat3 , stat4 , stat5 , stat6, stat7 , stat8 ];",
-        "outputs": 9,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 470,
-        "y": 600,
-        "wires": [
-            [
-                "8158f60c.c7ae08",
-                "1474db80.89ace5"
-            ],
-            [],
-            [
-                "810c4549.7f2bf8"
-            ],
-            [
-                "f9a2387d.8a36f8"
-            ],
-            [
-                "bd572e20.917b7"
-            ],
-            [],
-            [
-                "ef214024.557a2",
-                "1bff1dc2.39f742",
-                "4c72e06a.c8d38"
-            ],
-            [],
-            []
-        ]
-    },
-    {
-        "id": "3a801b41.e06934",
-        "type": "ui_chart",
-        "z": "d8baf37f.71552",
-        "d": true,
-        "name": "",
-        "group": "4a84c495.0fce7c",
-        "order": 5,
-        "width": "0",
-        "height": "0",
-        "label": "открытие двери",
-        "chartType": "line",
-        "legend": "false",
-        "xformat": "HH:mm:ss",
-        "interpolate": "linear",
-        "nodata": "",
-        "dot": false,
-        "ymin": "",
-        "ymax": "",
-        "removeOlder": 1,
-        "removeOlderPoints": "",
-        "removeOlderUnit": "604800",
-        "cutout": 0,
-        "useOneColor": false,
-        "colors": [
-            "#1f77b4",
-            "#aec7e8",
-            "#ff7f0e",
-            "#2ca02c",
-            "#98df8a",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
-        ],
-        "outputs": 1,
-        "x": 780,
-        "y": 520,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "d7a8d9e5.37ab08",
-        "type": "ui_chart",
-        "z": "d8baf37f.71552",
-        "d": true,
-        "name": "",
-        "group": "4a84c495.0fce7c",
-        "order": 6,
-        "width": "0",
-        "height": "0",
-        "label": "детектор движения входная дверь",
-        "chartType": "line",
-        "legend": "false",
-        "xformat": "HH:mm:ss",
-        "interpolate": "linear",
-        "nodata": "",
-        "dot": false,
-        "ymin": "",
-        "ymax": "",
-        "removeOlder": 1,
-        "removeOlderPoints": "",
-        "removeOlderUnit": "86400",
-        "cutout": 0,
-        "useOneColor": false,
-        "colors": [
-            "#1f77b4",
-            "#aec7e8",
-            "#ff7f0e",
-            "#2ca02c",
-            "#98df8a",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
-        ],
-        "outputs": 1,
-        "x": 890,
-        "y": 600,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "6a20330e.a6eddc",
-        "type": "http request",
-        "z": "d8baf37f.71552",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": false,
-        "url": "http://192.168.1.110/sendAJAX?json={%22t%22:4,%22v%22:{{payload}}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "x": 1690,
-        "y": 580,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "50a4d1db.0827",
-        "type": "ui_switch",
-        "z": "d8baf37f.71552",
-        "name": "",
-        "label": "камера двери",
-        "tooltip": "",
-        "group": "6a1fd3d5.2b832c",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "",
-        "style": "",
-        "onvalue": "0",
-        "onvalueType": "num",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "1",
-        "offvalueType": "num",
-        "officon": "",
-        "offcolor": "",
-        "x": 1480,
-        "y": 500,
-        "wires": [
-            [
-                "d7d8e7da.e057c8"
-            ]
-        ]
-    },
-    {
-        "id": "d7d8e7da.e057c8",
-        "type": "http request",
-        "z": "d8baf37f.71552",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": false,
-        "url": "http://192.168.1.110/sendAJAX?json={%22t%22:3,%22v%22:{{payload}}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "x": 1690,
-        "y": 500,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "8158f60c.c7ae08",
-        "type": "ui_button",
-        "z": "d8baf37f.71552",
-        "d": true,
-        "name": "",
-        "group": "4a84c495.0fce7c",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "label": "Открыть замок",
-        "tooltip": "",
-        "color": "",
-        "bgcolor": "",
-        "icon": "",
-        "payload": "0",
-        "payloadType": "num",
-        "topic": "",
-        "x": 660,
-        "y": 560,
-        "wires": [
-            [
-                "55b29207.0f9ecc"
-            ]
-        ]
-    },
-    {
-        "id": "55b29207.0f9ecc",
-        "type": "http request",
-        "z": "d8baf37f.71552",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": false,
-        "url": "http://192.168.1.110/sendAJAX?json={%22t%22:5,%22v%22:{{payload}}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "x": 830,
-        "y": 560,
-        "wires": [
-            [
-                "449ade5c.6e0b6"
-            ]
-        ]
-    },
-    {
-        "id": "b999ad5f.0326b",
-        "type": "http request",
-        "z": "d8baf37f.71552",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": false,
-        "url": "http://192.168.1.110/sendAJAX?json={%22t%22:5,%22v%22:1}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "x": 1130,
-        "y": 560,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "449ade5c.6e0b6",
-        "type": "delay",
-        "z": "d8baf37f.71552",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "1",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "outputs": 1,
-        "x": 980,
-        "y": 560,
-        "wires": [
-            [
-                "b999ad5f.0326b"
-            ]
-        ]
-    },
-    {
-        "id": "ef214024.557a2",
-        "type": "ui_gauge",
-        "z": "d8baf37f.71552",
-        "name": "",
-        "group": "4b290438.730fbc",
-        "order": 3,
-        "width": "3",
-        "height": "1",
-        "gtype": "gage",
-        "title": "мощность",
-        "label": "кВт",
-        "format": "{{value}}",
-        "min": 0,
-        "max": "5000",
-        "colors": [
-            "#00b500",
-            "#e6e600",
-            "#ca3838"
-        ],
-        "seg1": "",
-        "seg2": "",
-        "className": "",
-        "x": 700,
-        "y": 680,
-        "wires": []
-    },
-    {
-        "id": "1474db80.89ace5",
-        "type": "rbe",
-        "z": "d8baf37f.71552",
-        "name": "",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "property": "payload",
-        "x": 630,
-        "y": 520,
-        "wires": [
-            [
-                "3a801b41.e06934"
-            ]
-        ]
-    },
-    {
-        "id": "1bff1dc2.39f742",
-        "type": "function",
-        "z": "d8baf37f.71552",
-        "d": true,
-        "name": "message",
-        "func": "\nmsg = {\n    \"topic\":\"мощность\"\n}\nvar content = msg.topic+\" кВт:\"+msg.payload;\nvar ObjectPayload={\n    \"chatId\":\"843873284\",\n    \"type\": \"message\",\n    \"content\":content \n}\nmsg.payload=ObjectPayload;\n\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 680,
-        "y": 740,
-        "wires": [
-            [
-                "3e735664.b2bada"
-            ]
-        ]
-    },
-    {
-        "id": "3e735664.b2bada",
-        "type": "telegram sender",
-        "z": "d8baf37f.71552",
-        "d": true,
-        "name": "homeOveralBot",
-        "bot": "ca786bad.5ac7a8",
-        "haserroroutput": false,
-        "outputs": 1,
-        "x": 900,
-        "y": 740,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "810c4549.7f2bf8",
-        "type": "rbe",
-        "z": "d8baf37f.71552",
-        "name": "",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "property": "payload",
-        "x": 650,
-        "y": 600,
-        "wires": [
-            [
-                "d7a8d9e5.37ab08"
             ]
         ]
     },
@@ -5143,33 +5574,10 @@
         ]
     },
     {
-        "id": "96c70041.ddf5b",
-        "type": "delay",
-        "z": "d8baf37f.71552",
-        "name": "",
-        "pauseType": "rate",
-        "timeout": "5",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": true,
-        "outputs": 1,
-        "x": 290,
-        "y": 600,
-        "wires": [
-            [
-                "1faf79cc.dd8616"
-            ]
-        ]
-    },
-    {
         "id": "caaab49f.00b618",
         "type": "function",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "set context to 0",
         "func": "context.set(\"nightLight\",0);\nreturn msg;",
         "outputs": 1,
@@ -5184,6 +5592,7 @@
         "id": "19ab148c.73718b",
         "type": "http request",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "",
         "method": "GET",
         "ret": "txt",
@@ -5205,6 +5614,7 @@
         "id": "3634f1cb.343bbe",
         "type": "delay",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "",
         "pauseType": "delay",
         "timeout": "5",
@@ -5229,6 +5639,7 @@
         "id": "4697a58.e8a825c",
         "type": "http request",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "",
         "method": "GET",
         "ret": "txt",
@@ -5275,6 +5686,7 @@
         "id": "90ff16ae.6a5d38",
         "type": "switch",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "дверь открылась",
         "property": "payload",
         "propertyType": "msg",
@@ -5300,6 +5712,7 @@
         "id": "e9876976.3e6738",
         "type": "rbe",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "",
         "func": "rbe",
         "gap": "",
@@ -5317,33 +5730,10 @@
         ]
     },
     {
-        "id": "4c72e06a.c8d38",
-        "type": "delay",
-        "z": "d8baf37f.71552",
-        "name": "",
-        "pauseType": "rate",
-        "timeout": "30",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "5",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "outputs": 1,
-        "x": 700,
-        "y": 640,
-        "wires": [
-            [
-                "738adba6.83d354"
-            ]
-        ]
-    },
-    {
         "id": "d0eceeea.617d4",
         "type": "http request",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "",
         "method": "GET",
         "ret": "txt",
@@ -5365,6 +5755,7 @@
         "id": "7c1235c1.9cd83c",
         "type": "delay",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "",
         "pauseType": "delay",
         "timeout": "20",
@@ -5389,6 +5780,7 @@
         "id": "2aa4d90d.8a03a6",
         "type": "http request",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "",
         "method": "GET",
         "ret": "txt",
@@ -5408,6 +5800,7 @@
         "id": "3a65dada.6bd4a6",
         "type": "switch",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "движ снаружи",
         "property": "payload",
         "propertyType": "msg",
@@ -5433,6 +5826,7 @@
         "id": "80151722.282418",
         "type": "function",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "reset delay",
         "func": "msg.delay = 20*1000;\nvar m1 = {reset:true};\nreturn [[m1,msg]];",
         "outputs": 1,
@@ -5492,8 +5886,8 @@
         "seg2": "",
         "diff": false,
         "className": "",
-        "x": 910,
-        "y": 840,
+        "x": 970,
+        "y": 620,
         "wires": []
     },
     {
@@ -5508,8 +5902,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 720,
-        "y": 940,
+        "x": 780,
+        "y": 720,
         "wires": [
             [
                 "22dd3bfb.89b444"
@@ -5545,27 +5939,9 @@
         "font": "",
         "fontSize": "",
         "color": "#000000",
-        "x": 930,
-        "y": 920,
+        "x": 990,
+        "y": 700,
         "wires": []
-    },
-    {
-        "id": "738adba6.83d354",
-        "type": "rbe",
-        "z": "d8baf37f.71552",
-        "name": "",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "property": "payload",
-        "x": 890,
-        "y": 640,
-        "wires": [
-            [
-                "85a25b23.b85418"
-            ]
-        ]
     },
     {
         "id": "69920448.0b3e6c",
@@ -5596,37 +5972,10 @@
         ]
     },
     {
-        "id": "f7a58a86.2f5b38",
-        "type": "ui_slider",
-        "z": "d8baf37f.71552",
-        "d": true,
-        "name": "",
-        "label": "свет коридор",
-        "tooltip": "",
-        "group": "4b290438.730fbc",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "outs": "end",
-        "topic": "",
-        "topicType": "str",
-        "min": 0,
-        "max": "1024",
-        "step": 1,
-        "className": "",
-        "x": 1500,
-        "y": 580,
-        "wires": [
-            [
-                "6a20330e.a6eddc"
-            ]
-        ]
-    },
-    {
         "id": "201a139.6ac00ec",
         "type": "rbe",
         "z": "d8baf37f.71552",
+        "d": true,
         "name": "",
         "func": "rbe",
         "gap": "",
@@ -5665,106 +6014,9 @@
         "seg2": "",
         "diff": false,
         "className": "",
-        "x": 910,
-        "y": 880,
+        "x": 970,
+        "y": 660,
         "wires": []
-    },
-    {
-        "id": "f9a2387d.8a36f8",
-        "type": "rbe",
-        "z": "d8baf37f.71552",
-        "name": "",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "property": "payload",
-        "x": 1250,
-        "y": 500,
-        "wires": [
-            [
-                "50a4d1db.0827"
-            ]
-        ]
-    },
-    {
-        "id": "bd572e20.917b7",
-        "type": "rbe",
-        "z": "d8baf37f.71552",
-        "name": "",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "property": "payload",
-        "x": 1310,
-        "y": 580,
-        "wires": [
-            [
-                "f7a58a86.2f5b38"
-            ]
-        ]
-    },
-    {
-        "id": "2c1efa8e.660cf6",
-        "type": "e-mail in",
-        "z": "d8baf37f.71552",
-        "d": true,
-        "name": "",
-        "protocol": "POP3",
-        "server": "pop.meta.ua",
-        "useSSL": true,
-        "autotls": "never",
-        "port": "995",
-        "box": "INBOX",
-        "disposition": "None",
-        "criteria": "UNSEEN",
-        "repeat": "300",
-        "fetch": "auto",
-        "inputs": 0,
-        "x": 750,
-        "y": 1120,
-        "wires": [
-            [
-                "49718205.87fd1c"
-            ]
-        ]
-    },
-    {
-        "id": "49718205.87fd1c",
-        "type": "function",
-        "z": "d8baf37f.71552",
-        "d": true,
-        "name": "message",
-        "func": "\nmsg = {\n    \"topic\":\"мощность\"\n}\nvar content = msg.topic+\" кВт:\"+msg.payload;\nvar ObjectPayload={\n    \"chatId\":\"843873284\",\n    \"type\": \"message\",\n    \"content\":content \n}\nmsg.payload=ObjectPayload;\n\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 920,
-        "y": 1120,
-        "wires": [
-            [
-                "916f13e8.6f447"
-            ]
-        ]
-    },
-    {
-        "id": "916f13e8.6f447",
-        "type": "telegram sender",
-        "z": "d8baf37f.71552",
-        "d": true,
-        "name": "homeOveralBot",
-        "bot": "ca786bad.5ac7a8",
-        "haserroroutput": false,
-        "outputs": 1,
-        "x": 1120,
-        "y": 1120,
-        "wires": [
-            []
-        ]
     },
     {
         "id": "27c53601.bc0ada",
@@ -5782,8 +6034,8 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 510,
-        "y": 940,
+        "x": 570,
+        "y": 720,
         "wires": [
             [
                 "721f5b55.02dda4"
@@ -5802,8 +6054,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 310,
-        "y": 940,
+        "x": 370,
+        "y": 720,
         "wires": [
             [
                 "27c53601.bc0ada"
@@ -5834,186 +6086,11 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 130,
-        "y": 940,
+        "x": 190,
+        "y": 720,
         "wires": [
             [
                 "1880f5db.2dcf5a"
-            ]
-        ]
-    },
-    {
-        "id": "c2949df16e4180e4",
-        "type": "ui_gauge",
-        "z": "d8baf37f.71552",
-        "d": true,
-        "name": "Temp",
-        "group": "4a84c495.0fce7c",
-        "order": 2,
-        "width": "3",
-        "height": "2",
-        "gtype": "donut",
-        "title": "Temp",
-        "label": "C",
-        "format": "{{value}}",
-        "min": "-20",
-        "max": "30",
-        "colors": [
-            "#00b500",
-            "#e6e600",
-            "#ca3838"
-        ],
-        "seg1": "",
-        "seg2": "",
-        "diff": false,
-        "className": "",
-        "x": 1090,
-        "y": 1360,
-        "wires": []
-    },
-    {
-        "id": "3fe72a3f14ebbc83",
-        "type": "function",
-        "z": "d8baf37f.71552",
-        "name": "decode_temp",
-        "func": " var wheather=msg.payload;\n\n    var wheather_parse = JSON.parse(wheather);\n    var feels_like = Math.round(wheather_parse.main.feels_like - 273, 15);\n    var temp = Math.round(wheather_parse.main.temp - 273, 15);\n\nmsg.payload = temp;\n\n\nmsg_wind.payload = wheather_parse.wind.speed;\nmsg_cloud.payload = wheather_parse.clouds.all;\n\nreturn [msg,msg_wind,msg_cloud];",
-        "outputs": 3,
-        "timeout": "5",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 920,
-        "y": 1380,
-        "wires": [
-            [
-                "c2949df16e4180e4"
-            ],
-            [
-                "32e4ad07d3d59594"
-            ],
-            [
-                "75a283d5ef97e3e4"
-            ]
-        ]
-    },
-    {
-        "id": "75a283d5ef97e3e4",
-        "type": "ui_text",
-        "z": "d8baf37f.71552",
-        "d": true,
-        "group": "4a84c495.0fce7c",
-        "order": 4,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "облачность",
-        "format": "{{msg.payload | uppercase}}",
-        "layout": "row-spread",
-        "className": "",
-        "style": false,
-        "font": "",
-        "fontSize": "",
-        "color": "#000000",
-        "x": 1120,
-        "y": 1440,
-        "wires": []
-    },
-    {
-        "id": "32e4ad07d3d59594",
-        "type": "ui_gauge",
-        "z": "d8baf37f.71552",
-        "d": true,
-        "name": "",
-        "group": "4a84c495.0fce7c",
-        "order": 3,
-        "width": "6",
-        "height": "2",
-        "gtype": "gage",
-        "title": "ветер",
-        "label": "units",
-        "format": "{{value}}",
-        "min": "1",
-        "max": 10,
-        "colors": [
-            "#00b500",
-            "#e6e600",
-            "#ca3838"
-        ],
-        "seg1": "",
-        "seg2": "",
-        "diff": false,
-        "className": "",
-        "x": 1090,
-        "y": 1400,
-        "wires": []
-    },
-    {
-        "id": "11b8df50abbbc637",
-        "type": "http request",
-        "z": "d8baf37f.71552",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": false,
-        "url": "",
-        "persist": false,
-        "authType": "",
-        "x": 710,
-        "y": 1380,
-        "wires": [
-            [
-                "3fe72a3f14ebbc83"
-            ]
-        ]
-    },
-    {
-        "id": "6c9218762e233135",
-        "type": "function",
-        "z": "d8baf37f.71552",
-        "name": "Request Wheather forecast",
-        "func": "var city=\"Radauti\";\nvar APIkey=\"c3e9cf7a63b7fb63e4ee7504ae3dd41e\";\n//https://pro.openweathermap.org/data/2.5/forecast/hourly?lat={lat}&lon={lon}&appid={API key}\nmsg.url =\"pro.openweathermap.org/data/2.5/forecast/hourly?lat=25.92&lon=47.82&appid=\"+APIkey+\"\";\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 470,
-        "y": 1380,
-        "wires": [
-            [
-                "11b8df50abbbc637"
-            ]
-        ]
-    },
-    {
-        "id": "deb0ab5af6449058",
-        "type": "inject",
-        "z": "d8baf37f.71552",
-        "d": true,
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "240",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "1",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 260,
-        "y": 1380,
-        "wires": [
-            [
-                "6c9218762e233135"
             ]
         ]
     },
@@ -6029,8 +6106,8 @@
         "septopics": true,
         "property": "payload",
         "topi": "topic",
-        "x": 920,
-        "y": 960,
+        "x": 980,
+        "y": 740,
         "wires": [
             [
                 "c9ed277fe42ae44a"
@@ -6049,8 +6126,8 @@
         "septopics": true,
         "property": "payload",
         "topi": "topic",
-        "x": 910,
-        "y": 1000,
+        "x": 970,
+        "y": 780,
         "wires": [
             [
                 "d942d8fafa19130c"
@@ -6074,8 +6151,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1100,
-        "y": 960,
+        "x": 1160,
+        "y": 740,
         "wires": []
     },
     {
@@ -6095,8 +6172,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1090,
-        "y": 1000,
+        "x": 1150,
+        "y": 780,
         "wires": []
     },
     {
@@ -9756,6 +9833,202 @@
         "y": 160,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "40e35cf99b1b1190",
+        "type": "function",
+        "z": "86d9b15ce96130b5",
+        "d": true,
+        "name": "reset delay",
+        "func": "msg.delay = 20*1000;\nvar m1 = {reset:true};\nreturn [[m1,msg]];",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 210,
+        "y": 160,
+        "wires": [
+            [
+                "a03a56921aa2cf03"
+            ]
+        ]
+    },
+    {
+        "id": "525f79bc2048bd56",
+        "type": "comment",
+        "z": "86d9b15ce96130b5",
+        "name": "Example Reset Delay",
+        "info": "",
+        "x": 180,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "a03a56921aa2cf03",
+        "type": "delay",
+        "z": "86d9b15ce96130b5",
+        "d": true,
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "20",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 380,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0ff243b97851757c",
+        "type": "comment",
+        "z": "86d9b15ce96130b5",
+        "name": "Get external IP",
+        "info": "",
+        "x": 140,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "128a6d8d.ae3d52",
+        "type": "inject",
+        "z": "86d9b15ce96130b5",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload",
+                "v": "",
+                "vt": "date"
+            },
+            {
+                "p": "topic",
+                "v": "",
+                "vt": "str"
+            }
+        ],
+        "repeat": "86400",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "30",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 400,
+        "wires": [
+            [
+                "70ccde70.77381"
+            ]
+        ]
+    },
+    {
+        "id": "70ccde70.77381",
+        "type": "http request",
+        "z": "86d9b15ce96130b5",
+        "d": true,
+        "name": "IP",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://api.ipify.org?format=json",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 310,
+        "y": 400,
+        "wires": [
+            [
+                "f185365a.278e48",
+                "a492b93f.a1b348"
+            ]
+        ]
+    },
+    {
+        "id": "ac450f9c.5ad57",
+        "type": "e-mail",
+        "z": "86d9b15ce96130b5",
+        "d": true,
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "secure": true,
+        "tls": true,
+        "name": "spspider95@gmail.com",
+        "dname": "spspider95",
+        "x": 650,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "f185365a.278e48",
+        "type": "function",
+        "z": "86d9b15ce96130b5",
+        "d": true,
+        "name": "mail",
+        "func": "\nmsg.topic=\"IP\";\nmsg.to=\"spspider95@gmail.com\";\nmsg.from=\"IPAdress\";\n\nvar thatIP= msg.payload.ip;\n\nvar storedIP = context.get ('ip') || 0;\nif(storedIP!==thatIP){\ncontext.set(\"ip\",thatIP);\nmsg.payload=\"http://\"+thatIP+\":1880/ui\";\n}\nelse{\n    return null;\n}\nif (thatIP===undefined){return null;}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 400,
+        "wires": [
+            [
+                "ac450f9c.5ad57"
+            ]
+        ]
+    },
+    {
+        "id": "9a81fe6e.7b3c3",
+        "type": "telegram sender",
+        "z": "86d9b15ce96130b5",
+        "d": true,
+        "name": "sender",
+        "bot": "ca786bad.5ac7a8",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 670,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a492b93f.a1b348",
+        "type": "function",
+        "z": "86d9b15ce96130b5",
+        "d": true,
+        "name": "message",
+        "func": "var thatIP = msg.payload.ip;\n\nvar storedIP = context.get('ip') || 0;\nif (storedIP !== thatIP) {\n    context.set(\"ip\", thatIP);\n    msg.payload = \"http://\" + thatIP + \":1880/ui\";\n}\nelse {\n    return null;\n}\nif (thatIP === undefined) {\n    return null;\n}\n\n\nvar content = msg.topic + \" :\" + msg.payload;\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\nvar ObjectPayload = {\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\": content\n}\nmsg.payload = ObjectPayload;\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 460,
+        "wires": [
+            [
+                "9a81fe6e.7b3c3"
+            ]
         ]
     }
 ]
