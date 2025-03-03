@@ -111,7 +111,7 @@
   <DateFormat>MMM DD YYYY</DateFormat>
   <CultureCode>zh-CN</CultureCode>
   <MultiChannelAudio>false</MultiChannelAudio>
-  <PTT>false</PTT>
+  <PTT>true</PTT>
   <MaxFiles>20000</MaxFiles>
   <MaxAlerts>100</MaxAlerts>
   <MaxPhotosPerDevice>2000</MaxPhotosPerDevice>
