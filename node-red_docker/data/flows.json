@@ -1347,7 +1347,7 @@
         "topic": "6",
         "topicType": "str",
         "min": 0,
-        "max": "1024",
+        "max": "256",
         "step": 1,
         "className": "",
         "x": 830,
