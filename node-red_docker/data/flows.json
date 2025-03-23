@@ -505,7 +505,7 @@
     {
         "id": "f027919d2a75152b",
         "type": "ui_group",
-        "name": "tab2",
+        "name": "room",
         "tab": "7db79158682fc8ec",
         "order": 3,
         "disp": true,
@@ -1098,7 +1098,7 @@
         "order": 7,
         "width": 0,
         "height": 0,
-        "label": "chart",
+        "label": "temp",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm:ss",
@@ -3588,7 +3588,7 @@
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "1",
+                "to": "0",
                 "tot": "str"
             }
         ],
