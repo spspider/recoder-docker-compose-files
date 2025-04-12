@@ -2355,6 +2355,7 @@
         "id": "0a4bc3d7ef6e5525",
         "type": "good-object-detection",
         "z": "47e2824120b2a9e0",
+        "d": true,
         "name": "",
         "returnValue": 0,
         "model": "yolov8n",
@@ -2794,6 +2795,7 @@
         "id": "fc5fb9ef18216633",
         "type": "good-object-detection",
         "z": "47e2824120b2a9e0",
+        "d": true,
         "name": "",
         "returnValue": 0,
         "model": "yolov8n",
@@ -2828,8 +2830,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 940,
-        "y": 1140,
+        "x": 540,
+        "y": 1020,
         "wires": [
             [
                 "39cb28a5e74d29d4"
@@ -3655,6 +3657,98 @@
             [
                 "88cee15f39447d53"
             ]
+        ]
+    },
+    {
+        "id": "d0e40516f146119e",
+        "type": "mqtt in",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "topic": "camera/front/cat",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "a7804332c06e238f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 300,
+        "y": 800,
+        "wires": [
+            [
+                "0c3744b75951e07b"
+            ]
+        ]
+    },
+    {
+        "id": "c094f1214166e433",
+        "type": "mqtt in",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "topic": "camera/front/cat-image",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "a7804332c06e238f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 340,
+        "y": 1100,
+        "wires": [
+            [
+                "2726137ef90a1f95",
+                "5192a4d3636b3594"
+            ]
+        ]
+    },
+    {
+        "id": "2726137ef90a1f95",
+        "type": "image viewer",
+        "z": "47e2824120b2a9e0",
+        "name": "Camera view detector",
+        "width": 160,
+        "data": "payload",
+        "dataType": "msg",
+        "active": true,
+        "x": 620,
+        "y": 1100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5192a4d3636b3594",
+        "type": "function",
+        "z": "47e2824120b2a9e0",
+        "name": "Create image for Telegram",
+        "func": "var TelegramChatIds = global.get(\"TelegramChatIds\")[0];\n\n\n\nmsg.payload = { chatId: TelegramChatIds, type: \"photo\", content: msg.payload, caption: msg.topic };\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 1220,
+        "wires": [
+            [
+                "d139d5f1ee2defd2"
+            ]
+        ]
+    },
+    {
+        "id": "d139d5f1ee2defd2",
+        "type": "telegram sender",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "bot": "ca786bad.5ac7a8",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 870,
+        "y": 1220,
+        "wires": [
+            []
         ]
     },
     {
