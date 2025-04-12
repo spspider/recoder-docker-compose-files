@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  ai-server:
+    image: codeproject/ai-server
+    container_name: ai-server
+    ports:
+      - "5000:5000" # Maps the local machine's port 5000 to the container's port 5000
+    networks:
+      - app_network
+    volumes:
+      - ./data:/etc/codeproject/ai  # Maps local folder `data` to the container's AI data folder
+      - ./modules:/app/modules     # Maps local folder `modules` to the container's AI modules folder
+    restart: always # Ensures the container restarts automatically in case of failure
+
+networks:
+  app_network:
+    external: true

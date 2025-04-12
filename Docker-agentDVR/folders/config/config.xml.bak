@@ -73,7 +73,7 @@
   <StorageNotifyEmail />
   <StorageNotifyEmailLimit>75</StorageNotifyEmailLimit>
   <StorageNotifyEmailLastSent>2001-01-01T00:00:00</StorageNotifyEmailLastSent>
-  <ArchiveCheckTimeStamp>2025-04-10T00:24:58.1490402Z</ArchiveCheckTimeStamp>
+  <ArchiveCheckTimeStamp>2025-04-12T00:25:19.6037037Z</ArchiveCheckTimeStamp>
   <DriveFullEmailLastSent>2001-01-01T00:00:00</DriveFullEmailLastSent>
   <StorageNotifyEmailIntervalHours>12</StorageNotifyEmailIntervalHours>
   <DeepStackAIURL />
@@ -153,7 +153,7 @@
   <RTMPServers />
   <FTPServers />
   <MediaDirectories>
-    <Directory Entry="/AgentDVR/Media/WebServerRoot/Media/" EnableManagement="true" MaxSize="50000" ArchiveDirectoryNew="" Default="true" />
+    <Directory Entry="/AgentDVR/Media/WebServerRoot/Media/" EnableManagement="true" MaxSize="30000" MaxAge="730" ArchiveDirectoryNew="" Default="true" />
   </MediaDirectories>
   <Users />
   <LDAP />

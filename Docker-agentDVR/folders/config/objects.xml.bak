@@ -1428,8 +1428,8 @@
         <dvrmodel>Mobile</dvrmodel>
         <dvrchannel>0</dvrchannel>
         <schedule>false</schedule>
-        <zPoint>320,240</zPoint>
-        <zFactor>1</zFactor>
+        <zPoint>292,129</zPoint>
+        <zFactor>1.5</zFactor>
         <findbeststream>true</findbeststream>
         <audiostreamindex>0</audiostreamindex>
         <videostreamindex>0</videostreamindex>
@@ -2097,7 +2097,7 @@
         <audiolimitcolor>255,0,0</audiolimitcolor>
         <color />
         <ndilevel>80</ndilevel>
-        <prefer_tcp>true</prefer_tcp>
+        <prefer_tcp>false</prefer_tcp>
         <rtspmodenew>tcp</rtspmodenew>
         <low_delay>false</low_delay>
         <deletewav>true</deletewav>
@@ -2371,7 +2371,7 @@
   </locations>
   <alertGroups>
     <entries>
-      <entry name="mqtt_group" lastAlert="2025-04-11T19:36:33.3337496Z" />
+      <entry name="mqtt_group" lastAlert="2025-04-12T16:22:45.0170977Z" />
       <entry name="telegram_info" lastAlert="2025-02-02T13:03:06.316783Z" />
     </entries>
   </alertGroups>
