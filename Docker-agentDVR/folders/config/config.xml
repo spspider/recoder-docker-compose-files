@@ -149,7 +149,9 @@
   <Cloud S3Valid="no" />
   <OpenAI />
   <Claude />
-  <AIServers />
+  <AIServers>
+    <AIServer Name="codeproject-ai" URL="http://192.168.1.160:5000/" ident="ef1beaec-6160-4a6f-9a4f-8ace2e39af01" />
+  </AIServers>
   <RTMPServers />
   <FTPServers />
   <MediaDirectories>
