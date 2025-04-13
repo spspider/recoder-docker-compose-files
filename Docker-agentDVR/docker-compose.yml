@@ -7,7 +7,7 @@ services:
       - PUID=1000
       - PGID=1000
       - AGENTDVR_WEBUI_PORT=8090 
-      - TZ=Asia/Dhaka
+      - TZ=Europe/Bucharest
     volumes:
       - /home/recoder/RECODER-COMPOSE/Docker-agentDVR/folders/config:/AgentDVR/Media/XML
       - /home/recoder/RECODER-COMPOSE/Docker-agentDVR/folders/recordings:/AgentDVR/Media/WebServerRoot/Media

@@ -2474,8 +2474,7 @@
         "wires": [
             [
                 "1fbe083c1961f2c2",
-                "0fe980fc2f64cdc1",
-                "56fb91a6414ddd32"
+                "0fe980fc2f64cdc1"
             ]
         ]
     },
@@ -2483,14 +2482,13 @@
         "id": "1fbe083c1961f2c2",
         "type": "good-object-detection",
         "z": "47e2824120b2a9e0",
-        "d": true,
         "name": "",
         "returnValue": 0,
         "model": "yolov8n",
         "threshold": "0.5",
         "absolutePathDir": "",
         "x": 740,
-        "y": 800,
+        "y": 740,
         "wires": [
             [
                 "56fb91a6414ddd32"
@@ -2935,6 +2933,7 @@
         "id": "5e18c7cbf398fdda",
         "type": "mqtt in",
         "z": "47e2824120b2a9e0",
+        "d": true,
         "name": "",
         "topic": "camera/front",
         "qos": "2",
@@ -3037,314 +3036,6 @@
                 "7df1bdd34f900e31"
             ]
         ]
-    },
-    {
-        "id": "6a156025.b1c9f",
-        "type": "inject",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "props": [
-            {
-                "p": "payload",
-                "v": "",
-                "vt": "date"
-            },
-            {
-                "p": "topic",
-                "v": "",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 880,
-        "y": 1560,
-        "wires": [
-            [
-                "fd62708f.a560a"
-            ]
-        ]
-    },
-    {
-        "id": "9c0b2081.b1ac6",
-        "type": "function",
-        "z": "47e2824120b2a9e0",
-        "name": "Format the header and payload",
-        "func": "msg.headers = {\n    \"Content-Type\": \"multipart/form-data; boundary=------------------------d74496d66958873e\"\n}\n\n\nmsg.payload = '--------------------------d74496d66958873e\\r\\n'+\n'Content-Disposition: form-data; name=\"select\"\\r\\n'+\n'\\r\\n'+\n'true\\r\\n'+\n'--------------------------d74496d66958873e\\r\\n'+\n'Content-Disposition: form-data; name=\"print\"\\r\\n'+\n'\\r\\n'+\n'true\\r\\n'+\n'--------------------------d74496d66958873e\\r\\n'+\n'Content-Disposition: form-data; name=\"file\"; filename=\"'+msg.filename+'\"\\r\\n'+\n'Content-Type: application/octet-stream\\r\\n'+\n'\\r\\n'+\nmsg.payload+'\\r\\n'+\n'--------------------------d74496d66958873e--\\r\\n';\n\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1010,
-        "y": 1620,
-        "wires": [
-            [
-                "85c748e8.2d1f88"
-            ]
-        ]
-    },
-    {
-        "id": "85c748e8.2d1f88",
-        "type": "http request",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": false,
-        "url": "http://localhost:1880/files",
-        "tls": "",
-        "proxy": "",
-        "x": 1250,
-        "y": 1620,
-        "wires": [
-            [
-                "a4810d7a.f652a"
-            ]
-        ]
-    },
-    {
-        "id": "a4810d7a.f652a",
-        "type": "debug",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 1430,
-        "y": 1620,
-        "wires": []
-    },
-    {
-        "id": "fd62708f.a560a",
-        "type": "file in",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "filename": "/tmp/file.txt",
-        "filenameType": "str",
-        "format": "",
-        "chunk": false,
-        "sendError": false,
-        "x": 1060,
-        "y": 1560,
-        "wires": [
-            [
-                "9c0b2081.b1ac6"
-            ]
-        ]
-    },
-    {
-        "id": "2f32071ef7bb110d",
-        "type": "comment",
-        "z": "47e2824120b2a9e0",
-        "name": "delivering different Types of Data (at /data-of-type-XXX)",
-        "info": "",
-        "x": 1040,
-        "y": 1720,
-        "wires": []
-    },
-    {
-        "id": "238793311dabfdd6",
-        "type": "http in",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "url": "data-of-type-text-plain",
-        "method": "get",
-        "upload": true,
-        "swaggerDoc": "",
-        "x": 960,
-        "y": 1780,
-        "wires": [
-            [
-                "cffded47ea1c03d0"
-            ]
-        ]
-    },
-    {
-        "id": "b51281afcd501289",
-        "type": "http in",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "url": "data-of-type-application-json",
-        "method": "get",
-        "upload": true,
-        "swaggerDoc": "",
-        "x": 980,
-        "y": 1900,
-        "wires": [
-            [
-                "68a3c31298d82cc0"
-            ]
-        ]
-    },
-    {
-        "id": "3e924f0ff93cd624",
-        "type": "http in",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "url": "data-of-type-image-png",
-        "method": "get",
-        "upload": true,
-        "swaggerDoc": "",
-        "x": 960,
-        "y": 2020,
-        "wires": [
-            [
-                "8fa440683ca55861"
-            ]
-        ]
-    },
-    {
-        "id": "cffded47ea1c03d0",
-        "type": "change",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "this is some plain text",
-                "tot": "str"
-            },
-            {
-                "t": "set",
-                "p": "headers",
-                "pt": "msg",
-                "to": "{\"content-type\":\"text/plain\"}",
-                "tot": "json"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1140,
-        "y": 1840,
-        "wires": [
-            [
-                "c0f311bbfc8d346a"
-            ]
-        ]
-    },
-    {
-        "id": "c0f311bbfc8d346a",
-        "type": "http response",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "statusCode": "200",
-        "headers": {},
-        "x": 1320,
-        "y": 1840,
-        "wires": []
-    },
-    {
-        "id": "68a3c31298d82cc0",
-        "type": "change",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "{ \"type\":\"json\" }",
-                "tot": "str"
-            },
-            {
-                "t": "set",
-                "p": "headers",
-                "pt": "msg",
-                "to": "{\"content-type\":\"application/json\"}",
-                "tot": "json"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1140,
-        "y": 1960,
-        "wires": [
-            [
-                "19311e74fb2a3167"
-            ]
-        ]
-    },
-    {
-        "id": "19311e74fb2a3167",
-        "type": "http response",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "statusCode": "200",
-        "headers": {},
-        "x": 1320,
-        "y": 1960,
-        "wires": []
-    },
-    {
-        "id": "8fa440683ca55861",
-        "type": "file in",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "filename": "Mandelbrot_240x240.png",
-        "filenameType": "str",
-        "format": "",
-        "chunk": false,
-        "sendError": false,
-        "encoding": "none",
-        "allProps": false,
-        "x": 1280,
-        "y": 2020,
-        "wires": [
-            [
-                "7fb230d107b1b06f"
-            ]
-        ]
-    },
-    {
-        "id": "7fb230d107b1b06f",
-        "type": "change",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "headers",
-                "pt": "msg",
-                "to": "{\"content-type\":\"image/png\"}",
-                "tot": "json"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1130,
-        "y": 2080,
-        "wires": [
-            [
-                "39689ce2448f0aba"
-            ]
-        ]
-    },
-    {
-        "id": "39689ce2448f0aba",
-        "type": "http response",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "statusCode": "200",
-        "headers": {},
-        "x": 1320,
-        "y": 2080,
-        "wires": []
     },
     {
         "id": "793f39abe9f8cda8",
@@ -3662,27 +3353,6 @@
         ]
     },
     {
-        "id": "d0e40516f146119e",
-        "type": "mqtt in",
-        "z": "47e2824120b2a9e0",
-        "name": "",
-        "topic": "camera/front/cat",
-        "qos": "2",
-        "datatype": "auto",
-        "broker": "a7804332c06e238f",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 300,
-        "y": 800,
-        "wires": [
-            [
-                "0c3744b75951e07b"
-            ]
-        ]
-    },
-    {
         "id": "c094f1214166e433",
         "type": "mqtt in",
         "z": "47e2824120b2a9e0",
@@ -3695,12 +3365,12 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 340,
-        "y": 1100,
+        "x": 360,
+        "y": 1460,
         "wires": [
             [
                 "2726137ef90a1f95",
-                "5192a4d3636b3594"
+                "291702e0ff462450"
             ]
         ]
     },
@@ -3713,42 +3383,79 @@
         "data": "payload",
         "dataType": "msg",
         "active": true,
-        "x": 620,
-        "y": 1100,
+        "x": 640,
+        "y": 1380,
         "wires": [
             []
         ]
     },
     {
-        "id": "5192a4d3636b3594",
+        "id": "c5cc823fa5b872ac",
+        "type": "mqtt in",
+        "z": "47e2824120b2a9e0",
+        "name": "",
+        "topic": "camera/front/alinka-image",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "a7804332c06e238f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 350,
+        "y": 1520,
+        "wires": [
+            [
+                "13c6f15136d03daa",
+                "291702e0ff462450"
+            ]
+        ]
+    },
+    {
+        "id": "13c6f15136d03daa",
+        "type": "image viewer",
+        "z": "47e2824120b2a9e0",
+        "name": "Camera view detector",
+        "width": 160,
+        "data": "payload",
+        "dataType": "msg",
+        "active": true,
+        "x": 620,
+        "y": 1580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "291702e0ff462450",
         "type": "function",
         "z": "47e2824120b2a9e0",
         "name": "Create image for Telegram",
-        "func": "var TelegramChatIds = global.get(\"TelegramChatIds\")[0];\n\n\n\nmsg.payload = { chatId: TelegramChatIds, type: \"photo\", content: msg.payload, caption: msg.topic };\nreturn msg;\n",
+        "func": "var TelegramChatIds = global.get(\"TelegramChatIds\");\n\n\n\nmsg.payload = { chatId: TelegramChatIds, type: \"photo\", content: msg.payload, caption: msg.topic};\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 620,
-        "y": 1220,
+        "x": 680,
+        "y": 1520,
         "wires": [
             [
-                "d139d5f1ee2defd2"
+                "62e298fc09687353"
             ]
         ]
     },
     {
-        "id": "d139d5f1ee2defd2",
+        "id": "62e298fc09687353",
         "type": "telegram sender",
         "z": "47e2824120b2a9e0",
-        "name": "",
-        "bot": "ca786bad.5ac7a8",
+        "name": "Alinka bot",
+        "bot": "170adc9ec64f9f80",
         "haserroroutput": false,
         "outputs": 1,
-        "x": 870,
-        "y": 1220,
+        "x": 900,
+        "y": 1520,
         "wires": [
             []
         ]
