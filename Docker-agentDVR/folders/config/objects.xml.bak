@@ -1649,7 +1649,7 @@
         <detailmode>low</detailmode>
       </openai>
       <recorder inactiverecord="8" minrecordtime="15" timelapse="0" timelapseframes="0" quality="6" />
-      <alerts minimuminterval="15" active="true" mode="detected" pushvideo="true" />
+      <alerts minimuminterval="5" active="true" mode="detected" pushvideo="true" />
       <alertevents>
         <entries />
       </alertevents>
@@ -1978,7 +1978,7 @@
         <detailmode>low</detailmode>
       </openai>
       <recorder inactiverecord="8" minrecordtime="15" timelapse="0" timelapseframes="0" quality="9" />
-      <alerts minimuminterval="15" active="true" mode="detected" />
+      <alerts minimuminterval="5" active="true" mode="detected" />
       <alertevents>
         <entries />
       </alertevents>
@@ -2384,7 +2384,7 @@
   </locations>
   <alertGroups>
     <entries>
-      <entry name="mqtt_group" lastAlert="2025-04-13T19:22:52.6272173Z" />
+      <entry name="mqtt_group" lastAlert="2025-04-13T20:19:10.5438974Z" />
       <entry name="telegram_info" lastAlert="2025-02-02T13:03:06.316783Z" />
     </entries>
   </alertGroups>
