@@ -1936,10 +1936,10 @@
         <aiident>ef1beaec-6160-4a6f-9a4f-8ace2e39af01</aiident>
         <enabled>true</enabled>
         <mode>1</mode>
-        <interval>1</interval>
-        <confidence>60</confidence>
+        <interval>0</interval>
+        <confidence>30</confidence>
         <findobject>person,truck,cat,dog,horse,cow,bear,bird</findobject>
-        <snapshots>true</snapshots>
+        <snapshots>false</snapshots>
         <aisnapshotslabel>true</aisnapshotslabel>
         <norepeatphoto>true</norepeatphoto>
         <norepeatalert>true</norepeatalert>
@@ -1955,8 +1955,8 @@
         <alertonfailure>true</alertonfailure>
         <ignorestatics>false</ignorestatics>
         <resizemode>2</resizemode>
-        <motionpassthrough>true</motionpassthrough>
-        <statictolerance>50</statictolerance>
+        <motionpassthrough>false</motionpassthrough>
+        <statictolerance>20</statictolerance>
       </objectdetect>
       <openai>
         <enabled>false</enabled>
@@ -2097,7 +2097,7 @@
         <audiolimitcolor>255,0,0</audiolimitcolor>
         <color />
         <ndilevel>80</ndilevel>
-        <prefer_tcp>true</prefer_tcp>
+        <prefer_tcp>false</prefer_tcp>
         <rtspmodenew>tcp</rtspmodenew>
         <low_delay>false</low_delay>
         <deletewav>true</deletewav>
@@ -2369,7 +2369,7 @@
           <entry type="MQTTIMAGE" param1="camera/front/cat-image" param2="False" />
         </actionEntries>
       </entry>
-      <entry type="S" objecttypeid="2" objectid="7" mode="objectfound" ident="663f0c42-f7cb-48ea-b642-36a65d28c1e0" tags="bird,cat,dog,bicycle" zonematch="1,2,3,4,5,6,7,8,9">
+      <entry type="S" objecttypeid="2" objectid="7" mode="objectfound" ident="663f0c42-f7cb-48ea-b642-36a65d28c1e0" tags="bird,cat,dog,bicycle,all" zonematch="1,2,3,4,5,6,7,8,9">
         <actionEntries>
           <entry type="B" />
           <entry type="MQTTIMAGE" param1="camera/front/alinka-image" param2="False" />
@@ -2384,7 +2384,7 @@
   </locations>
   <alertGroups>
     <entries>
-      <entry name="mqtt_group" lastAlert="2025-04-15T20:36:23.5998521Z" />
+      <entry name="mqtt_group" lastAlert="2025-04-16T20:26:02.4478347Z" />
       <entry name="telegram_info" lastAlert="2025-02-02T13:03:06.316783Z" />
     </entries>
   </alertGroups>
