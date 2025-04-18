@@ -1758,7 +1758,7 @@
 :file-caching=3000</vlcoptions>
         <dvrmodel>Mobile</dvrmodel>
         <dvrchannel>0</dvrchannel>
-        <schedule>true</schedule>
+        <schedule>false</schedule>
         <zPoint>960,540</zPoint>
         <zFactor>1</zFactor>
         <findbeststream>true</findbeststream>
@@ -1937,8 +1937,8 @@
         <enabled>true</enabled>
         <mode>1</mode>
         <interval>0</interval>
-        <confidence>30</confidence>
-        <findobject>person,truck,cat,dog,horse,cow,bear,bird</findobject>
+        <confidence>20</confidence>
+        <findobject>person,cat,dog,horse,cow,bear,bird,bus,elephant,fire hydrant,fork,frisbee,giraffe,hair dryer,handbag,hot dog,mouse,train,truck</findobject>
         <snapshots>false</snapshots>
         <aisnapshotslabel>true</aisnapshotslabel>
         <norepeatphoto>true</norepeatphoto>
@@ -1956,7 +1956,7 @@
         <ignorestatics>false</ignorestatics>
         <resizemode>2</resizemode>
         <motionpassthrough>false</motionpassthrough>
-        <statictolerance>20</statictolerance>
+        <statictolerance>10</statictolerance>
       </objectdetect>
       <openai>
         <enabled>false</enabled>
@@ -2017,7 +2017,7 @@
         <audiolimitcolor>255,0,0</audiolimitcolor>
         <color />
         <ndilevel>80</ndilevel>
-        <prefer_tcp>true</prefer_tcp>
+        <prefer_tcp>false</prefer_tcp>
         <rtspmodenew>tcp</rtspmodenew>
         <low_delay>false</low_delay>
         <deletewav>true</deletewav>
@@ -2257,7 +2257,7 @@
         <audiolimitcolor>255,0,0</audiolimitcolor>
         <color />
         <ndilevel>80</ndilevel>
-        <prefer_tcp>false</prefer_tcp>
+        <prefer_tcp>true</prefer_tcp>
         <rtspmodenew>tcp</rtspmodenew>
         <low_delay>false</low_delay>
         <deletewav>true</deletewav>
@@ -2357,9 +2357,8 @@
           <entry type="MQTTIMAGE" param1="camera/front/cat-image" param2="False" />
         </actionEntries>
       </entry>
-      <entry type="S" objecttypeid="2" objectid="6" mode="objectfound" ident="97b0b032-f9a6-40c8-a325-a8959a2c0f2c" tags="bird,cat,dog,car,bus,train,truck,detected,motorcycle,all" zonematch="1,2,3,4,5,6,7,8,9">
+      <entry type="S" objecttypeid="2" objectid="6" mode="objectfound" ident="97b0b032-f9a6-40c8-a325-a8959a2c0f2c" tags="bird,cat,dog,bus,train,truck,detected,motorcycle,all,alert,bicycle,boat,person,manual alert,horse" zonematch="2,3,4,5,6,7,8,9,1">
         <actionEntries>
-          <entry type="B" />
           <entry type="MQTTIMAGE" param1="camera/front/alinka-image" param2="False" />
         </actionEntries>
       </entry>
@@ -2369,9 +2368,8 @@
           <entry type="MQTTIMAGE" param1="camera/front/cat-image" param2="False" />
         </actionEntries>
       </entry>
-      <entry type="S" objecttypeid="2" objectid="7" mode="objectfound" ident="663f0c42-f7cb-48ea-b642-36a65d28c1e0" tags="bird,cat,dog,bicycle,all" zonematch="1,2,3,4,5,6,7,8,9">
+      <entry type="S" objecttypeid="2" objectid="7" mode="objectfound" ident="663f0c42-f7cb-48ea-b642-36a65d28c1e0" tags="bird,cat,dog,bicycle,all,person,horse,train,mouse,bear,detected" zonematch="1,2,3,4,5,6,7,8,9">
         <actionEntries>
-          <entry type="B" />
           <entry type="MQTTIMAGE" param1="camera/front/alinka-image" param2="False" />
         </actionEntries>
       </entry>
@@ -2384,7 +2382,7 @@
   </locations>
   <alertGroups>
     <entries>
-      <entry name="mqtt_group" lastAlert="2025-04-17T20:44:39.3643724Z" />
+      <entry name="mqtt_group" lastAlert="2025-04-18T20:59:33.0083891Z" />
       <entry name="telegram_info" lastAlert="2025-02-02T13:03:06.316783Z" />
     </entries>
   </alertGroups>
