@@ -99,7 +99,7 @@
         <ffmpegbuffer>true</ffmpegbuffer>
         <rtspmode>1</rtspmode>
         <rtspmodenew>tcp</rtspmodenew>
-        <prefer_tcp>true</prefer_tcp>
+        <prefer_tcp>false</prefer_tcp>
         <low_delay>true</low_delay>
         <procAmpConfig />
         <messaging>true</messaging>
@@ -1415,7 +1415,7 @@
         <ffmpegbuffer>true</ffmpegbuffer>
         <rtspmode>1</rtspmode>
         <rtspmodenew>tcp</rtspmodenew>
-        <prefer_tcp>true</prefer_tcp>
+        <prefer_tcp>false</prefer_tcp>
         <low_delay>true</low_delay>
         <procAmpConfig />
         <messaging>true</messaging>
@@ -1746,7 +1746,7 @@
         <ffmpegbuffer>true</ffmpegbuffer>
         <rtspmode>1</rtspmode>
         <rtspmodenew>tcp</rtspmodenew>
-        <prefer_tcp>true</prefer_tcp>
+        <prefer_tcp>false</prefer_tcp>
         <low_delay>true</low_delay>
         <procAmpConfig />
         <messaging>true</messaging>
@@ -2257,7 +2257,7 @@
         <audiolimitcolor>255,0,0</audiolimitcolor>
         <color />
         <ndilevel>80</ndilevel>
-        <prefer_tcp>true</prefer_tcp>
+        <prefer_tcp>false</prefer_tcp>
         <rtspmodenew>tcp</rtspmodenew>
         <low_delay>false</low_delay>
         <deletewav>true</deletewav>
@@ -2382,7 +2382,7 @@
   </locations>
   <alertGroups>
     <entries>
-      <entry name="mqtt_group" lastAlert="2025-04-24T19:53:50.2819533Z" />
+      <entry name="mqtt_group" lastAlert="2025-04-25T20:37:54.3489311Z" />
       <entry name="telegram_info" lastAlert="2025-02-02T13:03:06.316783Z" />
     </entries>
   </alertGroups>
