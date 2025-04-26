@@ -73,7 +73,7 @@
   <StorageNotifyEmail />
   <StorageNotifyEmailLimit>75</StorageNotifyEmailLimit>
   <StorageNotifyEmailLastSent>2001-01-01T00:00:00</StorageNotifyEmailLastSent>
-  <ArchiveCheckTimeStamp>2025-04-25T00:18:48.0192976Z</ArchiveCheckTimeStamp>
+  <ArchiveCheckTimeStamp>2025-04-26T00:18:58.6069872Z</ArchiveCheckTimeStamp>
   <DriveFullEmailLastSent>2001-01-01T00:00:00</DriveFullEmailLastSent>
   <StorageNotifyEmailIntervalHours>12</StorageNotifyEmailIntervalHours>
   <DeepStackAIURL />
@@ -140,7 +140,7 @@
   <NestConfig />
   <ONVIFDiscovery>false</ONVIFDiscovery>
   <ProductName>Agent</ProductName>
-  <RecordingTags>remote,book,bus,cup,bench,umbrella,suitcase,keyboard,cow,cell phone,parking meter,potted plant,laptop,teddy bear,bear,sheep,airplane,clock,backpack,apple,skis,sports ball,baseball bat,handbag,motorcycle,fire hydrant,chair,bird,frisbee,dog,boat,tie,baseball glove,bicycle,traffic light,truck,elephant,cat,person,skateboard,train,mouse,horse,car,tv,manual alert,detected,all,alert</RecordingTags>
+  <RecordingTags>remote,book,bus,cup,bench,umbrella,suitcase,tennis racket,keyboard,cow,cell phone,parking meter,potted plant,laptop,teddy bear,bear,sheep,airplane,clock,backpack,apple,skis,sports ball,baseball bat,handbag,motorcycle,fire hydrant,chair,bird,frisbee,dog,boat,tie,baseball glove,bicycle,traffic light,truck,elephant,cat,person,skateboard,train,mouse,horse,car,tv,manual alert,detected,all,alert</RecordingTags>
   <ImageTags>truck,dog,cat,person,train,car,boat,bird,bicycle</ImageTags>
   <Permissions />
   <MQTT Enable="true" Username="dev01" Password="5506487" Server="177e3ee7cf004e6ebed04b25d4c51a26.s1.eu.hivemq.cloud" ClientID="camera" Port="8883" KeepAlive="60" Protocol="TLS" Stats="true" />
