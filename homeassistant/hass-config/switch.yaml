@@ -123,3 +123,38 @@
               service: rest_command.roofpcpowerbtn_off
             icon_template: mdi:lightbulb-outline
             unique_id: "151roofpcpowerbtn"            
+      - platform: template
+        switches:
+          heaterheater:
+            friendly_name: "heater heater"
+            value_template: >
+              {% if states('sensor.esp8266_status152') != 'unavailable' %}
+                {% set value = states('sensor.esp8266_status152') | from_json %}
+                {{ int(value.stat[0]) == 0  }}
+              {% else %}
+                False
+              {% endif %}
+            turn_on:
+              service: rest_command.heaterheater_on
+            turn_off:
+              service: rest_command.heaterheater_off
+            icon_template: mdi:lightbulb-outline
+            unique_id: "152heaterheater"
+    
+      - platform: template
+        switches:
+          heaterpump:
+            friendly_name: "heater pump"
+            value_template: >
+              {% if states('sensor.esp8266_status152') != 'unavailable' %}
+                {% set value = states('sensor.esp8266_status152') | from_json %}
+                {{ int(value.stat[1]) == 0  }}
+              {% else %}
+                False
+              {% endif %}
+            turn_on:
+              service: rest_command.heaterpump_on
+            turn_off:
+              service: rest_command.heaterpump_off
+            icon_template: mdi:lightbulb-outline
+            unique_id: "152heaterpump"            

@@ -23,3 +23,14 @@
         {% else %}
           Unavailable
         {% endif %}        
+    - platform: rest
+      name: esp8266_status152
+      resource: "http://192.168.1.152/sendAJAX?json=%7B%22t%22:127,%22v%22:0%7D"
+      scan_interval: 10
+      method: GET
+      value_template: >
+        {% if value_json is defined and value_json.stat is defined %}
+          {{ value }}
+        {% else %}
+          Unavailable
+        {% endif %}        

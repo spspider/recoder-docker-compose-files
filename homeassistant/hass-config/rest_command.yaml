@@ -54,3 +54,16 @@
       roofpcpowerbtn_off:
         url: "http://192.168.1.151/sendAJAX?json={\"t\":3,\"v\":0}"
         method: GET        
+      heaterheater_on:
+        url: "http://192.168.1.152/sendAJAX?json={\"t\":0,\"v\":0}"
+        method: GET
+      heaterheater_off:
+        url: "http://192.168.1.152/sendAJAX?json={\"t\":0,\"v\":1}"
+        method: GET
+    
+      heaterpump_on:
+        url: "http://192.168.1.152/sendAJAX?json={\"t\":1,\"v\":0}"
+        method: GET
+      heaterpump_off:
+        url: "http://192.168.1.152/sendAJAX?json={\"t\":1,\"v\":1}"
+        method: GET        

@@ -20,4 +20,24 @@
             {{ sensor_value_array.stat[2] | float }}
           {% else %}
             unavailable
-          {% endif %}          
+          {% endif %}    
+  - sensor:
+      - name: "heater temp heater"
+        unit_of_measurement: ""
+        state: >
+          {% set sensor_value_array = states('sensor.esp8266_status152') | from_json %}
+          {% if sensor_value_array.stat is defined and sensor_value_array.stat[2] is defined %}
+            {{ sensor_value_array.stat[2] | float }}
+          {% else %}
+            unavailable
+          {% endif %}
+  - sensor:
+      - name: "heater remoteController"
+        unit_of_measurement: ""
+        state: >
+          {% set sensor_value_array = states('sensor.esp8266_status152') | from_json %}
+          {% if sensor_value_array.stat is defined and sensor_value_array.stat[3] is defined %}
+            {{ sensor_value_array.stat[3] | float }}
+          {% else %}
+            unavailable
+          {% endif %}                          

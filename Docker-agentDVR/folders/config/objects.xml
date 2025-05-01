@@ -1428,7 +1428,7 @@
         <dvrmodel>Mobile</dvrmodel>
         <dvrchannel>0</dvrchannel>
         <schedule>false</schedule>
-        <zPoint>320,240</zPoint>
+        <zPoint>320,257</zPoint>
         <zFactor>1</zFactor>
         <findbeststream>true</findbeststream>
         <audiostreamindex>0</audiostreamindex>
@@ -2357,7 +2357,7 @@
           <entry type="MQTTIMAGE" param1="camera/front/cat-image" param2="False" />
         </actionEntries>
       </entry>
-      <entry type="S" objecttypeid="2" objectid="6" mode="objectfound" ident="97b0b032-f9a6-40c8-a325-a8959a2c0f2c" tags="cat,dog,bus,train,truck,detected,motorcycle,all,alert,bicycle,boat,person,manual alert,horse" zonematch="2,3,4,5,6,7,8,9,1" repeattimeout="10">
+      <entry type="S" objecttypeid="2" objectid="6" mode="objectfound" ident="97b0b032-f9a6-40c8-a325-a8959a2c0f2c" tags="cat,dog,bus,train,truck,detected,motorcycle,all,alert,bicycle,boat,person,manual alert,horse" zonematch="2,3,4,5,6,7,8,9,1">
         <actionEntries>
           <entry type="MQTTIMAGE" param1="camera/front/alinka-image" param2="False" />
         </actionEntries>
@@ -2368,7 +2368,7 @@
           <entry type="MQTTIMAGE" param1="camera/front/cat-image" param2="False" />
         </actionEntries>
       </entry>
-      <entry type="S" objecttypeid="2" objectid="7" mode="objectfound" ident="663f0c42-f7cb-48ea-b642-36a65d28c1e0" tags="cat,dog,person,horse,train,mouse,bear" zonematch="1,2,3,4,5,6,7,8,9" repeattimeout="10">
+      <entry type="S" objecttypeid="2" objectid="7" mode="objectfound" ident="663f0c42-f7cb-48ea-b642-36a65d28c1e0" tags="cat,dog,person,horse,train,mouse,bear" zonematch="1,2,3,4,5,6,7,8,9">
         <actionEntries>
           <entry type="MQTTIMAGE" param1="camera/front/alinka-image" param2="False" />
         </actionEntries>
@@ -2382,7 +2382,7 @@
   </locations>
   <alertGroups>
     <entries>
-      <entry name="mqtt_group" lastAlert="2025-04-30T20:30:20.3549178Z" />
+      <entry name="mqtt_group" lastAlert="2025-05-01T20:25:00.9815588Z" />
       <entry name="telegram_info" lastAlert="2025-02-02T13:03:06.316783Z" />
     </entries>
   </alertGroups>
