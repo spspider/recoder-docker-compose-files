@@ -1400,7 +1400,7 @@
         <imagereloadinterval>0</imagereloadinterval>
         <urlreloadinterval>300</urlreloadinterval>
         <maxframerate>25</maxframerate>
-        <maxframeraterecord>15</maxframeraterecord>
+        <maxframeraterecord>10</maxframeraterecord>
         <reconnectinterval>0</reconnectinterval>
         <namevaluesettings />
         <accessgroups />
@@ -1415,7 +1415,7 @@
         <ffmpegbuffer>true</ffmpegbuffer>
         <rtspmode>1</rtspmode>
         <rtspmodenew>tcp</rtspmodenew>
-        <prefer_tcp>true</prefer_tcp>
+        <prefer_tcp>false</prefer_tcp>
         <low_delay>true</low_delay>
         <procAmpConfig />
         <messaging>true</messaging>
@@ -1477,8 +1477,8 @@
         </tokenconfig>
         <storagemanagement>
           <enabled>false</enabled>
-          <maxsize>1024</maxsize>
-          <maxage>72</maxage>
+          <maxsize>0</maxsize>
+          <maxage>0</maxage>
           <archive>false</archive>
         </storagemanagement>
         <pip>
@@ -1514,7 +1514,7 @@
       </settings>
       <dewarp />
       <gpu />
-      <gpuNew encoderMethod="Motion Adaptive Encode" decoder="CPU" gpuEncode="true" />
+      <gpuNew encoderMethod="Encode" decoder="CPU" gpuEncode="true" />
       <ftp>
         <enabled>false</enabled>
         <ident />
@@ -2017,7 +2017,7 @@
         <audiolimitcolor>255,0,0</audiolimitcolor>
         <color />
         <ndilevel>80</ndilevel>
-        <prefer_tcp>false</prefer_tcp>
+        <prefer_tcp>true</prefer_tcp>
         <rtspmodenew>tcp</rtspmodenew>
         <low_delay>false</low_delay>
         <deletewav>true</deletewav>
@@ -2097,7 +2097,7 @@
         <audiolimitcolor>255,0,0</audiolimitcolor>
         <color />
         <ndilevel>80</ndilevel>
-        <prefer_tcp>false</prefer_tcp>
+        <prefer_tcp>true</prefer_tcp>
         <rtspmodenew>tcp</rtspmodenew>
         <low_delay>false</low_delay>
         <deletewav>true</deletewav>
@@ -2382,7 +2382,7 @@
   </locations>
   <alertGroups>
     <entries>
-      <entry name="mqtt_group" lastAlert="2025-05-03T19:52:55.3820065Z" />
+      <entry name="mqtt_group" lastAlert="2025-05-07T20:44:31.1970886Z" />
       <entry name="telegram_info" lastAlert="2025-02-02T13:03:06.316783Z" />
     </entries>
   </alertGroups>

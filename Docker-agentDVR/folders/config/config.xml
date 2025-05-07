@@ -73,7 +73,7 @@
   <StorageNotifyEmail />
   <StorageNotifyEmailLimit>75</StorageNotifyEmailLimit>
   <StorageNotifyEmailLastSent>2001-01-01T00:00:00</StorageNotifyEmailLastSent>
-  <ArchiveCheckTimeStamp>2025-05-03T00:09:44.1965934Z</ArchiveCheckTimeStamp>
+  <ArchiveCheckTimeStamp>2025-05-07T00:16:07.3258011Z</ArchiveCheckTimeStamp>
   <DriveFullEmailLastSent>2001-01-01T00:00:00</DriveFullEmailLastSent>
   <StorageNotifyEmailIntervalHours>12</StorageNotifyEmailIntervalHours>
   <DeepStackAIURL />
@@ -140,8 +140,8 @@
   <NestConfig />
   <ONVIFDiscovery>false</ONVIFDiscovery>
   <ProductName>Agent</ProductName>
-  <RecordingTags>objectdetect,surfboard,bottle,alert,all,detected,manual alert,tv,car,horse,mouse,train,skateboard,person,cat,elephant,truck,traffic light,bicycle,baseball glove,tie,boat,dog,frisbee,bird,chair,fire hydrant,motorcycle,handbag,baseball bat,sports ball,skis,apple,backpack,clock,airplane,sheep,bear,teddy bear,laptop,potted plant,parking meter,cell phone,cow,keyboard,tennis racket,suitcase,umbrella,bench,cup,bus,book,remote,bed</RecordingTags>
-  <ImageTags>playback,bicycle,bird,boat,car,train,person,cat,dog,truck</ImageTags>
+  <RecordingTags>airplane,alert,all,apple,backpack,baseball bat,baseball glove,bear,bed,bench,bicycle,bird,boat,book,bottle,bus,car,cat,cell phone,chair,clock,cow,cup,detected,dog,elephant,fire hydrant,frisbee,handbag,horse,keyboard,kite,laptop,manual alert,motorcycle,mouse,objectdetect,orange,oven,parking meter,person,potted plant,remote,sheep,skateboard,skis,sports ball,suitcase,surfboard,teddy bear,tennis racket,tie,toothbrush,traffic light,train,truck,tv,umbrella</RecordingTags>
+  <ImageTags>bicycle,bird,boat,car,cat,dog,person,playback,train,truck</ImageTags>
   <Permissions />
   <MQTT Enable="true" Username="dev01" Password="5506487" Server="177e3ee7cf004e6ebed04b25d4c51a26.s1.eu.hivemq.cloud" ClientID="camera" Port="8883" KeepAlive="60" Protocol="TLS" Stats="true" />
   <RTMP />
@@ -155,7 +155,7 @@
   <RTMPServers />
   <FTPServers />
   <MediaDirectories>
-    <Directory Entry="/AgentDVR/Media/WebServerRoot/Media/" EnableManagement="true" MaxSize="30000" MaxAge="730" ArchiveDirectoryNew="" Default="true" />
+    <Directory Entry="/AgentDVR/Media/WebServerRoot/Media/" EnableManagement="true" MaxSize="30000" ArchiveDirectoryNew="" Default="true" />
   </MediaDirectories>
   <Users />
   <LDAP />

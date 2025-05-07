@@ -3,7 +3,7 @@
 node_modules/
 npm-debug.log
 yarn-error.log
-
+zone-minder/
 # AI language models
 *.h5
 *.ckpt
