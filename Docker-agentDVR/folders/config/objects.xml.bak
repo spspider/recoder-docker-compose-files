@@ -266,12 +266,12 @@
         <resizemode>2</resizemode>
       </lpr>
       <face>
-        <aiident />
-        <enabled>false</enabled>
+        <aiident>ef1beaec-6160-4a6f-9a4f-8ace2e39af01</aiident>
+        <enabled>true</enabled>
         <mode>1</mode>
         <interval>1</interval>
         <confidence>60</confidence>
-        <snapshots>true</snapshots>
+        <snapshots>false</snapshots>
         <usesnapshoturi>false</usesnapshoturi>
         <ftpsnapshots>false</ftpsnapshots>
         <aicrop>false</aicrop>
@@ -1428,7 +1428,7 @@
         <dvrmodel>Mobile</dvrmodel>
         <dvrchannel>0</dvrchannel>
         <schedule>false</schedule>
-        <zPoint>320,240</zPoint>
+        <zPoint>374,251</zPoint>
         <zFactor>1</zFactor>
         <findbeststream>true</findbeststream>
         <audiostreamindex>0</audiostreamindex>
@@ -1913,8 +1913,8 @@
         <resizemode>2</resizemode>
       </lpr>
       <face>
-        <aiident />
-        <enabled>false</enabled>
+        <aiident>ef1beaec-6160-4a6f-9a4f-8ace2e39af01</aiident>
+        <enabled>true</enabled>
         <mode>1</mode>
         <interval>1</interval>
         <confidence>60</confidence>
@@ -2017,7 +2017,7 @@
         <audiolimitcolor>255,0,0</audiolimitcolor>
         <color />
         <ndilevel>80</ndilevel>
-        <prefer_tcp>false</prefer_tcp>
+        <prefer_tcp>true</prefer_tcp>
         <rtspmodenew>tcp</rtspmodenew>
         <low_delay>false</low_delay>
         <deletewav>true</deletewav>
@@ -2097,7 +2097,7 @@
         <audiolimitcolor>255,0,0</audiolimitcolor>
         <color />
         <ndilevel>80</ndilevel>
-        <prefer_tcp>true</prefer_tcp>
+        <prefer_tcp>false</prefer_tcp>
         <rtspmodenew>tcp</rtspmodenew>
         <low_delay>false</low_delay>
         <deletewav>true</deletewav>
@@ -2373,6 +2373,11 @@
           <entry type="MQTTIMAGE" param1="camera/front/alinka-image" param2="False" />
         </actionEntries>
       </entry>
+      <entry type="S" objecttypeid="2" objectid="7" mode="facerecognized" ident="3fd1ff5d-b2b3-4e8e-a9da-83e3b5c6f475" tags="serhii" zonematch="1,2,3,4,5,6,7,8,9">
+        <actionEntries>
+          <entry type="MQTTIMAGE" param1="camera/front/alinka-image" param2="False" />
+        </actionEntries>
+      </entry>
     </entries>
   </actions>
   <locations>
@@ -2382,7 +2387,7 @@
   </locations>
   <alertGroups>
     <entries>
-      <entry name="mqtt_group" lastAlert="2025-05-10T19:37:09.4200852Z" />
+      <entry name="mqtt_group" lastAlert="2025-05-11T20:10:53.5371717Z" />
       <entry name="telegram_info" lastAlert="2025-02-02T13:03:06.316783Z" />
     </entries>
   </alertGroups>

@@ -1,0 +1,10 @@
+{
+  "Modules": {
+    "FaceProcessing": {
+      "LaunchSettings": {
+        "AutoStart": true
+      },
+      "GpuOptions": {}
+    }
+  }
+}

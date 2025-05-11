@@ -41,7 +41,7 @@
   <MaxControlsPerColumn>4</MaxControlsPerColumn>
   <UseGPU>false</UseGPU>
   <DefaultGPUDecoder />
-  <DefaultGPUEncoder />
+  <DefaultGPUEncoder>H264 (software)</DefaultGPUEncoder>
   <WebRTCEncoder>H264 (software)</WebRTCEncoder>
   <Priority>32</Priority>
   <AutoSkip>true</AutoSkip>
@@ -73,7 +73,7 @@
   <StorageNotifyEmail />
   <StorageNotifyEmailLimit>75</StorageNotifyEmailLimit>
   <StorageNotifyEmailLastSent>2001-01-01T00:00:00</StorageNotifyEmailLastSent>
-  <ArchiveCheckTimeStamp>2025-05-10T00:16:44.7017321Z</ArchiveCheckTimeStamp>
+  <ArchiveCheckTimeStamp>2025-05-11T00:16:58.7553768Z</ArchiveCheckTimeStamp>
   <DriveFullEmailLastSent>2001-01-01T00:00:00</DriveFullEmailLastSent>
   <StorageNotifyEmailIntervalHours>12</StorageNotifyEmailIntervalHours>
   <DeepStackAIURL />
