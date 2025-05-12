@@ -20,6 +20,7 @@ services:
     # network_mode: "bridge"  # Optional: use "host"
     networks:
       - app_network  # Use the shared network
+        #
 
 networks:
   app_network:
