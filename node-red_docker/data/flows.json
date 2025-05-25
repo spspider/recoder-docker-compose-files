@@ -1445,6 +1445,41 @@
         "wires": []
     },
     {
+        "id": "15db536cf6e755fa",
+        "type": "http in",
+        "z": "65bf31c16d103884",
+        "d": true,
+        "name": "",
+        "url": "/ir",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 250,
+        "y": 1060,
+        "wires": [
+            [
+                "4537d1415724376a"
+            ]
+        ]
+    },
+    {
+        "id": "4537d1415724376a",
+        "type": "debug",
+        "z": "65bf31c16d103884",
+        "d": true,
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 1060,
+        "wires": []
+    },
+    {
         "id": "95ff1632.6243b8",
         "type": "telegram sender",
         "z": "d2d769b0.c57da8",

@@ -1109,7 +1109,7 @@
         "ymax": "",
         "removeOlder": 1,
         "removeOlderPoints": "",
-        "removeOlderUnit": "604800",
+        "removeOlderUnit": "86400",
         "cutout": 0,
         "useOneColor": false,
         "useUTC": false,
@@ -1442,6 +1442,39 @@
         "statusType": "auto",
         "x": 760,
         "y": 840,
+        "wires": []
+    },
+    {
+        "id": "15db536cf6e755fa",
+        "type": "http in",
+        "z": "65bf31c16d103884",
+        "name": "",
+        "url": "/ir",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 250,
+        "y": 1060,
+        "wires": [
+            [
+                "4537d1415724376a"
+            ]
+        ]
+    },
+    {
+        "id": "4537d1415724376a",
+        "type": "debug",
+        "z": "65bf31c16d103884",
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 1060,
         "wires": []
     },
     {
@@ -2231,7 +2264,7 @@
         "ymax": "",
         "removeOlder": 1,
         "removeOlderPoints": "",
-        "removeOlderUnit": "604800",
+        "removeOlderUnit": "86400",
         "cutout": 0,
         "useOneColor": false,
         "useUTC": false,
