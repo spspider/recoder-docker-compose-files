@@ -679,7 +679,6 @@
         "y": 240,
         "wires": [
             [
-                "ae6e72d47fe7dc42",
                 "9eb949a941dbc63b"
             ]
         ]
@@ -853,7 +852,7 @@
         "max": "200",
         "step": 1,
         "className": "",
-        "x": 790,
+        "x": 810,
         "y": 260,
         "wires": [
             [
@@ -879,29 +878,6 @@
             [
                 "3e96ad22e502c317"
             ]
-        ]
-    },
-    {
-        "id": "ae6e72d47fe7dc42",
-        "type": "delay",
-        "z": "65bf31c16d103884",
-        "name": "",
-        "pauseType": "queue",
-        "timeout": "2",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "3",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": true,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 1660,
-        "y": 240,
-        "wires": [
-            []
         ]
     },
     {
@@ -1391,36 +1367,38 @@
         "id": "15db536cf6e755fa",
         "type": "http in",
         "z": "65bf31c16d103884",
-        "d": true,
         "name": "",
         "url": "/ir",
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 250,
-        "y": 1060,
+        "x": 150,
+        "y": 380,
         "wires": [
             [
-                "4537d1415724376a"
+                "c5fa60a3915d5189"
             ]
         ]
     },
     {
-        "id": "4537d1415724376a",
-        "type": "debug",
+        "id": "c5fa60a3915d5189",
+        "type": "function",
         "z": "65bf31c16d103884",
-        "d": true,
-        "name": "debug 10",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 540,
-        "y": 1060,
-        "wires": []
+        "name": "message",
+        "func": "// Define an object with code mappings to topic and payload\nconst codeMappings = {\n    \"20DF4EB1\": { topic: 6, payload: 0 },\n    \"20DF8E71\": { topic: 6, payload: 10 },\n    \"20DFC639\": { topic: 6, payload: 100 },\n    \"20DF8679\": { topic: 6, payload: 300 },\n    // Add more mappings as needed\n};\n\n// Get the mapping for the given code\nconst mapping = codeMappings[msg.payload.code] || { topic: 0, payload: \"unknown\" };\n\n// Set the topic and payload based on the mapping\nmsg.topic = mapping.topic;\nmsg.payload = mapping.payload;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 380,
+        "wires": [
+            [
+                "e1eafc56a30f1862"
+            ]
+        ]
     },
     {
         "id": "95ff1632.6243b8",
