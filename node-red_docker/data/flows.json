@@ -1376,7 +1376,9 @@
         "y": 380,
         "wires": [
             [
-                "c5fa60a3915d5189"
+                "c5fa60a3915d5189",
+                "737a66def327bbb0",
+                "7373f9e08ada873c"
             ]
         ]
     },
@@ -1385,7 +1387,7 @@
         "type": "function",
         "z": "65bf31c16d103884",
         "name": "message",
-        "func": "// Define an object with code mappings to topic and payload\nconst codeMappings = {\n    \"20DF4EB1\": { topic: 6, payload: 0 },\n    \"20DF8E71\": { topic: 6, payload: 10 },\n    \"20DFC639\": { topic: 6, payload: 100 },\n    \"20DF8679\": { topic: 6, payload: 300 },\n    // Add more mappings as needed\n};\n\n// Get the mapping for the given code\nconst mapping = codeMappings[msg.payload.code] || { topic: 0, payload: \"unknown\" };\n\n// Set the topic and payload based on the mapping\nmsg.topic = mapping.topic;\nmsg.payload = mapping.payload;\n\nreturn msg;\n",
+        "func": "// Define an object with code mappings to topic and payload\nconst codeMappings = {\n    \"20DF4EB1\": { topic: 6, payload: 0 },\n    \"20DF8E71\": { topic: 6, payload: 10 },\n    \"20DFC639\": { topic: 6, payload: 100 },\n    \"20DF8679\": { topic: 6, payload: 300 },\n    \"20DFF10E\": { topic: 4, payload: 0 },\n    \"20DF0DF2\": { topic: 4, payload: 1 },\n    \"20DF5DA2\": { topic: 3, payload: 0 },\n    \"20DF718E\": { topic: 3, payload: 20 },\n    // Add more mappings as needed\n};\n\n// Get the mapping for the given code\nconst mapping = codeMappings[msg.payload.code] || { topic: 0, payload: \"unknown\" };\n\n// Set the topic and payload based on the mapping\nmsg.topic = mapping.topic;\nmsg.payload = mapping.payload;\n\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -1399,6 +1401,33 @@
                 "e1eafc56a30f1862"
             ]
         ]
+    },
+    {
+        "id": "737a66def327bbb0",
+        "type": "http response",
+        "z": "65bf31c16d103884",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 300,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "7373f9e08ada873c",
+        "type": "debug",
+        "z": "65bf31c16d103884",
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 300,
+        "y": 420,
+        "wires": []
     },
     {
         "id": "95ff1632.6243b8",
