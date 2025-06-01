@@ -8,6 +8,14 @@
         "env": []
     },
     {
+        "id": "8ee561e21c0a30f6",
+        "type": "tab",
+        "label": "bine cu apa",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "d2d769b0.c57da8",
         "type": "tab",
         "label": "Telegram",
@@ -1428,6 +1436,413 @@
         "x": 300,
         "y": 420,
         "wires": []
+    },
+    {
+        "id": "0556346d05a00c85",
+        "type": "function",
+        "z": "8ee561e21c0a30f6",
+        "name": "bine",
+        "func": "function setStoredValue(objectValue) {\n    var storedValues = global.get(\"storedValues\") || {}; // Retrieve existing data or initialize an empty object\n    var parameterName = objectValue.name; // Example: \"Curtain in my room switch up\"\n    var parameterNumber = objectValue.topic; // Example: 0\n    var parameterValue = objectValue.payload; // Example: 100\n    // If the entry already exists, update only the payload\n    if (storedValues.hasOwnProperty(parameterName)) {\n        storedValues[parameterName].payload = parameterValue;\n    } else {\n        // Otherwise, create a new entry\n        storedValues[parameterName] = {\n            topic: parameterNumber,\n            payload: parameterValue\n        };\n    }\n    global.set(\"storedValues\", storedValues); // Save back to global context\n    return null; // No output needed\n}\n\nvar name = {}\nname[0] = \"Curtain room switch up example:{\\\"curain_up\\\":\\\"0\\\"}\"\nname[1] = \"Curtain in my room switch down example:{\\\"curain_down\\\":\\\"0\\\"}\"\nname[2] = \"light in backyard\"\nname[3] = \"light in my room slider from 0 to 50\"\nname[4] = \"light in my room powerful\"\nname[5] = \"temp in my room\"\nname[6] = \"light Night powerful\"\n\nvar topicObjects = [];\nvar parsed = (msg.payload);\nvar topic = (msg.topic)\nvar  outputCount_number = node.outputCount\nif (topic == \"initial\") {\n    for (var i = 0; i < parsed.stat.length; i++) {\n        var topicObject = {\n            payload: parseFloat(parsed.stat[i]),\n            topic: i,\n            name: name[i]\n        };\n        setStoredValue(topicObject);\n        topicObjects.push(topicObject);\n    }\n    return topicObjects;\n}\nelse {// topic is not initial\n    for (var i = 0; i < outputCount_number; i++) {\n        if (i == parseInt(topic)) {\n            topicObject = {\n                payload: parseInt(parsed),\n                topic: parseInt(topic),\n                name: name[i]\n            }\n            setStoredValue(topicObject);\n            topicObjects.push(topicObject);\n        };\n        topicObjects.push(null);\n    }\n    return topicObjects;\n} \n\n",
+        "outputs": 7,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 160,
+        "wires": [
+            [
+                "f0bff3ed08479aa2"
+            ],
+            [
+                "cbb21692f599eebe"
+            ],
+            [],
+            [],
+            [],
+            [
+                "779e20ca1ece3683"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "736d4b87e5b174b1",
+        "type": "inject",
+        "z": "8ee561e21c0a30f6",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "120",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "10",
+        "topic": "initial",
+        "payload": "",
+        "payloadType": "date",
+        "x": 220,
+        "y": 160,
+        "wires": [
+            [
+                "c086e1307c764e66"
+            ]
+        ]
+    },
+    {
+        "id": "c086e1307c764e66",
+        "type": "http request",
+        "z": "8ee561e21c0a30f6",
+        "name": "bine",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "192.168.1.153/sendAJAX?json={%22t%22:127,%22v%22:0}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 410,
+        "y": 160,
+        "wires": [
+            [
+                "0556346d05a00c85"
+            ]
+        ]
+    },
+    {
+        "id": "f0bff3ed08479aa2",
+        "type": "ui_switch",
+        "z": "8ee561e21c0a30f6",
+        "name": "",
+        "label": "switch1",
+        "tooltip": "",
+        "group": "f027919d2a75152b",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "0",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "0",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "1",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 780,
+        "y": 80,
+        "wires": [
+            [
+                "dbbc30b078185b19"
+            ]
+        ]
+    },
+    {
+        "id": "cbb21692f599eebe",
+        "type": "ui_switch",
+        "z": "8ee561e21c0a30f6",
+        "name": "",
+        "label": "switch2",
+        "tooltip": "",
+        "group": "f027919d2a75152b",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "1",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "0",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "1",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 780,
+        "y": 120,
+        "wires": [
+            [
+                "2a88f0642cf44aa6"
+            ]
+        ]
+    },
+    {
+        "id": "255b7b92a1e2f811",
+        "type": "http request",
+        "z": "8ee561e21c0a30f6",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://192.168.1.153/sendAJAX?json={%22t%22:{{topic}},%22v%22:{{payload}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1410,
+        "y": 180,
+        "wires": [
+            [
+                "88f8c45c3b20137d"
+            ]
+        ]
+    },
+    {
+        "id": "2a88f0642cf44aa6",
+        "type": "rbe",
+        "z": "8ee561e21c0a30f6",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 930,
+        "y": 120,
+        "wires": [
+            [
+                "255b7b92a1e2f811"
+            ]
+        ]
+    },
+    {
+        "id": "dbbc30b078185b19",
+        "type": "rbe",
+        "z": "8ee561e21c0a30f6",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 930,
+        "y": 80,
+        "wires": [
+            [
+                "255b7b92a1e2f811"
+            ]
+        ]
+    },
+    {
+        "id": "7cfc9f69484bea2b",
+        "type": "mqtt out",
+        "z": "8ee561e21c0a30f6",
+        "name": "",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "a7804332c06e238f",
+        "x": 1800,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "88f8c45c3b20137d",
+        "type": "function",
+        "z": "8ee561e21c0a30f6",
+        "name": "node-red/bine/",
+        "func": "msg.topic = \"node-red/bine/\" + msg.topic;\nmsg.qos = 0;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1540,
+        "y": 420,
+        "wires": [
+            [
+                "7cfc9f69484bea2b"
+            ]
+        ]
+    },
+    {
+        "id": "591df3cde7e3886a",
+        "type": "ui_chart",
+        "z": "8ee561e21c0a30f6",
+        "name": "",
+        "group": "f027919d2a75152b",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "label": "temp",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1090,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "779e20ca1ece3683",
+        "type": "function",
+        "z": "8ee561e21c0a30f6",
+        "name": "set topic and payload filter",
+        "func": "if (msg.payload > 60){\n    return null;\n}\nmsg.topic = 5;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 360,
+        "wires": [
+            [
+                "591df3cde7e3886a"
+            ]
+        ]
+    },
+    {
+        "id": "595c732b357dde6a",
+        "type": "mqtt in",
+        "z": "8ee561e21c0a30f6",
+        "name": "mqtt-messages",
+        "topic": "",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "a7804332c06e238f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 1,
+        "x": 600,
+        "y": 440,
+        "wires": [
+            [
+                "abdb5dd91ba7dfe5"
+            ]
+        ]
+    },
+    {
+        "id": "c5dd365748a52314",
+        "type": "function",
+        "z": "8ee561e21c0a30f6",
+        "name": "node-red/bine/control/",
+        "func": "var subcsciptionLoop = []\n\nfor (var i = 0; i < 7; i++) {\n    var subscriptionVar = {\n        action: \"subscribe\",\n        topic: \"node-red/bine/control/\" + i\n    }\n    subcsciptionLoop.push(subscriptionVar);\n}\nreturn [subcsciptionLoop];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 440,
+        "wires": [
+            [
+                "595c732b357dde6a"
+            ]
+        ]
+    },
+    {
+        "id": "60c43f89349480bf",
+        "type": "inject",
+        "z": "8ee561e21c0a30f6",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 440,
+        "wires": [
+            [
+                "c5dd365748a52314"
+            ]
+        ]
+    },
+    {
+        "id": "abdb5dd91ba7dfe5",
+        "type": "function",
+        "z": "8ee561e21c0a30f6",
+        "name": "decoder",
+        "func": "var topicIn = msg.topic; //node-red/room/control/0\nvar parts = topicIn.split('/');\nvar lastPart = parts[parts.length - 1];\nvar number = parseInt(lastPart, 10);\n\nmsg.topic = number;\nmsg.payload = msg.payload;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 440,
+        "wires": [
+            [
+                "0556346d05a00c85"
+            ]
+        ]
     },
     {
         "id": "95ff1632.6243b8",
