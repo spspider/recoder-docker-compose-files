@@ -509,6 +509,25 @@
         "className": ""
     },
     {
+        "id": "4f355165578101f1",
+        "type": "ui_tab",
+        "name": "Afara",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "5db072261e302c51",
+        "type": "ui_group",
+        "name": "well",
+        "tab": "4f355165578101f1",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
         "id": "e1eafc56a30f1862",
         "type": "function",
         "z": "65bf31c16d103884",
@@ -1442,8 +1461,8 @@
         "type": "function",
         "z": "8ee561e21c0a30f6",
         "name": "bine",
-        "func": "function setStoredValue(objectValue) {\n    var storedValues = global.get(\"storedValues\") || {}; // Retrieve existing data or initialize an empty object\n    var parameterName = objectValue.name; // Example: \"Curtain in my room switch up\"\n    var parameterNumber = objectValue.topic; // Example: 0\n    var parameterValue = objectValue.payload; // Example: 100\n    // If the entry already exists, update only the payload\n    if (storedValues.hasOwnProperty(parameterName)) {\n        storedValues[parameterName].payload = parameterValue;\n    } else {\n        // Otherwise, create a new entry\n        storedValues[parameterName] = {\n            topic: parameterNumber,\n            payload: parameterValue\n        };\n    }\n    global.set(\"storedValues\", storedValues); // Save back to global context\n    return null; // No output needed\n}\n\nvar name = {}\nname[0] = \"Curtain room switch up example:{\\\"curain_up\\\":\\\"0\\\"}\"\nname[1] = \"Curtain in my room switch down example:{\\\"curain_down\\\":\\\"0\\\"}\"\nname[2] = \"light in backyard\"\nname[3] = \"light in my room slider from 0 to 50\"\nname[4] = \"light in my room powerful\"\nname[5] = \"temp in my room\"\nname[6] = \"light Night powerful\"\n\nvar topicObjects = [];\nvar parsed = (msg.payload);\nvar topic = (msg.topic)\nvar  outputCount_number = node.outputCount\nif (topic == \"initial\") {\n    for (var i = 0; i < parsed.stat.length; i++) {\n        var topicObject = {\n            payload: parseFloat(parsed.stat[i]),\n            topic: i,\n            name: name[i]\n        };\n        setStoredValue(topicObject);\n        topicObjects.push(topicObject);\n    }\n    return topicObjects;\n}\nelse {// topic is not initial\n    for (var i = 0; i < outputCount_number; i++) {\n        if (i == parseInt(topic)) {\n            topicObject = {\n                payload: parseInt(parsed),\n                topic: parseInt(topic),\n                name: name[i]\n            }\n            setStoredValue(topicObject);\n            topicObjects.push(topicObject);\n        };\n        topicObjects.push(null);\n    }\n    return topicObjects;\n} \n\n",
-        "outputs": 7,
+        "func": "\nvar topicObjects = [];\nvar parsed = (msg.payload);\nvar topic = (msg.topic)\nvar  outputCount_number = node.outputCount\nif (topic == \"initial\") {\n    for (var i = 0; i < parsed.stat.length; i++) {\n        var topicObject = {\n            payload: parseFloat(parsed.stat[i]),\n            topic: i,\n        };\n        topicObjects.push(topicObject);\n    }\n    return topicObjects;\n}\nelse {// topic is not initial\n    for (var i = 0; i < outputCount_number; i++) {\n        if (i == parseInt(topic)) {\n            topicObject = {\n                payload: parseInt(parsed),\n                topic: parseInt(topic),\n            }\n            topicObjects.push(topicObject);\n        };\n        topicObjects.push(null);\n    }\n    return topicObjects;\n} \n\n",
+        "outputs": 10,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
@@ -1452,6 +1471,13 @@
         "x": 590,
         "y": 160,
         "wires": [
+            [],
+            [],
+            [],
+            [
+                "0aa4cd3f64a0886b"
+            ],
+            [],
             [
                 "f0bff3ed08479aa2"
             ],
@@ -1459,12 +1485,12 @@
                 "cbb21692f599eebe"
             ],
             [],
-            [],
-            [],
+            [
+                "0b0e7b5e639196c5"
+            ],
             [
                 "779e20ca1ece3683"
-            ],
-            []
+            ]
         ]
     },
     {
@@ -1527,27 +1553,27 @@
         "name": "",
         "label": "switch1",
         "tooltip": "",
-        "group": "f027919d2a75152b",
+        "group": "5db072261e302c51",
         "order": 0,
         "width": 0,
         "height": 0,
         "passthru": true,
         "decouple": "false",
-        "topic": "0",
+        "topic": "5",
         "topicType": "str",
         "style": "",
-        "onvalue": "0",
+        "onvalue": "1",
         "onvalueType": "num",
         "onicon": "",
         "oncolor": "",
-        "offvalue": "1",
+        "offvalue": "0",
         "offvalueType": "num",
         "officon": "",
         "offcolor": "",
         "animate": false,
         "className": "",
         "x": 780,
-        "y": 80,
+        "y": 40,
         "wires": [
             [
                 "dbbc30b078185b19"
@@ -1561,27 +1587,27 @@
         "name": "",
         "label": "switch2",
         "tooltip": "",
-        "group": "f027919d2a75152b",
+        "group": "5db072261e302c51",
         "order": 0,
         "width": 0,
         "height": 0,
         "passthru": true,
         "decouple": "false",
-        "topic": "1",
+        "topic": "6",
         "topicType": "str",
         "style": "",
-        "onvalue": "0",
+        "onvalue": "1",
         "onvalueType": "num",
         "onicon": "",
         "oncolor": "",
-        "offvalue": "1",
+        "offvalue": "0",
         "offvalueType": "num",
         "officon": "",
         "offcolor": "",
         "animate": false,
         "className": "",
         "x": 780,
-        "y": 120,
+        "y": 80,
         "wires": [
             [
                 "2a88f0642cf44aa6"
@@ -1625,7 +1651,7 @@
         "property": "payload",
         "topi": "topic",
         "x": 930,
-        "y": 120,
+        "y": 80,
         "wires": [
             [
                 "255b7b92a1e2f811"
@@ -1645,7 +1671,7 @@
         "property": "payload",
         "topi": "topic",
         "x": 930,
-        "y": 80,
+        "y": 40,
         "wires": [
             [
                 "255b7b92a1e2f811"
@@ -1695,11 +1721,11 @@
         "type": "ui_chart",
         "z": "8ee561e21c0a30f6",
         "name": "",
-        "group": "f027919d2a75152b",
+        "group": "5db072261e302c51",
         "order": 7,
         "width": 0,
         "height": 0,
-        "label": "temp",
+        "label": "Humidity",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm:ss",
@@ -1728,8 +1754,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1090,
-        "y": 360,
+        "x": 1080,
+        "y": 300,
         "wires": [
             []
         ]
@@ -1746,8 +1772,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 890,
-        "y": 360,
+        "x": 870,
+        "y": 300,
         "wires": [
             [
                 "591df3cde7e3886a"
@@ -1780,7 +1806,7 @@
         "type": "function",
         "z": "8ee561e21c0a30f6",
         "name": "node-red/bine/control/",
-        "func": "var subcsciptionLoop = []\n\nfor (var i = 0; i < 7; i++) {\n    var subscriptionVar = {\n        action: \"subscribe\",\n        topic: \"node-red/bine/control/\" + i\n    }\n    subcsciptionLoop.push(subscriptionVar);\n}\nreturn [subcsciptionLoop];",
+        "func": "var subcsciptionLoop = []\n\nfor (var i = 0; i < 10; i++) {\n    var subscriptionVar = {\n        action: \"subscribe\",\n        topic: \"node-red/bine/control/\" + i\n    }\n    subcsciptionLoop.push(subscriptionVar);\n}\nreturn [subcsciptionLoop];",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1841,6 +1867,134 @@
         "wires": [
             [
                 "0556346d05a00c85"
+            ]
+        ]
+    },
+    {
+        "id": "063917b9542f62ea",
+        "type": "ui_chart",
+        "z": "8ee561e21c0a30f6",
+        "name": "",
+        "group": "5db072261e302c51",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "label": "temp",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1070,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0aa4cd3f64a0886b",
+        "type": "function",
+        "z": "8ee561e21c0a30f6",
+        "name": "set topic and payload filter",
+        "func": "if (msg.payload > 60){\n    return null;\n}\nmsg.topic = 5;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 220,
+        "wires": [
+            [
+                "063917b9542f62ea"
+            ]
+        ]
+    },
+    {
+        "id": "229f42e6df64a732",
+        "type": "ui_chart",
+        "z": "8ee561e21c0a30f6",
+        "name": "",
+        "group": "5db072261e302c51",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "label": "power",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1070,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0b0e7b5e639196c5",
+        "type": "function",
+        "z": "8ee561e21c0a30f6",
+        "name": "set topic and payload filter",
+        "func": "if (msg.payload > 60){\n    return null;\n}\nmsg.topic = 5;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 260,
+        "wires": [
+            [
+                "229f42e6df64a732"
             ]
         ]
     },
