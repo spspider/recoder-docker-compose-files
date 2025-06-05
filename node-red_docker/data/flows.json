@@ -34,7 +34,7 @@
         "id": "47e2824120b2a9e0",
         "type": "tab",
         "label": "camera",
-        "disabled": false,
+        "disabled": true,
         "info": "",
         "env": []
     },
@@ -528,6 +528,21 @@
         "className": ""
     },
     {
+        "id": "8818288d473df902",
+        "type": "influxdb",
+        "hostname": "influxdb",
+        "port": 8086,
+        "protocol": "http",
+        "database": "smart_home",
+        "name": "",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "http://localhost:8086",
+        "timeout": 10,
+        "rejectUnauthorized": true
+    },
+    {
         "id": "e1eafc56a30f1862",
         "type": "function",
         "z": "65bf31c16d103884",
@@ -614,7 +629,8 @@
         "y": 220,
         "wires": [
             [
-                "e1eafc56a30f1862"
+                "e1eafc56a30f1862",
+                "89bba9a35c4a3784"
             ]
         ]
     },
@@ -1148,136 +1164,6 @@
         ]
     },
     {
-        "id": "9d6edcc560dfad19",
-        "type": "inject",
-        "z": "65bf31c16d103884",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 400,
-        "y": 660,
-        "wires": [
-            [
-                "f144e7bfac2c8f74"
-            ]
-        ]
-    },
-    {
-        "id": "f144e7bfac2c8f74",
-        "type": "function",
-        "z": "65bf31c16d103884",
-        "name": "function 3",
-        "func": "// Get all flow variables  \nlet flowKeys = flow.keys();\nlet flowValues = {};\nflowKeys.forEach(key => {\n    flowValues[key] = flow.get(key);\n});\n\n// Get all global variables  \nlet globalKeys = global.keys();\nlet globalValues = {};\nglobalKeys.forEach(key => {\n    globalValues[key] = global.get(key);\n});\n\n// Send the retrieved values as output  \nmsg.payload = {\n    flowVariables: flowValues,\n    globalVariables: globalValues\n};\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 580,
-        "y": 660,
-        "wires": [
-            [
-                "671217c8225771f8"
-            ]
-        ]
-    },
-    {
-        "id": "671217c8225771f8",
-        "type": "debug",
-        "z": "65bf31c16d103884",
-        "name": "debug 6",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 760,
-        "y": 660,
-        "wires": []
-    },
-    {
-        "id": "45173b5a6c33a9af",
-        "type": "inject",
-        "z": "65bf31c16d103884",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 400,
-        "y": 760,
-        "wires": [
-            [
-                "0aefc6f49b6b80da"
-            ]
-        ]
-    },
-    {
-        "id": "0aefc6f49b6b80da",
-        "type": "function",
-        "z": "65bf31c16d103884",
-        "name": "function 4",
-        "func": "var keys = [\"storedValues\"];\nvar retrievedValues = {};\n\nkeys.forEach(function (key) {\n    retrievedValues[key] = global.get(key) || { description: key, value: \"Not set\" };\n});\n\nmsg.payload = retrievedValues;\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 580,
-        "y": 760,
-        "wires": [
-            [
-                "52dfc17a5b3034ce"
-            ]
-        ]
-    },
-    {
-        "id": "52dfc17a5b3034ce",
-        "type": "debug",
-        "z": "65bf31c16d103884",
-        "name": "debug 7",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 760,
-        "y": 760,
-        "wires": []
-    },
-    {
         "id": "f8a9809c8cd54691",
         "type": "ui_slider",
         "z": "65bf31c16d103884",
@@ -1325,72 +1211,6 @@
         ]
     },
     {
-        "id": "18af85df81b8f884",
-        "type": "inject",
-        "z": "65bf31c16d103884",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 400,
-        "y": 840,
-        "wires": [
-            [
-                "5a495f68ba6261bc"
-            ]
-        ]
-    },
-    {
-        "id": "5a495f68ba6261bc",
-        "type": "function",
-        "z": "65bf31c16d103884",
-        "name": "flow keys",
-        "func": "// Get all flow context keys\nconst flowKeys = flow.keys();\n\n// Create an object to store the flow names and their values\nlet flowData = {};\n\n// Iterate over each key to get the corresponding value\nflowKeys.forEach(key => {\n    flowData[key] = flow.get(key);\n});\n\n// Set the payload to the flow data object\nmsg.payload = flowData;\n\n// Return the message\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 580,
-        "y": 840,
-        "wires": [
-            [
-                "9e0b16241c8bf3b1"
-            ]
-        ]
-    },
-    {
-        "id": "9e0b16241c8bf3b1",
-        "type": "debug",
-        "z": "65bf31c16d103884",
-        "name": "debug 9",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 760,
-        "y": 840,
-        "wires": []
-    },
-    {
         "id": "15db536cf6e755fa",
         "type": "http in",
         "z": "65bf31c16d103884",
@@ -1404,8 +1224,7 @@
         "wires": [
             [
                 "c5fa60a3915d5189",
-                "737a66def327bbb0",
-                "7373f9e08ada873c"
+                "737a66def327bbb0"
             ]
         ]
     },
@@ -1441,19 +1260,111 @@
         "wires": []
     },
     {
-        "id": "7373f9e08ada873c",
-        "type": "debug",
+        "id": "89bba9a35c4a3784",
+        "type": "function",
         "z": "65bf31c16d103884",
-        "name": "debug 10",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 300,
-        "y": 420,
+        "name": "convert to inno DB",
+        "func": "let data = msg.payload;\nlet temp = parseFloat(data.stat[7]); // 8-й элемент (нумерация с 0)\nmsg.payload = [\n    {\n        measurement: \"temperature\",\n        tags: { location: \"home\", value: temp }\n    }\n];\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 560,
+        "wires": [
+            [
+                "aced5d5dc767001f"
+            ]
+        ]
+    },
+    {
+        "id": "0a6efcf104f32b87",
+        "type": "inject",
+        "z": "65bf31c16d103884",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 100,
+        "wires": [
+            [
+                "7826811d42a41158"
+            ]
+        ]
+    },
+    {
+        "id": "7826811d42a41158",
+        "type": "http request",
+        "z": "65bf31c16d103884",
+        "name": "myroom",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://192.168.1.150/pin_setup.txt",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 380,
+        "y": 100,
+        "wires": [
+            [
+                "f880076bcb5f8b83"
+            ]
+        ]
+    },
+    {
+        "id": "f880076bcb5f8b83",
+        "type": "function",
+        "z": "65bf31c16d103884",
+        "name": "192.168.1.150",
+        "func": "flow.set(\"pinDescr\", msg.payload.descr); // сохраняем только descr[]\nreturn null; // ничего не передаём дальше\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "aced5d5dc767001f",
+        "type": "influxdb batch",
+        "z": "65bf31c16d103884",
+        "influxdb": "8818288d473df902",
+        "precision": "",
+        "retentionPolicy": "",
+        "name": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1250,
+        "y": 560,
         "wires": []
     },
     {
@@ -1474,9 +1385,7 @@
             [],
             [],
             [],
-            [
-                "0aa4cd3f64a0886b"
-            ],
+            [],
             [],
             [
                 "f0bff3ed08479aa2"
@@ -1484,7 +1393,9 @@
             [
                 "cbb21692f599eebe"
             ],
-            [],
+            [
+                "0aa4cd3f64a0886b"
+            ],
             [
                 "0b0e7b5e639196c5"
             ],
@@ -2909,7 +2820,6 @@
         "id": "0a4bc3d7ef6e5525",
         "type": "good-object-detection",
         "z": "47e2824120b2a9e0",
-        "d": true,
         "name": "",
         "returnValue": 0,
         "model": "yolov8n",
@@ -2941,7 +2851,6 @@
         "id": "1661ecf3d0a55af0",
         "type": "function",
         "z": "47e2824120b2a9e0",
-        "d": true,
         "name": "checkForPersonArrays",
         "func": "\n\nfunction checkForPersonArrays(input) {\n    // Check if the input object has a property named 'person' and it's an array\n    if (input.hasOwnProperty('person') && Array.isArray(input.person)) {\n        let personArray = input.person;\n        let personCount = personArray.length;\n        return personCount;\n    } else {\n        return null; // Return null if 'person' array is not found\n    }\n}\n\nlet result = checkForPersonArrays(msg.payload.data);\nif (result != null) {\n    msg.payload = result\n    // node.error(msg.payload);\n    return msg;\n}",
         "outputs": 1,
@@ -2981,7 +2890,6 @@
         "id": "ad14deb3db078355",
         "type": "inject",
         "z": "47e2824120b2a9e0",
-        "d": true,
         "name": "",
         "props": [
             {
@@ -3067,7 +2975,6 @@
         "id": "c4b1621834b168c9",
         "type": "function",
         "z": "47e2824120b2a9e0",
-        "d": true,
         "name": "check persons on a photo",
         "func": "\n\nfunction checkForPersonArrays(input) {\n    // Check if the input object has a property named 'person' and it's an array\n    if (input.hasOwnProperty('person') && Array.isArray(input.person)) {\n        let personArray = input.person;\n        let personCount = personArray.length;\n        return personCount;\n    } else {\n        return null; // Return null if 'person' array is not found\n    }\n}\n\nlet result = checkForPersonArrays(msg.payload.data);\nif (result != null) {\n    msg.payload = result\n    // node.error(msg.payload);\n    return msg;\n}",
         "outputs": 1,
@@ -3127,7 +3034,6 @@
         "id": "c0a81247331a26e9",
         "type": "function",
         "z": "47e2824120b2a9e0",
-        "d": true,
         "name": "filter data",
         "func": "var originImg = {\n    payload: msg.payload.originImg,\n    topic: \"\"\n};\n\nfunction checkForDataArrays(input) {\n    let result = {};\n\n    // Iterate over each property in the input object\n    for (let key in input) {\n        if (Array.isArray(input[key])) {\n            // Add the array name and its count to the result object\n            result[key] = input[key].length;\n        }\n    }\n\n    // Return the result object if it has any properties, otherwise return null\n    return Object.keys(result).length > 0 ? result : null;\n}\n\nlet result = checkForDataArrays(msg.payload.data);\nif (result != null) {\n    msg.payload = result;\n    originImg.topic = JSON.stringify(result);\n    return [msg, originImg];\n} else {\n    return [null]; // Return null if no arrays are found\n}\n",
         "outputs": 2,
@@ -3349,7 +3255,6 @@
         "id": "fc5fb9ef18216633",
         "type": "good-object-detection",
         "z": "47e2824120b2a9e0",
-        "d": true,
         "name": "",
         "returnValue": 0,
         "model": "yolov8n",
@@ -3487,7 +3392,6 @@
         "id": "5e18c7cbf398fdda",
         "type": "mqtt in",
         "z": "47e2824120b2a9e0",
-        "d": true,
         "name": "",
         "topic": "camera/front",
         "qos": "2",
@@ -3620,7 +3524,6 @@
         "id": "b0cc2bedc1b68787",
         "type": "http response",
         "z": "47e2824120b2a9e0",
-        "d": true,
         "name": "",
         "statusCode": "200",
         "headers": {},
