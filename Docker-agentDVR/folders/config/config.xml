@@ -73,7 +73,7 @@
   <StorageNotifyEmail />
   <StorageNotifyEmailLimit>75</StorageNotifyEmailLimit>
   <StorageNotifyEmailLastSent>2001-01-01T00:00:00</StorageNotifyEmailLastSent>
-  <ArchiveCheckTimeStamp>2025-06-05T00:54:12.1885286Z</ArchiveCheckTimeStamp>
+  <ArchiveCheckTimeStamp>2025-06-06T00:54:24.6581066Z</ArchiveCheckTimeStamp>
   <DriveFullEmailLastSent>2001-01-01T00:00:00</DriveFullEmailLastSent>
   <StorageNotifyEmailIntervalHours>12</StorageNotifyEmailIntervalHours>
   <DeepStackAIURL />
@@ -140,8 +140,8 @@
   <NestConfig />
   <ONVIFDiscovery>false</ONVIFDiscovery>
   <ProductName>Agent</ProductName>
-  <RecordingTags>vase,banana,spoon,dining table,sink,zebra,bowl,serhii,toilet,giraffe,stop sign,unknown,umbrella,tv,truck,train,traffic light,toothbrush,tie,tennis racket,teddy bear,surfboard,suitcase,sports ball,skis,skateboard,sheep,remote,potted plant,person,parking meter,oven,orange,objectdetect,mouse,motorcycle,manual alert,laptop,kite,keyboard,horse,handbag,frisbee,fire hydrant,elephant,dog,detected,cup,cow,couch,clock,chair,cell phone,cat,car,bus,bottle,book,boat,bird,bicycle,bench,bed,bear,baseball glove,baseball bat,backpack,apple,all,alert,airplane,face</RecordingTags>
-  <ImageTags>serhii,unknown,truck,train,playback,person,dog,cat,car,boat,bird,bicycle</ImageTags>
+  <RecordingTags>airplane,alert,all,apple,backpack,banana,baseball bat,baseball glove,bear,bed,bench,bicycle,bird,boat,book,bottle,bowl,bus,car,cat,cell phone,chair,clock,couch,cow,cup,detected,dining table,dog,elephant,face,fire hydrant,frisbee,giraffe,handbag,horse,keyboard,kite,laptop,manual alert,motorcycle,mouse,objectdetect,orange,oven,parking meter,person,potted plant,remote,serhii,sheep,sink,skateboard,skis,spoon,sports ball,stop sign,suitcase,surfboard,teddy bear,tennis racket,tie,toilet,toothbrush,traffic light,train,truck,tv,umbrella,unknown,vase,zebra</RecordingTags>
+  <ImageTags>bicycle,bird,boat,car,cat,dog,person,playback,serhii,train,truck,unknown</ImageTags>
   <Permissions />
   <MQTT Enable="true" Username="dev01" Password="5506487" Server="177e3ee7cf004e6ebed04b25d4c51a26.s1.eu.hivemq.cloud" ClientID="camera" Port="8883" KeepAlive="60" Protocol="TLS" Stats="true" />
   <RTMP />
