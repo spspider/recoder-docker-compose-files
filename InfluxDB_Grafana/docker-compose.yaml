@@ -29,3 +29,8 @@ volumes:
 networks:
   app_network:
     external: true      
+
+
+# enter in container:
+# docker exec -it influxdb /bin/bash  
+# influx
