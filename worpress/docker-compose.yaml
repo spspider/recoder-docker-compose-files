@@ -10,6 +10,8 @@ services:
       WORDPRESS_DB_USER: wp_user
       WORDPRESS_DB_PASSWORD: wp_pass
       WORDPRESS_DB_NAME: wp_db
+      LETSENCRYPT_HOST: ecologic.pp.ua
+      LETSENCRYPT_EMAIL: spspider95@gmail.com
     volumes:
       - wordpress_data:/var/www/html
     networks:
@@ -26,6 +28,7 @@ services:
       MYSQL_ROOT_PASSWORD: root_pass
     volumes:
       - db_data:/var/lib/mysql
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     networks:
       - app_network
 
@@ -36,3 +39,11 @@ volumes:
 networks:
   app_network:
     external: true
+
+
+# docker exec -it wordpress_db mysql -u root -proot_pass
+# docker exec -it wordpress_db mysql -u root -proot_pass
+
+# GRANT ALL PRIVILEGES ON *.* TO 'wp_user'@'%' IDENTIFIED BY 'wp_pass'; FLUSH PRIVILEGES;
+# GRANT ALL PRIVILEGES ON *.* TO 'wp_user'@'%' IDENTIFIED BY 'wp_pass' WITH GRANT OPTION;
+# FLUSH PRIVILEGES;

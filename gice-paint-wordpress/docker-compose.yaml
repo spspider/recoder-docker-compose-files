@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  wordpress_gica:
+    image: wordpress:latest
+    container_name: wordpress_gica
+    restart: unless-stopped
+    environment:
+      WORDPRESS_DB_HOST: wordpress_db:3306
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: wp_pass
+      WORDPRESS_DB_NAME: wp_db_gica
+      LETSENCRYPT_HOST: gica-paint.pp.ua
+      LETSENCRYPT_EMAIL: spspider95@gmail.com
+    volumes:
+      - wordpress_gica_data:/var/www/html
+    networks:
+      - app_network
+
+volumes:
+  wordpress_gica_data:
+
+networks:
+  app_network:
+    external: true
