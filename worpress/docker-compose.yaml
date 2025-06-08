@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress_app
+    restart: unless-stopped
+    environment:
+      WORDPRESS_DB_HOST: wordpress_db:3306
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: wp_pass
+      WORDPRESS_DB_NAME: wp_db
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - app_network
+
+  wordpress_db:
+    image: mysql:5.7
+    container_name: wordpress_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: wp_db
+      MYSQL_USER: wp_user
+      MYSQL_PASSWORD: wp_pass
+      MYSQL_ROOT_PASSWORD: root_pass
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app_network
+
+volumes:
+  wordpress_data:
+  db_data:
+
+networks:
+  app_network:
+    external: true
