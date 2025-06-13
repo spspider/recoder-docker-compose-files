@@ -73,7 +73,7 @@
   <StorageNotifyEmail />
   <StorageNotifyEmailLimit>75</StorageNotifyEmailLimit>
   <StorageNotifyEmailLastSent>2001-01-01T00:00:00</StorageNotifyEmailLastSent>
-  <ArchiveCheckTimeStamp>2025-06-07T00:54:35.9331235Z</ArchiveCheckTimeStamp>
+  <ArchiveCheckTimeStamp>2025-06-12T00:36:45.5606459Z</ArchiveCheckTimeStamp>
   <DriveFullEmailLastSent>2001-01-01T00:00:00</DriveFullEmailLastSent>
   <StorageNotifyEmailIntervalHours>12</StorageNotifyEmailIntervalHours>
   <DeepStackAIURL />

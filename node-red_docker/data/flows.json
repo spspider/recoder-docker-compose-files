@@ -638,7 +638,8 @@
         "wires": [
             [
                 "e1eafc56a30f1862",
-                "89bba9a35c4a3784"
+                "89bba9a35c4a3784",
+                "fccacc261f6084fc"
             ]
         ]
     },
@@ -1272,7 +1273,7 @@
         "type": "function",
         "z": "65bf31c16d103884",
         "name": "convert to inno DB",
-        "func": "// Получение данных\nlet data = msg.payload;\nlet stat = data.stat.map(parseFloat);  // Преобразуем все строки в float\nlet otherSetup = flow.get(\"OtherSetup\");\n\n\n// Получение описаний из контекста\nlet descr = flow.get(\"pinDescr\") || [];\n\n// Подготовка полей\nlet fields = {};\n\nfor (let i = 0; i < stat.length; i++) {\n    let rawName = descr[i] || (\"pin_\" + i); // если нет имени, используем pin_0, pin_1 и т.д.\n    let cleanName = rawName.toString().replace(/\\s+/g, \"_\").replace(/[^\\w]/g, \"_\"); // удаляем пробелы и спецсимволы\n    fields[cleanName] = stat[i]; // Присваиваем значение\n}\n\n// Итоговое сообщение\nmsg.payload = [\n    {\n        measurement: otherSetup.deviceID,  // имя измерения — можешь изменить\n        fields: fields,\n        tags: {\n            location: otherSetup.deviceID\n        },\n        timestamp: new Date()\n    }\n];\n\nreturn msg;\n\n",
+        "func": "// Получение данных\nlet data = msg.payload;\nlet stat = data.stat.map(parseFloat);  // Преобразуем все строки в float\nlet otherSetup = flow.get(\"OtherSetup\");\n\nif (otherSetup === undefined) {\n    return msg;\n}\n\n// Получение описаний из контекста\nlet descr = flow.get(\"pinDescr\") || [];\n\n// Подготовка полей\nlet fields = {};\n\nfor (let i = 0; i < stat.length; i++) {\n    let rawName = descr[i] || (\"pin_\" + i); // если нет имени, используем pin_0, pin_1 и т.д.\n    let cleanName = rawName.toString().replace(/\\s+/g, \"_\").replace(/[^\\w]/g, \"_\"); // удаляем пробелы и спецсимволы\n    fields[cleanName] = stat[i]; // Присваиваем значение\n}\n\n// Итоговое сообщение\nmsg.payload = [\n    {\n        measurement: otherSetup.deviceID,  // имя измерения — можешь изменить\n        fields: fields,\n        tags: {\n            location: otherSetup.deviceID\n        },\n        timestamp: new Date()\n    }\n];\n\nreturn msg;\n\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1480,6 +1481,87 @@
         ]
     },
     {
+        "id": "80ac29eafd1641c6",
+        "type": "function",
+        "z": "65bf31c16d103884",
+        "name": "convert to inno DB",
+        "func": "let data = msg.payload;\nlet otherSetup = flow.get(\"OtherSetup\");\n\nif (otherSetup === undefined) {\n    return msg;\n}\n\n// Подготовка полей\nlet fields = {};\n\nfor (let key in data) {\n    let value = data[key];\n\n    // Название поля очищаем: пробелы и спецсимволы → \"_\"\n    let cleanKey = key.toString().replace(/\\s+/g, \"_\").replace(/[^\\w]/g, \"_\");\n\n    if (typeof value === \"number\") {\n        // Числовое значение — пишем как есть\n        fields[cleanKey] = value;\n    } else if (typeof value === \"string\") {\n        // Строковое значение — очищаем от пробелов/спецсимволов\n        fields[cleanKey] = value.toString().replace(/\\s+/g, \"_\").replace(/[^\\w\\.\\-]/g, \"_\");\n    } else {\n        // Прочие типы — сериализуем как JSON\n        fields[cleanKey] = JSON.stringify(value);\n    }\n}\n\n// Итоговое сообщение\nmsg.payload = [\n    {\n        measurement: otherSetup.deviceID + \"_system\",\n        fields: fields,\n        tags: {\n            location: otherSetup.deviceID + \"_system\"\n        },\n        timestamp: new Date()\n    }\n];\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1050,
+        "y": 700,
+        "wires": [
+            [
+                "fb85e5f794574fa3"
+            ]
+        ]
+    },
+    {
+        "id": "fb85e5f794574fa3",
+        "type": "influxdb batch",
+        "z": "65bf31c16d103884",
+        "influxdb": "8818288d473df902",
+        "precision": "",
+        "retentionPolicy": "",
+        "name": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1330,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "10a6564e966b7f18",
+        "type": "http request",
+        "z": "65bf31c16d103884",
+        "name": "wifi-all",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 810,
+        "y": 700,
+        "wires": [
+            [
+                "80ac29eafd1641c6"
+            ]
+        ]
+    },
+    {
+        "id": "fccacc261f6084fc",
+        "type": "function",
+        "z": "65bf31c16d103884",
+        "name": "getIP",
+        "func": "msg.url = \"http://\"+flow.get(\"ip\")+\"/all\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 700,
+        "wires": [
+            [
+                "10a6564e966b7f18"
+            ]
+        ]
+    },
+    {
         "id": "0556346d05a00c85",
         "type": "function",
         "z": "8ee561e21c0a30f6",
@@ -1566,7 +1648,8 @@
         "wires": [
             [
                 "0556346d05a00c85",
-                "d915c51c93f0dc5c"
+                "d915c51c93f0dc5c",
+                "a303f6faaa5b8736"
             ]
         ]
     },
@@ -2215,6 +2298,137 @@
         "wires": []
     },
     {
+        "id": "e7b0f4719fa16892",
+        "type": "inject",
+        "z": "8ee561e21c0a30f6",
+        "name": "watering on at 08.00",
+        "props": [
+            {
+                "p": "url",
+                "v": "http://192.168.1.153/sendAJAX?json={\"t\":6,\"v\":1}",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 08 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 1020,
+        "y": 620,
+        "wires": [
+            [
+                "255b7b92a1e2f811"
+            ]
+        ]
+    },
+    {
+        "id": "bc575741bfe55d15",
+        "type": "inject",
+        "z": "8ee561e21c0a30f6",
+        "name": "watering off at 08.10",
+        "props": [
+            {
+                "p": "url",
+                "v": "http://192.168.1.153/sendAJAX?json={\"t\":6,\"v\":0}",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 08 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 1020,
+        "y": 680,
+        "wires": [
+            [
+                "255b7b92a1e2f811"
+            ]
+        ]
+    },
+    {
+        "id": "ec98a9a401c05f80",
+        "type": "function",
+        "z": "8ee561e21c0a30f6",
+        "name": "convert to inno DB",
+        "func": "let data = msg.payload;\nlet otherSetup = flow.get(\"OtherSetup\");\n\nif (otherSetup === undefined) {\n    return msg;\n}\n\n// Подготовка полей\nlet fields = {};\n\nfor (let key in data) {\n    let value = data[key];\n\n    // Название поля очищаем: пробелы и спецсимволы → \"_\"\n    let cleanKey = key.toString().replace(/\\s+/g, \"_\").replace(/[^\\w]/g, \"_\");\n\n    if (typeof value === \"number\") {\n        // Числовое значение — пишем как есть\n        fields[cleanKey] = value;\n    } else if (typeof value === \"string\") {\n        // Строковое значение — очищаем от пробелов/спецсимволов\n        fields[cleanKey] = value.toString().replace(/\\s+/g, \"_\").replace(/[^\\w\\.\\-]/g, \"_\");\n    } else {\n        // Прочие типы — сериализуем как JSON\n        fields[cleanKey] = JSON.stringify(value);\n    }\n}\n\n// Итоговое сообщение\nmsg.payload = [\n    {\n        measurement: otherSetup.deviceID + \"_system\",\n        fields: fields,\n        tags: {\n            location: otherSetup.deviceID + \"_system\"\n        },\n        timestamp: new Date()\n    }\n];\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 780,
+        "wires": [
+            [
+                "8911d5bdb4f3c9eb"
+            ]
+        ]
+    },
+    {
+        "id": "8911d5bdb4f3c9eb",
+        "type": "influxdb batch",
+        "z": "8ee561e21c0a30f6",
+        "influxdb": "8818288d473df902",
+        "precision": "",
+        "retentionPolicy": "",
+        "name": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1230,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "e0d177ad0cf587b1",
+        "type": "http request",
+        "z": "8ee561e21c0a30f6",
+        "name": "wifi-all",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 710,
+        "y": 780,
+        "wires": [
+            [
+                "ec98a9a401c05f80"
+            ]
+        ]
+    },
+    {
+        "id": "a303f6faaa5b8736",
+        "type": "function",
+        "z": "8ee561e21c0a30f6",
+        "name": "getIP",
+        "func": "msg.url = \"http://\"+flow.get(\"ip\")+\"/all\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 780,
+        "wires": [
+            [
+                "e0d177ad0cf587b1"
+            ]
+        ]
+    },
+    {
         "id": "c094f1214166e433",
         "type": "mqtt in",
         "z": "ca3d3fb4de74fc4f",
@@ -2838,7 +3052,8 @@
             [
                 "3c1987dcc97c0950",
                 "c8ce4ebd28a2b778",
-                "71cf6148d16e509a"
+                "71cf6148d16e509a",
+                "be8bf7398d4274c7"
             ]
         ]
     },
@@ -3363,6 +3578,87 @@
         "x": 890,
         "y": 360,
         "wires": []
+    },
+    {
+        "id": "37c191451fee0117",
+        "type": "function",
+        "z": "a69381581f637ec6",
+        "name": "convert to inno DB",
+        "func": "let data = msg.payload;\nlet otherSetup = flow.get(\"OtherSetup\");\n\nif (otherSetup === undefined) {\n    return msg;\n}\n\n// Подготовка полей\nlet fields = {};\n\nfor (let key in data) {\n    let value = data[key];\n\n    // Название поля очищаем: пробелы и спецсимволы → \"_\"\n    let cleanKey = key.toString().replace(/\\s+/g, \"_\").replace(/[^\\w]/g, \"_\");\n\n    if (typeof value === \"number\") {\n        // Числовое значение — пишем как есть\n        fields[cleanKey] = value;\n    } else if (typeof value === \"string\") {\n        // Строковое значение — очищаем от пробелов/спецсимволов\n        fields[cleanKey] = value.toString().replace(/\\s+/g, \"_\").replace(/[^\\w\\.\\-]/g, \"_\");\n    } else {\n        // Прочие типы — сериализуем как JSON\n        fields[cleanKey] = JSON.stringify(value);\n    }\n}\n\n// Итоговое сообщение\nmsg.payload = [\n    {\n        measurement: otherSetup.deviceID + \"_system\",\n        fields: fields,\n        tags: {\n            location: otherSetup.deviceID + \"_system\"\n        },\n        timestamp: new Date()\n    }\n];\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 600,
+        "wires": [
+            [
+                "3259ace5b27881bf"
+            ]
+        ]
+    },
+    {
+        "id": "3259ace5b27881bf",
+        "type": "influxdb batch",
+        "z": "a69381581f637ec6",
+        "influxdb": "8818288d473df902",
+        "precision": "",
+        "retentionPolicy": "",
+        "name": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1210,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "1a44ad4350ae5c35",
+        "type": "http request",
+        "z": "a69381581f637ec6",
+        "name": "wifi-all",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 690,
+        "y": 600,
+        "wires": [
+            [
+                "37c191451fee0117"
+            ]
+        ]
+    },
+    {
+        "id": "be8bf7398d4274c7",
+        "type": "function",
+        "z": "a69381581f637ec6",
+        "name": "getIP",
+        "func": "msg.url = \"http://\"+flow.get(\"ip\")+\"/all\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 600,
+        "wires": [
+            [
+                "1a44ad4350ae5c35"
+            ]
+        ]
     },
     {
         "id": "27305ebce4a2d493",
@@ -4496,7 +4792,8 @@
             [
                 "ccedcfa9da7ec94b",
                 "ec53b758719b9a4e",
-                "24ee13caa85ba5fb"
+                "24ee13caa85ba5fb",
+                "ed2b68d6f359d488"
             ]
         ]
     },
@@ -5195,6 +5492,87 @@
         "x": 1170,
         "y": 400,
         "wires": []
+    },
+    {
+        "id": "00be3aba9f7301d0",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "convert to inno DB",
+        "func": "let data = msg.payload;\nlet otherSetup = flow.get(\"OtherSetup\");\n\nif (otherSetup === undefined) {\n    return msg;\n}\n\n// Подготовка полей\nlet fields = {};\n\nfor (let key in data) {\n    let value = data[key];\n\n    // Название поля очищаем: пробелы и спецсимволы → \"_\"\n    let cleanKey = key.toString().replace(/\\s+/g, \"_\").replace(/[^\\w]/g, \"_\");\n\n    if (typeof value === \"number\") {\n        // Числовое значение — пишем как есть\n        fields[cleanKey] = value;\n    } else if (typeof value === \"string\") {\n        // Строковое значение — очищаем от пробелов/спецсимволов\n        fields[cleanKey] = value.toString().replace(/\\s+/g, \"_\").replace(/[^\\w\\.\\-]/g, \"_\");\n    } else {\n        // Прочие типы — сериализуем как JSON\n        fields[cleanKey] = JSON.stringify(value);\n    }\n}\n\n// Итоговое сообщение\nmsg.payload = [\n    {\n        measurement: otherSetup.deviceID + \"_system\",\n        fields: fields,\n        tags: {\n            location: otherSetup.deviceID + \"_system\"\n        },\n        timestamp: new Date()\n    }\n];\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 580,
+        "wires": [
+            [
+                "19c4f6a249173bc6"
+            ]
+        ]
+    },
+    {
+        "id": "19c4f6a249173bc6",
+        "type": "influxdb batch",
+        "z": "6f216e4069410c84",
+        "influxdb": "8818288d473df902",
+        "precision": "",
+        "retentionPolicy": "",
+        "name": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1350,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "a2054f8b1f7694c7",
+        "type": "http request",
+        "z": "6f216e4069410c84",
+        "name": "wifi-all",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 830,
+        "y": 580,
+        "wires": [
+            [
+                "00be3aba9f7301d0"
+            ]
+        ]
+    },
+    {
+        "id": "ed2b68d6f359d488",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "getIP",
+        "func": "msg.url = \"http://\"+flow.get(\"ip\")+\"/all\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 580,
+        "wires": [
+            [
+                "a2054f8b1f7694c7"
+            ]
+        ]
     },
     {
         "id": "7bc1fdd740a684a6",
