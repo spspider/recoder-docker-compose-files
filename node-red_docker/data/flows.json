@@ -2216,7 +2216,7 @@
         "correl": "",
         "expiry": "",
         "broker": "a7804332c06e238f",
-        "x": 1720,
+        "x": 1900,
         "y": 500,
         "wires": []
     },
@@ -2232,7 +2232,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1450,
+        "x": 1630,
         "y": 500,
         "wires": [
             [
@@ -2304,9 +2304,12 @@
         "name": "watering on at 08.00",
         "props": [
             {
-                "p": "url",
-                "v": "http://192.168.1.153/sendAJAX?json={\"t\":6,\"v\":1}",
-                "vt": "str"
+                "p": "topic",
+                "v": "6",
+                "vt": "num"
+            },
+            {
+                "p": "payload"
             }
         ],
         "repeat": "",
@@ -2314,36 +2317,14 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 1020,
+        "payload": "1",
+        "payloadType": "num",
+        "x": 860,
         "y": 620,
         "wires": [
             [
-                "255b7b92a1e2f811"
-            ]
-        ]
-    },
-    {
-        "id": "bc575741bfe55d15",
-        "type": "inject",
-        "z": "8ee561e21c0a30f6",
-        "name": "watering off at 08.10",
-        "props": [
-            {
-                "p": "url",
-                "v": "http://192.168.1.153/sendAJAX?json={\"t\":6,\"v\":0}",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "00 08 * * *",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 1020,
-        "y": 680,
-        "wires": [
-            [
-                "255b7b92a1e2f811"
+                "6d4c9872d5d18297",
+                "d38d203aa4e80c74"
             ]
         ]
     },
@@ -2360,7 +2341,7 @@
         "finalize": "",
         "libs": [],
         "x": 950,
-        "y": 780,
+        "y": 880,
         "wires": [
             [
                 "8911d5bdb4f3c9eb"
@@ -2381,7 +2362,7 @@
         "org": "organisation",
         "bucket": "bucket",
         "x": 1230,
-        "y": 780,
+        "y": 880,
         "wires": []
     },
     {
@@ -2401,7 +2382,7 @@
         "senderr": false,
         "headers": [],
         "x": 710,
-        "y": 780,
+        "y": 880,
         "wires": [
             [
                 "ec98a9a401c05f80"
@@ -2421,10 +2402,175 @@
         "finalize": "",
         "libs": [],
         "x": 530,
-        "y": 780,
+        "y": 880,
         "wires": [
             [
                 "e0d177ad0cf587b1"
+            ]
+        ]
+    },
+    {
+        "id": "6d4c9872d5d18297",
+        "type": "function",
+        "z": "8ee561e21c0a30f6",
+        "name": "set URL",
+        "func": "msg.url = \"http://\" + flow.get(\"ip\") + \"/sendAJAX?json={t:\" + msg.topic + \",v:\" + msg.payload + \"}\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1300,
+        "y": 680,
+        "wires": [
+            [
+                "7ee180c697053c20"
+            ]
+        ]
+    },
+    {
+        "id": "7ee180c697053c20",
+        "type": "http request",
+        "z": "8ee561e21c0a30f6",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1470,
+        "y": 680,
+        "wires": [
+            [
+                "d310abc6f163d5e7"
+            ]
+        ]
+    },
+    {
+        "id": "2421ac0f71f32e47",
+        "type": "inject",
+        "z": "8ee561e21c0a30f6",
+        "name": "watering on at 20.00",
+        "props": [
+            {
+                "p": "topic",
+                "v": "6",
+                "vt": "num"
+            },
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 20 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 860,
+        "y": 660,
+        "wires": [
+            [
+                "6d4c9872d5d18297",
+                "d38d203aa4e80c74"
+            ]
+        ]
+    },
+    {
+        "id": "47fc0ccfa200debf",
+        "type": "inject",
+        "z": "8ee561e21c0a30f6",
+        "name": "16.00",
+        "props": [
+            {
+                "p": "topic",
+                "v": "6",
+                "vt": "num"
+            },
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 16 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 810,
+        "y": 700,
+        "wires": [
+            [
+                "6d4c9872d5d18297",
+                "d38d203aa4e80c74"
+            ]
+        ]
+    },
+    {
+        "id": "d38d203aa4e80c74",
+        "type": "delay",
+        "z": "8ee561e21c0a30f6",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1060,
+        "y": 540,
+        "wires": [
+            [
+                "da6e9301267b2d18"
+            ]
+        ]
+    },
+    {
+        "id": "da6e9301267b2d18",
+        "type": "change",
+        "z": "8ee561e21c0a30f6",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "6",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1280,
+        "y": 540,
+        "wires": [
+            [
+                "6d4c9872d5d18297"
             ]
         ]
     },
@@ -10460,7 +10606,8 @@
                 "7cf01d46.a3cad4",
                 "7780c9ca.7581b8",
                 "c63cb373.ce94f",
-                "4e1aaf390d435b7f"
+                "4e1aaf390d435b7f",
+                "77da6657aaf50832"
             ]
         ]
     },
@@ -11223,6 +11370,60 @@
                 "f831be3391c39a83"
             ]
         ]
+    },
+    {
+        "id": "77da6657aaf50832",
+        "type": "cpu",
+        "z": "772e6979.67cd08",
+        "name": "",
+        "msgCore": true,
+        "msgOverall": false,
+        "msgArray": false,
+        "msgTemp": false,
+        "x": 470,
+        "y": 1040,
+        "wires": [
+            [
+                "6663746e2a8da655"
+            ]
+        ]
+    },
+    {
+        "id": "6663746e2a8da655",
+        "type": "function",
+        "z": "772e6979.67cd08",
+        "name": "convert to inno DB",
+        "func": "let fields = {};\nlet payload = msg.payload;\n\nfields[msg.topic] = parseInt(msg.payload)\n\n\nmsg.payload = [\n    {\n        measurement: \"system_monitor\",\n        fields: fields,\n        tags: {\n            location: \"ubuntu-server\"\n        },\n        timestamp: new Date()\n    }\n];\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 1040,
+        "wires": [
+            [
+                "29a52314d00f05a1"
+            ]
+        ]
+    },
+    {
+        "id": "29a52314d00f05a1",
+        "type": "influxdb batch",
+        "z": "772e6979.67cd08",
+        "influxdb": "8818288d473df902",
+        "precision": "",
+        "retentionPolicy": "",
+        "name": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 970,
+        "y": 1040,
+        "wires": []
     },
     {
         "id": "40e35cf99b1b1190",

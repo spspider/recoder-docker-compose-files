@@ -73,7 +73,7 @@
   <StorageNotifyEmail />
   <StorageNotifyEmailLimit>75</StorageNotifyEmailLimit>
   <StorageNotifyEmailLastSent>2001-01-01T00:00:00</StorageNotifyEmailLastSent>
-  <ArchiveCheckTimeStamp>2025-06-13T07:29:17.0153614Z</ArchiveCheckTimeStamp>
+  <ArchiveCheckTimeStamp>2025-06-16T00:37:19.0823664Z</ArchiveCheckTimeStamp>
   <DriveFullEmailLastSent>2001-01-01T00:00:00</DriveFullEmailLastSent>
   <StorageNotifyEmailIntervalHours>12</StorageNotifyEmailIntervalHours>
   <DeepStackAIURL />
@@ -109,7 +109,7 @@
   <TimeFormat>MMM DD YYYY h:mm:ss A</TimeFormat>
   <TimeFormatSmall>MMM DD h:mm A</TimeFormatSmall>
   <DateFormat>MMM DD YYYY</DateFormat>
-  <CultureCode>zh-CN</CultureCode>
+  <CultureCode>ru-RU</CultureCode>
   <MultiChannelAudio>false</MultiChannelAudio>
   <PTT>true</PTT>
   <MaxFiles>20000</MaxFiles>
@@ -138,9 +138,9 @@
   <AudioOutDevice>Auto</AudioOutDevice>
   <TimeMachineScrubbing>false</TimeMachineScrubbing>
   <NestConfig />
-  <ONVIFDiscovery>false</ONVIFDiscovery>
+  <ONVIFDiscovery>true</ONVIFDiscovery>
   <ProductName>Agent</ProductName>
-  <RecordingTags>manual,vase,banana,spoon,dining table,sink,zebra,bowl,serhii,toilet,giraffe,stop sign,unknown,umbrella,tv,truck,train,traffic light,toothbrush,tie,tennis racket,teddy bear,surfboard,suitcase,sports ball,skis,skateboard,sheep,remote,potted plant,person,parking meter,oven,orange,objectdetect,mouse,motorcycle,manual alert,laptop,kite,keyboard,horse,handbag,frisbee,fire hydrant,elephant,dog,detected,cup,cow,couch,clock,chair,cell phone,cat,car,bus,bottle,book,boat,bird,bicycle,bench,bed,bear,baseball glove,baseball bat,backpack,apple,all,alert,airplane,face</RecordingTags>
+  <RecordingTags>airplane,alert,all,apple,backpack,banana,baseball bat,baseball glove,bear,bed,bench,bicycle,bird,boat,book,bottle,bowl,bus,car,cat,cell phone,chair,clock,couch,cow,cup,detected,dining table,dog,elephant,face,fire hydrant,frisbee,giraffe,handbag,horse,keyboard,kite,laptop,manual,manual alert,motorcycle,mouse,objectdetect,orange,oven,parking meter,person,potted plant,remote,serhii,sheep,sink,skateboard,skis,spoon,sports ball,stop sign,suitcase,surfboard,teddy bear,tennis racket,tie,toilet,toothbrush,traffic light,train,truck,tv,umbrella,unknown,vase,zebra</RecordingTags>
   <ImageTags>bicycle,bird,boat,car,cat,dog,person,playback,serhii,train,truck,unknown</ImageTags>
   <Permissions />
   <MQTT Enable="true" Username="dev01" Password="5506487" Server="177e3ee7cf004e6ebed04b25d4c51a26.s1.eu.hivemq.cloud" ClientID="camera" Port="8883" KeepAlive="60" Protocol="TLS" Stats="true" />
@@ -155,8 +155,11 @@
   <RTMPServers />
   <FTPServers />
   <MediaDirectories>
-    <Directory Entry="/AgentDVR/Media/WebServerRoot/Media/" EnableManagement="true" MaxSize="30000" ArchiveDirectoryNew="" Default="true" />
+    <Directory Entry="/AgentDVR/Media/WebServerRoot/Media/" EnableManagement="true" MaxSize="50000" ArchiveDirectoryNew="" Default="true" />
   </MediaDirectories>
-  <Users />
+  <Users>
+    <User ident="e18a4d08-48a4-4898-bcca-33e2aabd101e" username="spspider" password="KWpZa3ouzRHyUfDr0zOQrg==" groups="admin" isAdmin="true" uniqueID="c2cdb618-3a41-468f-8702-ce0b2765f611" />
+    <User ident="e18a4d08-48a4-4898-bcca-33e2aabd101d" username="guest" password="KWpZa3ouzRHyUfDr0zOQrg==" groups="admin" uniqueID="c2cdb618-3a41-468f-8702-ce0b2765f612" />
+  </Users>
   <LDAP />
 </configuration>

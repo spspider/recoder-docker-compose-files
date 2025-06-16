@@ -7,11 +7,11 @@
   </layout>
   <layout name="Desktop" main="1" ident="fcf3ce09-6251-4ee5-b092-b64c1ed88630">
     <rectangles>
-      <rectangle index="4" mode="timeline" coordinates="20,75,80,25" interval="3" />
-      <rectangle index="3" mode="grid" coordinates="20,0,25,75" interval="3" />
+      <rectangle index="4" mode="timeline" coordinates="20,75,80,25" interval="3" skipOffline="true" />
+      <rectangle index="5" mode="floorplans" coordinates="0,0,20,30" interval="3" skipOffline="true" />
+      <rectangle index="2" mode="files" coordinates="0,30,20,70" interval="3" skipOffline="true" />
       <rectangle index="1" mode="grid" coordinates="45,0,55,75" interval="3" />
-      <rectangle index="5" mode="floorplans" coordinates="0,0,20,30" interval="3" />
-      <rectangle index="2" mode="files" coordinates="0,30,20,70" interval="3" />
+      <rectangle index="3" mode="grid" coordinates="20,0,25,75" interval="3" skipOffline="true" />
     </rectangles>
   </layout>
   <layout name="2 Grids" ident="ffdc18ed-a6dc-4f56-a7ac-2c491309c4ca">

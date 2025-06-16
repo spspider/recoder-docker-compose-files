@@ -13,7 +13,7 @@ services:
     restart: unless-stopped
     image: nodered/node-red:latest-debian
     environment:
-      - TZ=Europe/Amsterdam
+      - TZ=Europe/Bucharest
     ports:
       - "1880:1880"
     volumes:

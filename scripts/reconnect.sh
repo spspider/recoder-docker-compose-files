@@ -32,3 +32,11 @@ if [ $? -ne 0 ]; then
 else
     # echo "$(date): Internet is working." | tee -a /log/net-reconnect.log
 fi
+
+
+# crontab -l
+# sudo crontab -u root -l
+# systemctl list-timers
+
+# sudo journalctl --rotate
+# sudo journalctl --vacuum-time=1s
