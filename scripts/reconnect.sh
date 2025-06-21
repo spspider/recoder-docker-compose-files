@@ -36,6 +36,8 @@ fi
 
 # crontab -l
 # sudo crontab -u root -l
+# edit: sudo crontab -e
+# edit user: crontab -e
 # systemctl list-timers
 
 # sudo journalctl --rotate

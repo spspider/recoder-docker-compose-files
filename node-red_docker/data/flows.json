@@ -16,24 +16,17 @@
         "env": []
     },
     {
-        "id": "ca3d3fb4de74fc4f",
+        "id": "a69381581f637ec6",
         "type": "tab",
-        "label": "Camera-DVR",
+        "label": "roof",
         "disabled": false,
         "info": "",
         "env": []
     },
     {
-        "id": "d2d769b0.c57da8",
+        "id": "6f216e4069410c84",
         "type": "tab",
-        "label": "Telegram",
-        "disabled": false,
-        "info": ""
-    },
-    {
-        "id": "a69381581f637ec6",
-        "type": "tab",
-        "label": "roof",
+        "label": "Kitchen",
         "disabled": false,
         "info": "",
         "env": []
@@ -47,9 +40,16 @@
         "env": []
     },
     {
-        "id": "6f216e4069410c84",
+        "id": "d2d769b0.c57da8",
         "type": "tab",
-        "label": "Kitchen",
+        "label": "Telegram",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "ca3d3fb4de74fc4f",
+        "type": "tab",
+        "label": "Camera-DVR",
         "disabled": false,
         "info": "",
         "env": []
@@ -1485,7 +1485,7 @@
         "type": "function",
         "z": "65bf31c16d103884",
         "name": "convert to inno DB",
-        "func": "let data = msg.payload;\nlet otherSetup = flow.get(\"OtherSetup\");\n\nif (otherSetup === undefined) {\n    return msg;\n}\n\n// Подготовка полей\nlet fields = {};\n\nfor (let key in data) {\n    let value = data[key];\n\n    // Название поля очищаем: пробелы и спецсимволы → \"_\"\n    let cleanKey = key.toString().replace(/\\s+/g, \"_\").replace(/[^\\w]/g, \"_\");\n\n    if (typeof value === \"number\") {\n        // Числовое значение — пишем как есть\n        fields[cleanKey] = value;\n    } else if (typeof value === \"string\") {\n        // Строковое значение — очищаем от пробелов/спецсимволов\n        fields[cleanKey] = value.toString().replace(/\\s+/g, \"_\").replace(/[^\\w\\.\\-]/g, \"_\");\n    } else {\n        // Прочие типы — сериализуем как JSON\n        fields[cleanKey] = JSON.stringify(value);\n    }\n}\n\n// Итоговое сообщение\nmsg.payload = [\n    {\n        measurement: otherSetup.deviceID + \"_system\",\n        fields: fields,\n        tags: {\n            location: otherSetup.deviceID + \"_system\"\n        },\n        timestamp: new Date()\n    }\n];\n\nreturn msg;\n",
+        "func": "let data = msg.payload;\nlet otherSetup = flow.get(\"OtherSetup\");\n\nif (otherSetup === undefined || typeof data !== \"object\" || data === null || Array.isArray(data)) {\n    node.warn(\"Неверный формат данных: ожидался объект, а не массив.\");\n    return null;\n}\n\nlet fields = {};\n\nfor (let key in data) {\n    // Отфильтровываем ключи, которые выглядят как чистые числа (например, \"0\", \"1\", и т.п.)\n    if (/^\\d+$/.test(key)) {\n        node.warn(\"Пропущен числовой ключ: \" + key);\n        continue;\n    }\n\n    let value = data[key];\n\n    // Очистка ключа\n    let cleanKey = key.toString().replace(/\\s+/g, \"_\").replace(/[^\\w]/g, \"_\");\n\n    // Типизация значений\n    if (typeof value === \"number\") {\n        fields[cleanKey] = value;\n    } else if (typeof value === \"string\") {\n        fields[cleanKey] = value.toString().replace(/\\s+/g, \"_\").replace(/[^\\w\\.\\-]/g, \"_\");\n    } else {\n        fields[cleanKey] = JSON.stringify(value);\n    }\n}\n\nmsg.payload = [\n    {\n        measurement: otherSetup.deviceID + \"_system\",\n        fields: fields,\n        tags: {\n            location: otherSetup.deviceID + \"_system\"\n        },\n        timestamp: new Date()\n    }\n];\n\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1585,7 +1585,7 @@
                 "f0bff3ed08479aa2"
             ],
             [
-                "cbb21692f599eebe"
+                "fea2179dfe918dfb"
             ],
             [
                 "0aa4cd3f64a0886b"
@@ -1713,11 +1713,12 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 780,
-        "y": 160,
+        "x": 920,
+        "y": 180,
         "wires": [
             [
-                "2a88f0642cf44aa6"
+                "2a88f0642cf44aa6",
+                "c4b19581c2b36d16"
             ]
         ]
     },
@@ -1757,8 +1758,8 @@
         "septopics": true,
         "property": "payload",
         "topi": "topic",
-        "x": 930,
-        "y": 160,
+        "x": 1070,
+        "y": 180,
         "wires": [
             [
                 "255b7b92a1e2f811"
@@ -2216,7 +2217,7 @@
         "correl": "",
         "expiry": "",
         "broker": "a7804332c06e238f",
-        "x": 1900,
+        "x": 2120,
         "y": 500,
         "wires": []
     },
@@ -2232,7 +2233,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1630,
+        "x": 1850,
         "y": 500,
         "wires": [
             [
@@ -2324,7 +2325,7 @@
         "wires": [
             [
                 "6d4c9872d5d18297",
-                "d38d203aa4e80c74"
+                "c4b19581c2b36d16"
             ]
         ]
     },
@@ -2333,7 +2334,7 @@
         "type": "function",
         "z": "8ee561e21c0a30f6",
         "name": "convert to inno DB",
-        "func": "let data = msg.payload;\nlet otherSetup = flow.get(\"OtherSetup\");\n\nif (otherSetup === undefined) {\n    return msg;\n}\n\n// Подготовка полей\nlet fields = {};\n\nfor (let key in data) {\n    let value = data[key];\n\n    // Название поля очищаем: пробелы и спецсимволы → \"_\"\n    let cleanKey = key.toString().replace(/\\s+/g, \"_\").replace(/[^\\w]/g, \"_\");\n\n    if (typeof value === \"number\") {\n        // Числовое значение — пишем как есть\n        fields[cleanKey] = value;\n    } else if (typeof value === \"string\") {\n        // Строковое значение — очищаем от пробелов/спецсимволов\n        fields[cleanKey] = value.toString().replace(/\\s+/g, \"_\").replace(/[^\\w\\.\\-]/g, \"_\");\n    } else {\n        // Прочие типы — сериализуем как JSON\n        fields[cleanKey] = JSON.stringify(value);\n    }\n}\n\n// Итоговое сообщение\nmsg.payload = [\n    {\n        measurement: otherSetup.deviceID + \"_system\",\n        fields: fields,\n        tags: {\n            location: otherSetup.deviceID + \"_system\"\n        },\n        timestamp: new Date()\n    }\n];\n\nreturn msg;\n",
+        "func": "let data = msg.payload;\nlet otherSetup = flow.get(\"OtherSetup\");\n\nif (otherSetup === undefined || typeof data !== \"object\" || data === null || Array.isArray(data)) {\n    node.warn(\"Неверный формат данных: ожидался объект, а не массив.\");\n    return null;\n}\n\nlet fields = {};\n\nfor (let key in data) {\n    // Отфильтровываем ключи, которые выглядят как чистые числа (например, \"0\", \"1\", и т.п.)\n    if (/^\\d+$/.test(key)) {\n        node.warn(\"Пропущен числовой ключ: \" + key);\n        continue;\n    }\n\n    let value = data[key];\n\n    // Очистка ключа\n    let cleanKey = key.toString().replace(/\\s+/g, \"_\").replace(/[^\\w]/g, \"_\");\n\n    // Типизация значений\n    if (typeof value === \"number\") {\n        fields[cleanKey] = value;\n    } else if (typeof value === \"string\") {\n        fields[cleanKey] = value.toString().replace(/\\s+/g, \"_\").replace(/[^\\w\\.\\-]/g, \"_\");\n    } else {\n        fields[cleanKey] = JSON.stringify(value);\n    }\n}\n\nmsg.payload = [\n    {\n        measurement: otherSetup.deviceID + \"_system\",\n        fields: fields,\n        tags: {\n            location: otherSetup.deviceID + \"_system\"\n        },\n        timestamp: new Date()\n    }\n];\n\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2421,8 +2422,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1300,
-        "y": 680,
+        "x": 1560,
+        "y": 720,
         "wires": [
             [
                 "7ee180c697053c20"
@@ -2445,8 +2446,8 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 1470,
-        "y": 680,
+        "x": 1730,
+        "y": 720,
         "wires": [
             [
                 "d310abc6f163d5e7"
@@ -2480,7 +2481,7 @@
         "wires": [
             [
                 "6d4c9872d5d18297",
-                "d38d203aa4e80c74"
+                "c4b19581c2b36d16"
             ]
         ]
     },
@@ -2511,7 +2512,7 @@
         "wires": [
             [
                 "6d4c9872d5d18297",
-                "d38d203aa4e80c74"
+                "c4b19581c2b36d16"
             ]
         ]
     },
@@ -2520,19 +2521,19 @@
         "type": "delay",
         "z": "8ee561e21c0a30f6",
         "name": "",
-        "pauseType": "delay",
+        "pauseType": "rate",
         "timeout": "10",
-        "timeoutUnits": "minutes",
+        "timeoutUnits": "seconds",
         "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
+        "nbRateUnits": "10",
+        "rateUnits": "minute",
         "randomFirst": "1",
         "randomLast": "5",
         "randomUnits": "seconds",
-        "drop": false,
+        "drop": true,
         "allowrate": false,
         "outputs": 1,
-        "x": 1060,
+        "x": 1320,
         "y": 540,
         "wires": [
             [
@@ -2566,7 +2567,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1280,
+        "x": 1500,
         "y": 540,
         "wires": [
             [
@@ -2575,549 +2576,47 @@
         ]
     },
     {
-        "id": "c094f1214166e433",
-        "type": "mqtt in",
-        "z": "ca3d3fb4de74fc4f",
+        "id": "fea2179dfe918dfb",
+        "type": "rbe",
+        "z": "8ee561e21c0a30f6",
         "name": "",
-        "topic": "camera/front/cat-image",
-        "qos": "2",
-        "datatype": "auto",
-        "broker": "a7804332c06e238f",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 220,
-        "y": 220,
-        "wires": [
-            [
-                "2726137ef90a1f95",
-                "291702e0ff462450"
-            ]
-        ]
-    },
-    {
-        "id": "2726137ef90a1f95",
-        "type": "image viewer",
-        "z": "ca3d3fb4de74fc4f",
-        "name": "Camera view detector",
-        "width": 160,
-        "data": "payload",
-        "dataType": "msg",
-        "active": true,
-        "x": 520,
-        "y": 140,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "c5cc823fa5b872ac",
-        "type": "mqtt in",
-        "z": "ca3d3fb4de74fc4f",
-        "name": "",
-        "topic": "camera/front/alinka-image",
-        "qos": "2",
-        "datatype": "auto",
-        "broker": "a7804332c06e238f",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 230,
-        "y": 280,
-        "wires": [
-            [
-                "13c6f15136d03daa",
-                "291702e0ff462450"
-            ]
-        ]
-    },
-    {
-        "id": "13c6f15136d03daa",
-        "type": "image viewer",
-        "z": "ca3d3fb4de74fc4f",
-        "name": "Camera view detector",
-        "width": 160,
-        "data": "payload",
-        "dataType": "msg",
-        "active": true,
-        "x": 500,
-        "y": 340,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "291702e0ff462450",
-        "type": "function",
-        "z": "ca3d3fb4de74fc4f",
-        "name": "Create image for Telegram",
-        "func": "var TelegramChatIds = global.get(\"TelegramChatIds\");\n\n\n\nmsg.payload = { chatId: TelegramChatIds, type: \"photo\", content: msg.payload, caption: msg.topic};\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 560,
-        "y": 280,
-        "wires": [
-            [
-                "62e298fc09687353"
-            ]
-        ]
-    },
-    {
-        "id": "62e298fc09687353",
-        "type": "telegram sender",
-        "z": "ca3d3fb4de74fc4f",
-        "name": "Alinka bot",
-        "bot": "170adc9ec64f9f80",
-        "haserroroutput": false,
-        "outputs": 1,
-        "x": 780,
-        "y": 280,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "95ff1632.6243b8",
-        "type": "telegram sender",
-        "z": "d2d769b0.c57da8",
-        "name": "sender",
-        "bot": "170adc9ec64f9f80",
-        "haserroroutput": false,
-        "outputs": 1,
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
         "x": 770,
-        "y": 100,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "92568c50.87034",
-        "type": "telegram receiver",
-        "z": "d2d769b0.c57da8",
-        "name": "",
-        "bot": "ca786bad.5ac7a8",
-        "saveDataDir": "",
-        "filterCommands": false,
-        "x": 130,
-        "y": 220,
-        "wires": [
-            [
-                "f8e08d57.743f4",
-                "f9bd0ea73fb5b228"
-            ],
-            []
-        ]
-    },
-    {
-        "id": "fca261f6.1b4e6",
-        "type": "catch",
-        "z": "d2d769b0.c57da8",
-        "name": "",
-        "scope": null,
-        "uncaught": false,
-        "x": 120,
-        "y": 360,
-        "wires": [
-            [
-                "a1b079ea.70ea18"
-            ]
-        ]
-    },
-    {
-        "id": "2e8b7a81.d0b546",
-        "type": "telegram sender",
-        "z": "d2d769b0.c57da8",
-        "d": true,
-        "name": "Error",
-        "bot": "ca786bad.5ac7a8",
-        "haserroroutput": false,
-        "outputs": 1,
-        "x": 410,
-        "y": 360,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "72b99f41.af20b",
-        "type": "function",
-        "z": "d2d769b0.c57da8",
-        "d": true,
-        "name": "message",
-        "func": "var content = msg.topic + \" payload:\" + msg.payload;\ncontent = \"smart home loaded\"\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\nvar ObjectPayload = {\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\": content\n}\n\nmsg.payload = ObjectPayload;\nreturn msg;",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 520,
-        "y": 100,
-        "wires": [
-            [
-                "95ff1632.6243b8",
-                "e818309d9e9d7308"
-            ]
-        ]
-    },
-    {
-        "id": "6d3ac462.a2e47c",
-        "type": "inject",
-        "z": "d2d769b0.c57da8",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 150,
-        "y": 100,
-        "wires": [
-            [
-                "9138f065.10c7"
-            ]
-        ]
-    },
-    {
-        "id": "a1b079ea.70ea18",
-        "type": "function",
-        "z": "d2d769b0.c57da8",
-        "name": "message",
-        "func": "var content = msg.topic+\" payload:\"+msg.payload;\nvar ObjectPayload={\n    \"chatId\": \"843873284\",\n    \"type\": \"message\",\n    \"content\":content \n}\nmsg.payload=ObjectPayload;\n\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 280,
-        "y": 360,
-        "wires": [
-            [
-                "2e8b7a81.d0b546"
-            ]
-        ]
-    },
-    {
-        "id": "f8e08d57.743f4",
-        "type": "function",
-        "z": "d2d769b0.c57da8",
-        "d": true,
-        "name": "reply telegram",
-        "func": "//var content = msg.topic+\" payload:\"+msg.payload;\nvar msg_get_ip=null;\nvar payoladmsg = (msg.payload);\n\nvar content_that_Object ={payload: payoladmsg.content};\nvar content_send;\n\nif (content_that_Object.payload==\"ip\"){\n   content_send= context.get ('ip');\n   \n    var ObjectPayload={\n        \"chatId\": [\"843873284\", \"584925756\"],\n        \"type\": \"message\",\n        \"content\":content_send \n    }\n    \n    msg.payload=ObjectPayload;\n    \n    msg_get_ip={\n        \"topic\":1,\n        \"payload\":1\n    }\n    msg=null;\n}\n\n\n\n\n\n\nreturn [msg,msg_get_ip];",
-        "outputs": 2,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 360,
         "y": 180,
         "wires": [
-            [],
-            []
+            [
+                "cbb21692f599eebe"
+            ]
         ]
     },
     {
-        "id": "9138f065.10c7",
-        "type": "change",
-        "z": "d2d769b0.c57da8",
+        "id": "c4b19581c2b36d16",
+        "type": "delay",
+        "z": "8ee561e21c0a30f6",
         "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "TelegramChatIds",
-                "pt": "global",
-                "to": "[\"843873284\",\"584925756\"]",
-                "tot": "json"
-            },
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "TelegramChatIds",
-                "tot": "global"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 340,
-        "y": 100,
-        "wires": [
-            [
-                "72b99f41.af20b"
-            ]
-        ]
-    },
-    {
-        "id": "6172b419c2fe9006",
-        "type": "telegram sender",
-        "z": "d2d769b0.c57da8",
-        "name": "sender",
-        "bot": "ca786bad.5ac7a8",
-        "haserroroutput": false,
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
         "outputs": 1,
-        "x": 590,
-        "y": 200,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "f9bd0ea73fb5b228",
-        "type": "function",
-        "z": "d2d769b0.c57da8",
-        "d": true,
-        "name": "reverse message back",
-        "func": "var ObjectPayload={\n    \"chatId\": msg.originalMessage.chat.id,\n    \"type\": \"message\",\n    \"content\": JSON.stringify(\"chatId:\" + msg.originalMessage.chat.id) \n}\nmsg.payload=ObjectPayload;\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 360,
-        "y": 220,
+        "x": 1130,
+        "y": 540,
         "wires": [
             [
-                "6172b419c2fe9006"
-            ]
-        ]
-    },
-    {
-        "id": "e818309d9e9d7308",
-        "type": "debug",
-        "z": "d2d769b0.c57da8",
-        "name": "debug 3",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 780,
-        "y": 40,
-        "wires": []
-    },
-    {
-        "id": "31914d7f1df11b2e",
-        "type": "inject",
-        "z": "d2d769b0.c57da8",
-        "name": "",
-        "props": [
-            {
-                "p": "payload",
-                "v": "",
-                "vt": "date"
-            },
-            {
-                "p": "topic",
-                "v": "",
-                "vt": "str"
-            }
-        ],
-        "repeat": "86400",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "30",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 130,
-        "y": 520,
-        "wires": [
-            [
-                "72af64b1b61356ba"
-            ]
-        ]
-    },
-    {
-        "id": "72af64b1b61356ba",
-        "type": "http request",
-        "z": "d2d769b0.c57da8",
-        "name": "IP",
-        "method": "GET",
-        "ret": "obj",
-        "paytoqs": "ignore",
-        "url": "https://api.ipify.org?format=json",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 290,
-        "y": 520,
-        "wires": [
-            [
-                "416feb9b988ef2e6"
-            ]
-        ]
-    },
-    {
-        "id": "197138408b6055d7",
-        "type": "telegram sender",
-        "z": "d2d769b0.c57da8",
-        "name": "sender",
-        "bot": "ca786bad.5ac7a8",
-        "haserroroutput": false,
-        "outputs": 1,
-        "x": 630,
-        "y": 520,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "416feb9b988ef2e6",
-        "type": "function",
-        "z": "d2d769b0.c57da8",
-        "name": "message",
-        "func": "var thatIP = msg.payload.ip;\n\nvar storedIP = context.get('ip') || 0;\nif (storedIP !== thatIP) {\n    context.set(\"ip\", thatIP);\n    msg.payload = \"http://\" + thatIP + \":1880/ui\";\n}\nelse {\n    return null;\n}\nif (thatIP === undefined) {\n    return null;\n}\n\n\nvar content = msg.payload;\nvar TelegramChatIds = global.get(\"TelegramChatIds\")[0];\n\nvar ObjectPayload = {\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\": JSON.stringify(content) // Convert content to a string\n};\nmsg.payload = ObjectPayload;\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 480,
-        "y": 520,
-        "wires": [
-            [
-                "197138408b6055d7"
-            ]
-        ]
-    },
-    {
-        "id": "f2334125f861be3e",
-        "type": "http request",
-        "z": "d2d769b0.c57da8",
-        "name": "",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "http://192.168.1.160:11500/chat",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 690,
-        "y": 720,
-        "wires": [
-            [
-                "ca69743dcc655799"
-            ]
-        ]
-    },
-    {
-        "id": "ba897e7672fa2150",
-        "type": "function",
-        "z": "d2d769b0.c57da8",
-        "name": "payload",
-        "func": "function retriveValues() {\n    var keys = [\"storedValues\"];\n    var retrievedValues = {};\n\n    keys.forEach(function (key) {\n        retrievedValues[key] = global.get(key) || { description: key, value: \"Not set\" };\n    });\n\n    return JSON.stringify(retrievedValues.storedValues);\n}\n\nmsg.payload = JSON.stringify(\n    {\n        \"messages\": [\n            {\n                \"role\": \"system\",\n                \"content\": \"You are an AI, you have some initial input of home devices stats ```json\" + retriveValues() + \"```provide short answer\"\n            },\n            {\n                \"role\": \"user\",\n                \"content\": \"|||Previous messages, to understand conext:\" + msg.payload.history + \"||| actual input from user:|||\" + msg.payload.content  +\"||| provide short answer ||| answer on a language user asks, do not write your thinking\"\n            }\n        ],\n        \"model\": \"nvidia/llama-3.1-nemotron-70b-instruct:free\"\n    }\n);\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 520,
-        "y": 720,
-        "wires": [
-            [
-                "f2334125f861be3e"
-            ]
-        ]
-    },
-    {
-        "id": "c48b17bbe732db28",
-        "type": "telegram receiver",
-        "z": "d2d769b0.c57da8",
-        "name": "",
-        "bot": "ca786bad.5ac7a8",
-        "saveDataDir": "",
-        "filterCommands": false,
-        "x": 110,
-        "y": 720,
-        "wires": [
-            [
-                "46efd3259ec4edb9"
-            ],
-            []
-        ]
-    },
-    {
-        "id": "d287173c2dabc345",
-        "type": "telegram sender",
-        "z": "d2d769b0.c57da8",
-        "name": "sender",
-        "bot": "ca786bad.5ac7a8",
-        "haserroroutput": false,
-        "outputs": 1,
-        "x": 1070,
-        "y": 720,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "ca69743dcc655799",
-        "type": "function",
-        "z": "d2d769b0.c57da8",
-        "name": "message",
-        "func": "var content = msg.payload;\nvar TelegramChatIds = global.get(\"TelegramChatIds\")[0];\n\n// Parse the JSON content to extract the \"text\" field\nvar parsedContent = JSON.parse(content);\nvar textContent = parsedContent.text;\n\nvar ObjectPayload = {\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\": textContent\n};\n\nmsg.payload = ObjectPayload;\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 900,
-        "y": 720,
-        "wires": [
-            [
-                "d287173c2dabc345"
-            ]
-        ]
-    },
-    {
-        "id": "46efd3259ec4edb9",
-        "type": "function",
-        "z": "d2d769b0.c57da8",
-        "name": "save history",
-        "func": "// Retrieve the history of inputs from global context\nlet history = global.get('inputHistory') || [];\n\n// Get the current input from the message payload\nlet currentInput = msg.payload.content;\n\n// Add the current input to the history array\nhistory.push(currentInput);\n\n// Update the global context with the new history\nglobal.set('inputHistory', history);\n\nlet previousInputsString = history.slice(0, -1).join(\"\\n\");\n\n// Ensure the actual input text is treated as a string\nlet actualInputText = currentInput;\n\n// Prepare the output payload\nmsg.payload.content = {\n    \"previous text inputs\": previousInputsString, // All elements except the last one\n    \"actual input text\": actualInputText // The last element\n};\n\nmsg.payload.history = previousInputsString //: actualInputText // The last element\nmsg.payload.content = actualInputText;\n// Return the message\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 330,
-        "y": 720,
-        "wires": [
-            [
-                "ba897e7672fa2150"
+                "d38d203aa4e80c74"
             ]
         ]
     },
@@ -3730,7 +3229,7 @@
         "type": "function",
         "z": "a69381581f637ec6",
         "name": "convert to inno DB",
-        "func": "let data = msg.payload;\nlet otherSetup = flow.get(\"OtherSetup\");\n\nif (otherSetup === undefined) {\n    return msg;\n}\n\n// Подготовка полей\nlet fields = {};\n\nfor (let key in data) {\n    let value = data[key];\n\n    // Название поля очищаем: пробелы и спецсимволы → \"_\"\n    let cleanKey = key.toString().replace(/\\s+/g, \"_\").replace(/[^\\w]/g, \"_\");\n\n    if (typeof value === \"number\") {\n        // Числовое значение — пишем как есть\n        fields[cleanKey] = value;\n    } else if (typeof value === \"string\") {\n        // Строковое значение — очищаем от пробелов/спецсимволов\n        fields[cleanKey] = value.toString().replace(/\\s+/g, \"_\").replace(/[^\\w\\.\\-]/g, \"_\");\n    } else {\n        // Прочие типы — сериализуем как JSON\n        fields[cleanKey] = JSON.stringify(value);\n    }\n}\n\n// Итоговое сообщение\nmsg.payload = [\n    {\n        measurement: otherSetup.deviceID + \"_system\",\n        fields: fields,\n        tags: {\n            location: otherSetup.deviceID + \"_system\"\n        },\n        timestamp: new Date()\n    }\n];\n\nreturn msg;\n",
+        "func": "let data = msg.payload;\nlet otherSetup = flow.get(\"OtherSetup\");\n\nif (otherSetup === undefined || typeof data !== \"object\" || data === null || Array.isArray(data)) {\n    node.warn(\"Неверный формат данных: ожидался объект, а не массив.\");\n    return null;\n}\n\nlet fields = {};\n\nfor (let key in data) {\n    // Отфильтровываем ключи, которые выглядят как чистые числа (например, \"0\", \"1\", и т.п.)\n    if (/^\\d+$/.test(key)) {\n        node.warn(\"Пропущен числовой ключ: \" + key);\n        continue;\n    }\n\n    let value = data[key];\n\n    // Очистка ключа\n    let cleanKey = key.toString().replace(/\\s+/g, \"_\").replace(/[^\\w]/g, \"_\");\n\n    // Типизация значений\n    if (typeof value === \"number\") {\n        fields[cleanKey] = value;\n    } else if (typeof value === \"string\") {\n        fields[cleanKey] = value.toString().replace(/\\s+/g, \"_\").replace(/[^\\w\\.\\-]/g, \"_\");\n    } else {\n        fields[cleanKey] = JSON.stringify(value);\n    }\n}\n\nmsg.payload = [\n    {\n        measurement: otherSetup.deviceID + \"_system\",\n        fields: fields,\n        tags: {\n            location: otherSetup.deviceID + \"_system\"\n        },\n        timestamp: new Date()\n    }\n];\n\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -3803,6 +3302,869 @@
         "wires": [
             [
                 "1a44ad4350ae5c35"
+            ]
+        ]
+    },
+    {
+        "id": "ccedcfa9da7ec94b",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "myroom",
+        "func": "var topicObjects = [];\nvar parsed = (msg.payload);\nvar topic = (msg.topic)\n\n\n\nvar outputCount_number = node.outputCount\nif (topic == \"initial\") {\n    for (var i = 0; i < parsed.stat.length; i++) {\n        var topicObject = {\n            payload: parseFloat(parsed.stat[i]),\n            topic: i\n        };\n        topicObjects.push(topicObject);\n    }\n}\nelse {// topic is not initial\n    for (var i = 0; i < outputCount_number; i++) {\n        if (i == parseInt(topic)) {\n            topicObject = {\n                payload: parseFloat(parsed),\n                topic: parseInt(topic)\n            }\n            topicObjects.push(topicObject);\n        };\n        topicObjects.push(null);\n    }\n}\n\nreturn topicObjects;",
+        "outputs": 4,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 200,
+        "wires": [
+            [
+                "f1a39fb940e62af5"
+            ],
+            [
+                "2020e22b1243eeb7"
+            ],
+            [
+                "273e84219a8674aa"
+            ],
+            [
+                "2c891dbe36586bb0",
+                "0774783d6db9a21c"
+            ]
+        ]
+    },
+    {
+        "id": "6fd32159444b4f26",
+        "type": "inject",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "30",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "10",
+        "topic": "initial",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 200,
+        "wires": [
+            [
+                "afb489434bc39f28"
+            ]
+        ]
+    },
+    {
+        "id": "63c330a41529fc76",
+        "type": "http request",
+        "z": "6f216e4069410c84",
+        "name": "kitchen",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 580,
+        "y": 200,
+        "wires": [
+            [
+                "ccedcfa9da7ec94b",
+                "ec53b758719b9a4e",
+                "24ee13caa85ba5fb",
+                "ed2b68d6f359d488"
+            ]
+        ]
+    },
+    {
+        "id": "f1a39fb940e62af5",
+        "type": "ui_switch",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "label": "heater",
+        "tooltip": "",
+        "group": "b77886c396feb2d9",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "0",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "1",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 1010,
+        "y": 180,
+        "wires": [
+            [
+                "5d34d3b760025339"
+            ]
+        ]
+    },
+    {
+        "id": "2020e22b1243eeb7",
+        "type": "ui_switch",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "label": "pump",
+        "tooltip": "",
+        "group": "b77886c396feb2d9",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "0",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "1",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 1010,
+        "y": 220,
+        "wires": [
+            [
+                "5ea792dcc7b34d10"
+            ]
+        ]
+    },
+    {
+        "id": "a723fdfb47e5c23b",
+        "type": "http request",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1610,
+        "y": 200,
+        "wires": [
+            [
+                "182cca3f3a9cf8ce"
+            ]
+        ]
+    },
+    {
+        "id": "5d34d3b760025339",
+        "type": "rbe",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 1150,
+        "y": 180,
+        "wires": [
+            [
+                "187244cfea11d867"
+            ]
+        ]
+    },
+    {
+        "id": "5ea792dcc7b34d10",
+        "type": "rbe",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 1150,
+        "y": 220,
+        "wires": [
+            [
+                "187244cfea11d867"
+            ]
+        ]
+    },
+    {
+        "id": "2c891dbe36586bb0",
+        "type": "ui_text",
+        "z": "6f216e4069410c84",
+        "group": "b77886c396feb2d9",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "remote heater",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1040,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "0774783d6db9a21c",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "set topic",
+        "func": "var followheater = true\nif (global.get(\"followheater\") !== undefined || global.get(\"followheater\") !== null) {\n    followheater = global.get(\"followheater\");\n}\nif (followheater) {\n    var msg1 = {\n        topic: 0,\n        payload: msg.payload\n    };\n    var msg2 = {\n        topic: 1,\n        payload: msg.payload\n    };\n\n    return [[msg1, msg2]]\n}\nelse {\n    return null\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1020,
+        "y": 300,
+        "wires": [
+            [
+                "187244cfea11d867"
+            ]
+        ]
+    },
+    {
+        "id": "273e84219a8674aa",
+        "type": "ui_chart",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "group": "b77886c396feb2d9",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "label": "Temp heater",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1030,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fd8f9ed781ef193d",
+        "type": "ui_switch",
+        "z": "6f216e4069410c84",
+        "name": "Follow heater?",
+        "label": "Follow heater?",
+        "tooltip": "",
+        "group": "b77886c396feb2d9",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 880,
+        "y": 80,
+        "wires": [
+            [
+                "001cf15b67a334ac"
+            ]
+        ]
+    },
+    {
+        "id": "001cf15b67a334ac",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "set follow heater value",
+        "func": "if (msg.payload == true) {\n    global.set('followheater', true);\n} else {\n    global.set('followheater', false);\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f4812a266f27b107",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "get followheater",
+        "func": "msg.payload = global.get(\"followheater\");\nif (msg.payload === undefined || msg.payload === null) {\n    msg.payload = true;\n}\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 80,
+        "wires": [
+            [
+                "fd8f9ed781ef193d"
+            ]
+        ]
+    },
+    {
+        "id": "754f04efa789aaa6",
+        "type": "inject",
+        "z": "6f216e4069410c84",
+        "name": "set follow heater",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "10",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 470,
+        "y": 80,
+        "wires": [
+            [
+                "f4812a266f27b107"
+            ]
+        ]
+    },
+    {
+        "id": "ec53b758719b9a4e",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "AI input",
+        "func": "var name = {}\nname[0] = \"switch of heater inverted\"\nname[1] = \"switch of warm floor pump inverted\"\nname[2] = \"temperature at heater box\"\nname[3] = \"status of heater of remote controller, inverted\"\n\n\n\nfunction setStoredValue(objectValue) {\n    var storedValues = global.get(\"storedValues\") || {}; // Retrieve existing data or initialize an empty object\n    var parameterName = objectValue.name; // Example: \"Curtain in my room switch up\"\n    var parameterNumber = objectValue.topic; // Example: 0\n    var parameterValue = objectValue.payload; // Example: 100\n    // If the entry already exists, update only the payload\n    if (storedValues.hasOwnProperty(parameterName)) {\n        storedValues[parameterName].payload = parameterValue;\n    } else {\n        // Otherwise, create a new entry\n        storedValues[parameterName] = {\n            topic: parameterNumber,\n            payload: parameterValue\n        };\n    }\n    global.set(\"storedValues\", storedValues); // Save back to global context\n    return null; // No output needed\n}\n\nvar topicObjects = [];\nvar parsed = (msg.payload);\nvar topic = (msg.topic)\nvar outputCount_number = node.outputCount\nif (topic == \"initial\") {\n    for (var i = 0; i < parsed.stat.length; i++) {\n        var topicObject = {\n            payload: parseFloat(parsed.stat[i]),\n            topic: i,\n            name: name[i]\n        };\n        setStoredValue(topicObject);\n        topicObjects.push(topicObject);\n    }\n    return topicObjects;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4516e3f2317221ac",
+        "type": "inject",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 40,
+        "wires": [
+            [
+                "29f63d6ac854bc89"
+            ]
+        ]
+    },
+    {
+        "id": "eda4caf3978b0cbd",
+        "type": "http request",
+        "z": "6f216e4069410c84",
+        "name": "fontana",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 560,
+        "y": 40,
+        "wires": [
+            [
+                "c9a8a460e30e798e"
+            ]
+        ]
+    },
+    {
+        "id": "c9a8a460e30e798e",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "pinDescription",
+        "func": "flow.set(\"pinDescr\", msg.payload.descr); // сохраняем только descr[]\nreturn msg; // ничего не передаём дальше\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 40,
+        "wires": [
+            [
+                "dff2516340131fa3"
+            ]
+        ]
+    },
+    {
+        "id": "819ca8ca70ae6a10",
+        "type": "http request",
+        "z": "6f216e4069410c84",
+        "name": "get",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1130,
+        "y": 40,
+        "wires": [
+            [
+                "ee3a16b1e7bd4074"
+            ]
+        ]
+    },
+    {
+        "id": "ee3a16b1e7bd4074",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "Other setup",
+        "func": "flow.set(\"OtherSetup\", msg.payload); // сохраняем только descr[]\nreturn null; // ничего не передаём дальше\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1290,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dff2516340131fa3",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "request other setup",
+        "func": "msg.url = \"http://\"+flow.get(\"ip\")+\"/other_setup.txt\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 40,
+        "wires": [
+            [
+                "819ca8ca70ae6a10"
+            ]
+        ]
+    },
+    {
+        "id": "29f63d6ac854bc89",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "set IP address and name",
+        "func": "flow.set(\"ip\", \"192.168.1.152\"); \nmsg.url = \"http://\"+flow.get(\"ip\")+\"/pin_setup.txt\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 40,
+        "wires": [
+            [
+                "eda4caf3978b0cbd"
+            ]
+        ]
+    },
+    {
+        "id": "afb489434bc39f28",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "getIP",
+        "func": "msg.url = \"http://\"+flow.get(\"ip\")+\"/sendAJAX?json={t:127,v:0}\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 200,
+        "wires": [
+            [
+                "63c330a41529fc76"
+            ]
+        ]
+    },
+    {
+        "id": "187244cfea11d867",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "set URL",
+        "func": "msg.url = \"http://\" + flow.get(\"ip\") + \"/sendAJAX?json={t:\" + msg.topic + \",v:\" + msg.payload + \"}\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1440,
+        "y": 200,
+        "wires": [
+            [
+                "a723fdfb47e5c23b"
+            ]
+        ]
+    },
+    {
+        "id": "9111fc9e11172a65",
+        "type": "mqtt in",
+        "z": "6f216e4069410c84",
+        "name": "mqtt-messages",
+        "topic": "",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "a7804332c06e238f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 1,
+        "x": 520,
+        "y": 480,
+        "wires": [
+            [
+                "22281bb1d5d9f55b"
+            ]
+        ]
+    },
+    {
+        "id": "96fcd313cdd154ca",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "subscribe",
+        "func": "var subcsciptionLoop = []\nlet otherSetup = flow.get(\"OtherSetup\");\n\nfor (var i = 0; i < 7; i++) {\n    var subscriptionVar = {\n        action: \"subscribe\",\n        topic: \"node-red/\" + otherSetup.deviceID + \"/control/\" + i\n    }\n    subcsciptionLoop.push(subscriptionVar);\n}\nreturn [subcsciptionLoop];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 480,
+        "wires": [
+            [
+                "9111fc9e11172a65"
+            ]
+        ]
+    },
+    {
+        "id": "ff247e5163d89f5d",
+        "type": "inject",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "10",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 480,
+        "wires": [
+            [
+                "96fcd313cdd154ca"
+            ]
+        ]
+    },
+    {
+        "id": "22281bb1d5d9f55b",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "decoder",
+        "func": "var topicIn = msg.topic; //node-red/room/control/0\nvar parts = topicIn.split('/');\nvar lastPart = parts[parts.length - 1];\nvar number = parseInt(lastPart, 10);\n\nmsg.topic = number;\nmsg.payload = msg.payload;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 480,
+        "wires": [
+            [
+                "63c330a41529fc76"
+            ]
+        ]
+    },
+    {
+        "id": "16a44fe9d944d97d",
+        "type": "mqtt out",
+        "z": "6f216e4069410c84",
+        "name": "",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "a7804332c06e238f",
+        "x": 1350,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "182cca3f3a9cf8ce",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "encoder node-red/room/{{topic}}",
+        "func": "let otherSetup = flow.get(\"OtherSetup\");\nmsg.topic = \"node-red/\" + otherSetup.deviceID + \"/\" + msg.topic;\nmsg.qos = 0;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1080,
+        "y": 480,
+        "wires": [
+            [
+                "16a44fe9d944d97d"
+            ]
+        ]
+    },
+    {
+        "id": "24ee13caa85ba5fb",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "convert to inno DB",
+        "func": "// Получение данных\nlet data = msg.payload;\nlet stat = data.stat.map(parseFloat);  // Преобразуем все строки в float\nlet otherSetup = flow.get(\"OtherSetup\");\n\n\n// Получение описаний из контекста\nlet descr = flow.get(\"pinDescr\") || [];\n\n// Подготовка полей\nlet fields = {};\n\nfor (let i = 0; i < stat.length; i++) {\n    let rawName = descr[i] || (\"pin_\" + i); // если нет имени, используем pin_0, pin_1 и т.д.\n    let cleanName = rawName.toString().replace(/\\s+/g, \"_\").replace(/[^\\w]/g, \"_\"); // удаляем пробелы и спецсимволы\n    fields[cleanName] = stat[i]; // Присваиваем значение\n}\n\n// Итоговое сообщение\nmsg.payload = [\n    {\n        measurement: otherSetup.deviceID,  // имя измерения — можешь изменить\n        fields: fields,\n        tags: {\n            location: otherSetup.deviceID\n        },\n        timestamp: new Date()\n    }\n];\n\nreturn msg;\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 400,
+        "wires": [
+            [
+                "85d75674b95fb28b"
+            ]
+        ]
+    },
+    {
+        "id": "85d75674b95fb28b",
+        "type": "influxdb batch",
+        "z": "6f216e4069410c84",
+        "influxdb": "8818288d473df902",
+        "precision": "",
+        "retentionPolicy": "",
+        "name": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1170,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "00be3aba9f7301d0",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "convert to inno DB",
+        "func": "let data = msg.payload;\nlet otherSetup = flow.get(\"OtherSetup\");\n\nif (otherSetup === undefined || typeof data !== \"object\" || data === null || Array.isArray(data)) {\n    node.warn(\"Неверный формат данных: ожидался объект, а не массив.\");\n    return null;\n}\n\nlet fields = {};\n\nfor (let key in data) {\n    // Отфильтровываем ключи, которые выглядят как чистые числа (например, \"0\", \"1\", и т.п.)\n    if (/^\\d+$/.test(key)) {\n        node.warn(\"Пропущен числовой ключ: \" + key);\n        continue;\n    }\n\n    let value = data[key];\n\n    // Очистка ключа\n    let cleanKey = key.toString().replace(/\\s+/g, \"_\").replace(/[^\\w]/g, \"_\");\n\n    // Типизация значений\n    if (typeof value === \"number\") {\n        fields[cleanKey] = value;\n    } else if (typeof value === \"string\") {\n        fields[cleanKey] = value.toString().replace(/\\s+/g, \"_\").replace(/[^\\w\\.\\-]/g, \"_\");\n    } else {\n        fields[cleanKey] = JSON.stringify(value);\n    }\n}\n\nmsg.payload = [\n    {\n        measurement: otherSetup.deviceID + \"_system\",\n        fields: fields,\n        tags: {\n            location: otherSetup.deviceID + \"_system\"\n        },\n        timestamp: new Date()\n    }\n];\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 580,
+        "wires": [
+            [
+                "19c4f6a249173bc6"
+            ]
+        ]
+    },
+    {
+        "id": "19c4f6a249173bc6",
+        "type": "influxdb batch",
+        "z": "6f216e4069410c84",
+        "influxdb": "8818288d473df902",
+        "precision": "",
+        "retentionPolicy": "",
+        "name": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1350,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "a2054f8b1f7694c7",
+        "type": "http request",
+        "z": "6f216e4069410c84",
+        "name": "wifi-all",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 830,
+        "y": 580,
+        "wires": [
+            [
+                "00be3aba9f7301d0"
+            ]
+        ]
+    },
+    {
+        "id": "ed2b68d6f359d488",
+        "type": "function",
+        "z": "6f216e4069410c84",
+        "name": "getIP",
+        "func": "msg.url = \"http://\"+flow.get(\"ip\")+\"/all\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 580,
+        "wires": [
+            [
+                "a2054f8b1f7694c7"
             ]
         ]
     },
@@ -4858,431 +5220,93 @@
         ]
     },
     {
-        "id": "ccedcfa9da7ec94b",
+        "id": "95ff1632.6243b8",
+        "type": "telegram sender",
+        "z": "d2d769b0.c57da8",
+        "name": "sender",
+        "bot": "170adc9ec64f9f80",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 770,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "92568c50.87034",
+        "type": "telegram receiver",
+        "z": "d2d769b0.c57da8",
+        "name": "",
+        "bot": "ca786bad.5ac7a8",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 130,
+        "y": 220,
+        "wires": [
+            [
+                "f8e08d57.743f4",
+                "f9bd0ea73fb5b228"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "fca261f6.1b4e6",
+        "type": "catch",
+        "z": "d2d769b0.c57da8",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 120,
+        "y": 360,
+        "wires": [
+            [
+                "a1b079ea.70ea18"
+            ]
+        ]
+    },
+    {
+        "id": "2e8b7a81.d0b546",
+        "type": "telegram sender",
+        "z": "d2d769b0.c57da8",
+        "d": true,
+        "name": "Error",
+        "bot": "ca786bad.5ac7a8",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 410,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "72b99f41.af20b",
         "type": "function",
-        "z": "6f216e4069410c84",
-        "name": "myroom",
-        "func": "var topicObjects = [];\nvar parsed = (msg.payload);\nvar topic = (msg.topic)\n\n\n\nvar outputCount_number = node.outputCount\nif (topic == \"initial\") {\n    for (var i = 0; i < parsed.stat.length; i++) {\n        var topicObject = {\n            payload: parseFloat(parsed.stat[i]),\n            topic: i\n        };\n        topicObjects.push(topicObject);\n    }\n}\nelse {// topic is not initial\n    for (var i = 0; i < outputCount_number; i++) {\n        if (i == parseInt(topic)) {\n            topicObject = {\n                payload: parseFloat(parsed),\n                topic: parseInt(topic)\n            }\n            topicObjects.push(topicObject);\n        };\n        topicObjects.push(null);\n    }\n}\n\nreturn topicObjects;",
-        "outputs": 4,
+        "z": "d2d769b0.c57da8",
+        "d": true,
+        "name": "message",
+        "func": "var content = msg.topic + \" payload:\" + msg.payload;\ncontent = \"smart home loaded\"\nvar TelegramChatIds = global.get(\"TelegramChatIds\");\nvar ObjectPayload = {\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\": content\n}\n\nmsg.payload = ObjectPayload;\nreturn msg;",
+        "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 740,
-        "y": 200,
+        "x": 520,
+        "y": 100,
         "wires": [
             [
-                "f1a39fb940e62af5"
-            ],
-            [
-                "2020e22b1243eeb7"
-            ],
-            [
-                "273e84219a8674aa"
-            ],
-            [
-                "2c891dbe36586bb0",
-                "0774783d6db9a21c"
+                "95ff1632.6243b8",
+                "e818309d9e9d7308"
             ]
         ]
     },
     {
-        "id": "6fd32159444b4f26",
+        "id": "6d3ac462.a2e47c",
         "type": "inject",
-        "z": "6f216e4069410c84",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "30",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "10",
-        "topic": "initial",
-        "payload": "",
-        "payloadType": "date",
-        "x": 130,
-        "y": 200,
-        "wires": [
-            [
-                "afb489434bc39f28"
-            ]
-        ]
-    },
-    {
-        "id": "63c330a41529fc76",
-        "type": "http request",
-        "z": "6f216e4069410c84",
-        "name": "kitchen",
-        "method": "GET",
-        "ret": "obj",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 580,
-        "y": 200,
-        "wires": [
-            [
-                "ccedcfa9da7ec94b",
-                "ec53b758719b9a4e",
-                "24ee13caa85ba5fb",
-                "ed2b68d6f359d488"
-            ]
-        ]
-    },
-    {
-        "id": "f1a39fb940e62af5",
-        "type": "ui_switch",
-        "z": "6f216e4069410c84",
-        "name": "",
-        "label": "heater",
-        "tooltip": "",
-        "group": "b77886c396feb2d9",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "0",
-        "onvalueType": "num",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "1",
-        "offvalueType": "num",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 1010,
-        "y": 180,
-        "wires": [
-            [
-                "5d34d3b760025339"
-            ]
-        ]
-    },
-    {
-        "id": "2020e22b1243eeb7",
-        "type": "ui_switch",
-        "z": "6f216e4069410c84",
-        "name": "",
-        "label": "pump",
-        "tooltip": "",
-        "group": "b77886c396feb2d9",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "0",
-        "onvalueType": "num",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "1",
-        "offvalueType": "num",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 1010,
-        "y": 220,
-        "wires": [
-            [
-                "5ea792dcc7b34d10"
-            ]
-        ]
-    },
-    {
-        "id": "a723fdfb47e5c23b",
-        "type": "http request",
-        "z": "6f216e4069410c84",
-        "name": "",
-        "method": "GET",
-        "ret": "obj",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 1610,
-        "y": 200,
-        "wires": [
-            [
-                "182cca3f3a9cf8ce"
-            ]
-        ]
-    },
-    {
-        "id": "5d34d3b760025339",
-        "type": "rbe",
-        "z": "6f216e4069410c84",
-        "name": "",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "septopics": true,
-        "property": "payload",
-        "topi": "topic",
-        "x": 1150,
-        "y": 180,
-        "wires": [
-            [
-                "187244cfea11d867"
-            ]
-        ]
-    },
-    {
-        "id": "5ea792dcc7b34d10",
-        "type": "rbe",
-        "z": "6f216e4069410c84",
-        "name": "",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "septopics": true,
-        "property": "payload",
-        "topi": "topic",
-        "x": 1150,
-        "y": 220,
-        "wires": [
-            [
-                "187244cfea11d867"
-            ]
-        ]
-    },
-    {
-        "id": "2c891dbe36586bb0",
-        "type": "ui_text",
-        "z": "6f216e4069410c84",
-        "group": "b77886c396feb2d9",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "remote heater",
-        "format": "{{msg.payload}}",
-        "layout": "row-spread",
-        "className": "",
-        "style": false,
-        "font": "",
-        "fontSize": 16,
-        "color": "#000000",
-        "x": 1040,
-        "y": 340,
-        "wires": []
-    },
-    {
-        "id": "0774783d6db9a21c",
-        "type": "function",
-        "z": "6f216e4069410c84",
-        "name": "set topic",
-        "func": "var followheater = true\nif (global.get(\"followheater\") !== undefined || global.get(\"followheater\") !== null) {\n    followheater = global.get(\"followheater\");\n}\nif (followheater) {\n    var msg1 = {\n        topic: 0,\n        payload: msg.payload\n    };\n    var msg2 = {\n        topic: 1,\n        payload: msg.payload\n    };\n\n    return [[msg1, msg2]]\n}\nelse {\n    return null\n}",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1020,
-        "y": 300,
-        "wires": [
-            [
-                "187244cfea11d867"
-            ]
-        ]
-    },
-    {
-        "id": "273e84219a8674aa",
-        "type": "ui_chart",
-        "z": "6f216e4069410c84",
-        "name": "",
-        "group": "b77886c396feb2d9",
-        "order": 3,
-        "width": 0,
-        "height": 0,
-        "label": "Temp heater",
-        "chartType": "line",
-        "legend": "false",
-        "xformat": "HH:mm:ss",
-        "interpolate": "linear",
-        "nodata": "",
-        "dot": false,
-        "ymin": "",
-        "ymax": "",
-        "removeOlder": 1,
-        "removeOlderPoints": "",
-        "removeOlderUnit": "86400",
-        "cutout": 0,
-        "useOneColor": false,
-        "useUTC": false,
-        "colors": [
-            "#1f77b4",
-            "#aec7e8",
-            "#ff7f0e",
-            "#2ca02c",
-            "#98df8a",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
-        ],
-        "outputs": 1,
-        "useDifferentColor": false,
-        "className": "",
-        "x": 1030,
-        "y": 260,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "fd8f9ed781ef193d",
-        "type": "ui_switch",
-        "z": "6f216e4069410c84",
-        "name": "Follow heater?",
-        "label": "Follow heater?",
-        "tooltip": "",
-        "group": "b77886c396feb2d9",
-        "order": 4,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 880,
-        "y": 80,
-        "wires": [
-            [
-                "001cf15b67a334ac"
-            ]
-        ]
-    },
-    {
-        "id": "001cf15b67a334ac",
-        "type": "function",
-        "z": "6f216e4069410c84",
-        "name": "set follow heater value",
-        "func": "if (msg.payload == true) {\n    global.set('followheater', true);\n} else {\n    global.set('followheater', false);\n}\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1100,
-        "y": 80,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "f4812a266f27b107",
-        "type": "function",
-        "z": "6f216e4069410c84",
-        "name": "get followheater",
-        "func": "msg.payload = global.get(\"followheater\");\nif (msg.payload === undefined || msg.payload === null) {\n    msg.payload = true;\n}\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 680,
-        "y": 80,
-        "wires": [
-            [
-                "fd8f9ed781ef193d"
-            ]
-        ]
-    },
-    {
-        "id": "754f04efa789aaa6",
-        "type": "inject",
-        "z": "6f216e4069410c84",
-        "name": "set follow heater",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "10",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 470,
-        "y": 80,
-        "wires": [
-            [
-                "f4812a266f27b107"
-            ]
-        ]
-    },
-    {
-        "id": "ec53b758719b9a4e",
-        "type": "function",
-        "z": "6f216e4069410c84",
-        "name": "AI input",
-        "func": "var name = {}\nname[0] = \"switch of heater inverted\"\nname[1] = \"switch of warm floor pump inverted\"\nname[2] = \"temperature at heater box\"\nname[3] = \"status of heater of remote controller, inverted\"\n\n\n\nfunction setStoredValue(objectValue) {\n    var storedValues = global.get(\"storedValues\") || {}; // Retrieve existing data or initialize an empty object\n    var parameterName = objectValue.name; // Example: \"Curtain in my room switch up\"\n    var parameterNumber = objectValue.topic; // Example: 0\n    var parameterValue = objectValue.payload; // Example: 100\n    // If the entry already exists, update only the payload\n    if (storedValues.hasOwnProperty(parameterName)) {\n        storedValues[parameterName].payload = parameterValue;\n    } else {\n        // Otherwise, create a new entry\n        storedValues[parameterName] = {\n            topic: parameterNumber,\n            payload: parameterValue\n        };\n    }\n    global.set(\"storedValues\", storedValues); // Save back to global context\n    return null; // No output needed\n}\n\nvar topicObjects = [];\nvar parsed = (msg.payload);\nvar topic = (msg.topic)\nvar outputCount_number = node.outputCount\nif (topic == \"initial\") {\n    for (var i = 0; i < parsed.stat.length; i++) {\n        var topicObject = {\n            payload: parseFloat(parsed.stat[i]),\n            topic: i,\n            name: name[i]\n        };\n        setStoredValue(topicObject);\n        topicObjects.push(topicObject);\n    }\n    return topicObjects;\n}",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 740,
-        "y": 140,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "4516e3f2317221ac",
-        "type": "inject",
-        "z": "6f216e4069410c84",
+        "z": "d2d769b0.c57da8",
         "name": "",
         "props": [
             {
@@ -5300,391 +5324,176 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 130,
-        "y": 40,
+        "x": 150,
+        "y": 100,
         "wires": [
             [
-                "29f63d6ac854bc89"
+                "9138f065.10c7"
             ]
         ]
     },
     {
-        "id": "eda4caf3978b0cbd",
-        "type": "http request",
-        "z": "6f216e4069410c84",
-        "name": "fontana",
-        "method": "GET",
-        "ret": "obj",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 560,
-        "y": 40,
-        "wires": [
-            [
-                "c9a8a460e30e798e"
-            ]
-        ]
-    },
-    {
-        "id": "c9a8a460e30e798e",
+        "id": "a1b079ea.70ea18",
         "type": "function",
-        "z": "6f216e4069410c84",
-        "name": "pinDescription",
-        "func": "flow.set(\"pinDescr\", msg.payload.descr); // сохраняем только descr[]\nreturn msg; // ничего не передаём дальше\n",
+        "z": "d2d769b0.c57da8",
+        "name": "message",
+        "func": "var content = msg.topic+\" payload:\"+msg.payload;\nvar ObjectPayload={\n    \"chatId\": \"843873284\",\n    \"type\": \"message\",\n    \"content\":content \n}\nmsg.payload=ObjectPayload;\n\n\nreturn msg;",
         "outputs": 1,
-        "timeout": 0,
+        "noerr": 0,
+        "x": 280,
+        "y": 360,
+        "wires": [
+            [
+                "2e8b7a81.d0b546"
+            ]
+        ]
+    },
+    {
+        "id": "f8e08d57.743f4",
+        "type": "function",
+        "z": "d2d769b0.c57da8",
+        "d": true,
+        "name": "reply telegram",
+        "func": "//var content = msg.topic+\" payload:\"+msg.payload;\nvar msg_get_ip=null;\nvar payoladmsg = (msg.payload);\n\nvar content_that_Object ={payload: payoladmsg.content};\nvar content_send;\n\nif (content_that_Object.payload==\"ip\"){\n   content_send= context.get ('ip');\n   \n    var ObjectPayload={\n        \"chatId\": [\"843873284\", \"584925756\"],\n        \"type\": \"message\",\n        \"content\":content_send \n    }\n    \n    msg.payload=ObjectPayload;\n    \n    msg_get_ip={\n        \"topic\":1,\n        \"payload\":1\n    }\n    msg=null;\n}\n\n\n\n\n\n\nreturn [msg,msg_get_ip];",
+        "outputs": 2,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 740,
-        "y": 40,
+        "x": 360,
+        "y": 180,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "9138f065.10c7",
+        "type": "change",
+        "z": "d2d769b0.c57da8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "TelegramChatIds",
+                "pt": "global",
+                "to": "[\"843873284\",\"584925756\"]",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "TelegramChatIds",
+                "tot": "global"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 100,
         "wires": [
             [
-                "dff2516340131fa3"
+                "72b99f41.af20b"
             ]
         ]
     },
     {
-        "id": "819ca8ca70ae6a10",
-        "type": "http request",
-        "z": "6f216e4069410c84",
-        "name": "get",
-        "method": "GET",
-        "ret": "obj",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 1130,
-        "y": 40,
-        "wires": [
-            [
-                "ee3a16b1e7bd4074"
-            ]
-        ]
-    },
-    {
-        "id": "ee3a16b1e7bd4074",
-        "type": "function",
-        "z": "6f216e4069410c84",
-        "name": "Other setup",
-        "func": "flow.set(\"OtherSetup\", msg.payload); // сохраняем только descr[]\nreturn null; // ничего не передаём дальше\n",
+        "id": "6172b419c2fe9006",
+        "type": "telegram sender",
+        "z": "d2d769b0.c57da8",
+        "name": "sender",
+        "bot": "ca786bad.5ac7a8",
+        "haserroroutput": false,
         "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1290,
-        "y": 40,
+        "x": 590,
+        "y": 200,
         "wires": [
             []
         ]
     },
     {
-        "id": "dff2516340131fa3",
+        "id": "f9bd0ea73fb5b228",
         "type": "function",
-        "z": "6f216e4069410c84",
-        "name": "request other setup",
-        "func": "msg.url = \"http://\"+flow.get(\"ip\")+\"/other_setup.txt\"\nreturn msg;",
+        "z": "d2d769b0.c57da8",
+        "d": true,
+        "name": "reverse message back",
+        "func": "var ObjectPayload={\n    \"chatId\": msg.originalMessage.chat.id,\n    \"type\": \"message\",\n    \"content\": JSON.stringify(\"chatId:\" + msg.originalMessage.chat.id) \n}\nmsg.payload=ObjectPayload;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 950,
+        "x": 360,
+        "y": 220,
+        "wires": [
+            [
+                "6172b419c2fe9006"
+            ]
+        ]
+    },
+    {
+        "id": "e818309d9e9d7308",
+        "type": "debug",
+        "z": "d2d769b0.c57da8",
+        "name": "debug 3",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
         "y": 40,
-        "wires": [
-            [
-                "819ca8ca70ae6a10"
-            ]
-        ]
+        "wires": []
     },
     {
-        "id": "29f63d6ac854bc89",
-        "type": "function",
-        "z": "6f216e4069410c84",
-        "name": "set IP address and name",
-        "func": "flow.set(\"ip\", \"192.168.1.152\"); \nmsg.url = \"http://\"+flow.get(\"ip\")+\"/pin_setup.txt\";\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 350,
-        "y": 40,
-        "wires": [
-            [
-                "eda4caf3978b0cbd"
-            ]
-        ]
-    },
-    {
-        "id": "afb489434bc39f28",
-        "type": "function",
-        "z": "6f216e4069410c84",
-        "name": "getIP",
-        "func": "msg.url = \"http://\"+flow.get(\"ip\")+\"/sendAJAX?json={t:127,v:0}\"\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 390,
-        "y": 200,
-        "wires": [
-            [
-                "63c330a41529fc76"
-            ]
-        ]
-    },
-    {
-        "id": "187244cfea11d867",
-        "type": "function",
-        "z": "6f216e4069410c84",
-        "name": "set URL",
-        "func": "msg.url = \"http://\" + flow.get(\"ip\") + \"/sendAJAX?json={t:\" + msg.topic + \",v:\" + msg.payload + \"}\"\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1440,
-        "y": 200,
-        "wires": [
-            [
-                "a723fdfb47e5c23b"
-            ]
-        ]
-    },
-    {
-        "id": "9111fc9e11172a65",
-        "type": "mqtt in",
-        "z": "6f216e4069410c84",
-        "name": "mqtt-messages",
-        "topic": "",
-        "qos": "0",
-        "datatype": "auto-detect",
-        "broker": "a7804332c06e238f",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 1,
-        "x": 520,
-        "y": 480,
-        "wires": [
-            [
-                "22281bb1d5d9f55b"
-            ]
-        ]
-    },
-    {
-        "id": "96fcd313cdd154ca",
-        "type": "function",
-        "z": "6f216e4069410c84",
-        "name": "subscribe",
-        "func": "var subcsciptionLoop = []\nlet otherSetup = flow.get(\"OtherSetup\");\n\nfor (var i = 0; i < 7; i++) {\n    var subscriptionVar = {\n        action: \"subscribe\",\n        topic: \"node-red/\" + otherSetup.deviceID + \"/control/\" + i\n    }\n    subcsciptionLoop.push(subscriptionVar);\n}\nreturn [subcsciptionLoop];",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 320,
-        "y": 480,
-        "wires": [
-            [
-                "9111fc9e11172a65"
-            ]
-        ]
-    },
-    {
-        "id": "ff247e5163d89f5d",
+        "id": "31914d7f1df11b2e",
         "type": "inject",
-        "z": "6f216e4069410c84",
+        "z": "d2d769b0.c57da8",
         "name": "",
         "props": [
             {
-                "p": "payload"
+                "p": "payload",
+                "v": "",
+                "vt": "date"
             },
             {
                 "p": "topic",
+                "v": "",
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "86400",
         "crontab": "",
         "once": true,
-        "onceDelay": "10",
+        "onceDelay": "30",
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 150,
-        "y": 480,
+        "x": 130,
+        "y": 520,
         "wires": [
             [
-                "96fcd313cdd154ca"
+                "72af64b1b61356ba"
             ]
         ]
     },
     {
-        "id": "22281bb1d5d9f55b",
-        "type": "function",
-        "z": "6f216e4069410c84",
-        "name": "decoder",
-        "func": "var topicIn = msg.topic; //node-red/room/control/0\nvar parts = topicIn.split('/');\nvar lastPart = parts[parts.length - 1];\nvar number = parseInt(lastPart, 10);\n\nmsg.topic = number;\nmsg.payload = msg.payload;\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 720,
-        "y": 480,
-        "wires": [
-            [
-                "63c330a41529fc76"
-            ]
-        ]
-    },
-    {
-        "id": "16a44fe9d944d97d",
-        "type": "mqtt out",
-        "z": "6f216e4069410c84",
-        "name": "",
-        "topic": "",
-        "qos": "0",
-        "retain": "false",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "a7804332c06e238f",
-        "x": 1350,
-        "y": 480,
-        "wires": []
-    },
-    {
-        "id": "182cca3f3a9cf8ce",
-        "type": "function",
-        "z": "6f216e4069410c84",
-        "name": "encoder node-red/room/{{topic}}",
-        "func": "let otherSetup = flow.get(\"OtherSetup\");\nmsg.topic = \"node-red/\" + otherSetup.deviceID + \"/\" + msg.topic;\nmsg.qos = 0;\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1080,
-        "y": 480,
-        "wires": [
-            [
-                "16a44fe9d944d97d"
-            ]
-        ]
-    },
-    {
-        "id": "24ee13caa85ba5fb",
-        "type": "function",
-        "z": "6f216e4069410c84",
-        "name": "convert to inno DB",
-        "func": "// Получение данных\nlet data = msg.payload;\nlet stat = data.stat.map(parseFloat);  // Преобразуем все строки в float\nlet otherSetup = flow.get(\"OtherSetup\");\n\n\n// Получение описаний из контекста\nlet descr = flow.get(\"pinDescr\") || [];\n\n// Подготовка полей\nlet fields = {};\n\nfor (let i = 0; i < stat.length; i++) {\n    let rawName = descr[i] || (\"pin_\" + i); // если нет имени, используем pin_0, pin_1 и т.д.\n    let cleanName = rawName.toString().replace(/\\s+/g, \"_\").replace(/[^\\w]/g, \"_\"); // удаляем пробелы и спецсимволы\n    fields[cleanName] = stat[i]; // Присваиваем значение\n}\n\n// Итоговое сообщение\nmsg.payload = [\n    {\n        measurement: otherSetup.deviceID,  // имя измерения — можешь изменить\n        fields: fields,\n        tags: {\n            location: otherSetup.deviceID\n        },\n        timestamp: new Date()\n    }\n];\n\nreturn msg;\n\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 890,
-        "y": 400,
-        "wires": [
-            [
-                "85d75674b95fb28b"
-            ]
-        ]
-    },
-    {
-        "id": "85d75674b95fb28b",
-        "type": "influxdb batch",
-        "z": "6f216e4069410c84",
-        "influxdb": "8818288d473df902",
-        "precision": "",
-        "retentionPolicy": "",
-        "name": "",
-        "database": "database",
-        "precisionV18FluxV20": "ms",
-        "retentionPolicyV18Flux": "",
-        "org": "organisation",
-        "bucket": "bucket",
-        "x": 1170,
-        "y": 400,
-        "wires": []
-    },
-    {
-        "id": "00be3aba9f7301d0",
-        "type": "function",
-        "z": "6f216e4069410c84",
-        "name": "convert to inno DB",
-        "func": "let data = msg.payload;\nlet otherSetup = flow.get(\"OtherSetup\");\n\nif (otherSetup === undefined) {\n    return msg;\n}\n\n// Подготовка полей\nlet fields = {};\n\nfor (let key in data) {\n    let value = data[key];\n\n    // Название поля очищаем: пробелы и спецсимволы → \"_\"\n    let cleanKey = key.toString().replace(/\\s+/g, \"_\").replace(/[^\\w]/g, \"_\");\n\n    if (typeof value === \"number\") {\n        // Числовое значение — пишем как есть\n        fields[cleanKey] = value;\n    } else if (typeof value === \"string\") {\n        // Строковое значение — очищаем от пробелов/спецсимволов\n        fields[cleanKey] = value.toString().replace(/\\s+/g, \"_\").replace(/[^\\w\\.\\-]/g, \"_\");\n    } else {\n        // Прочие типы — сериализуем как JSON\n        fields[cleanKey] = JSON.stringify(value);\n    }\n}\n\n// Итоговое сообщение\nmsg.payload = [\n    {\n        measurement: otherSetup.deviceID + \"_system\",\n        fields: fields,\n        tags: {\n            location: otherSetup.deviceID + \"_system\"\n        },\n        timestamp: new Date()\n    }\n];\n\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1070,
-        "y": 580,
-        "wires": [
-            [
-                "19c4f6a249173bc6"
-            ]
-        ]
-    },
-    {
-        "id": "19c4f6a249173bc6",
-        "type": "influxdb batch",
-        "z": "6f216e4069410c84",
-        "influxdb": "8818288d473df902",
-        "precision": "",
-        "retentionPolicy": "",
-        "name": "",
-        "database": "database",
-        "precisionV18FluxV20": "ms",
-        "retentionPolicyV18Flux": "",
-        "org": "organisation",
-        "bucket": "bucket",
-        "x": 1350,
-        "y": 580,
-        "wires": []
-    },
-    {
-        "id": "a2054f8b1f7694c7",
+        "id": "72af64b1b61356ba",
         "type": "http request",
-        "z": "6f216e4069410c84",
-        "name": "wifi-all",
+        "z": "d2d769b0.c57da8",
+        "name": "IP",
         "method": "GET",
         "ret": "obj",
         "paytoqs": "ignore",
-        "url": "",
+        "url": "https://api.ipify.org?format=json",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -5692,32 +5501,269 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 830,
-        "y": 580,
+        "x": 290,
+        "y": 520,
         "wires": [
             [
-                "00be3aba9f7301d0"
+                "416feb9b988ef2e6"
             ]
         ]
     },
     {
-        "id": "ed2b68d6f359d488",
+        "id": "197138408b6055d7",
+        "type": "telegram sender",
+        "z": "d2d769b0.c57da8",
+        "name": "sender",
+        "bot": "ca786bad.5ac7a8",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 630,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "416feb9b988ef2e6",
         "type": "function",
-        "z": "6f216e4069410c84",
-        "name": "getIP",
-        "func": "msg.url = \"http://\"+flow.get(\"ip\")+\"/all\"\nreturn msg;",
+        "z": "d2d769b0.c57da8",
+        "name": "message",
+        "func": "var thatIP = msg.payload.ip;\n\nvar storedIP = context.get('ip') || 0;\nif (storedIP !== thatIP) {\n    context.set(\"ip\", thatIP);\n    msg.payload = \"http://\" + thatIP + \":1880/ui\";\n}\nelse {\n    return null;\n}\nif (thatIP === undefined) {\n    return null;\n}\n\n\nvar content = msg.payload;\nvar TelegramChatIds = global.get(\"TelegramChatIds\")[0];\n\nvar ObjectPayload = {\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\": JSON.stringify(content) // Convert content to a string\n};\nmsg.payload = ObjectPayload;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 520,
+        "wires": [
+            [
+                "197138408b6055d7"
+            ]
+        ]
+    },
+    {
+        "id": "f2334125f861be3e",
+        "type": "http request",
+        "z": "d2d769b0.c57da8",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.1.160:11500/chat",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 690,
+        "y": 720,
+        "wires": [
+            [
+                "ca69743dcc655799"
+            ]
+        ]
+    },
+    {
+        "id": "ba897e7672fa2150",
+        "type": "function",
+        "z": "d2d769b0.c57da8",
+        "name": "payload",
+        "func": "function retriveValues() {\n    var keys = [\"storedValues\"];\n    var retrievedValues = {};\n\n    keys.forEach(function (key) {\n        retrievedValues[key] = global.get(key) || { description: key, value: \"Not set\" };\n    });\n\n    return JSON.stringify(retrievedValues.storedValues);\n}\n\nmsg.payload = JSON.stringify(\n    {\n        \"messages\": [\n            {\n                \"role\": \"system\",\n                \"content\": \"You are an AI, you have some initial input of home devices stats ```json\" + retriveValues() + \"```provide short answer\"\n            },\n            {\n                \"role\": \"user\",\n                \"content\": \"|||Previous messages, to understand conext:\" + msg.payload.history + \"||| actual input from user:|||\" + msg.payload.content  +\"||| provide short answer ||| answer on a language user asks, do not write your thinking\"\n            }\n        ],\n        \"model\": \"nvidia/llama-3.1-nemotron-70b-instruct:free\"\n    }\n);\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 650,
-        "y": 580,
+        "x": 520,
+        "y": 720,
         "wires": [
             [
-                "a2054f8b1f7694c7"
+                "f2334125f861be3e"
             ]
+        ]
+    },
+    {
+        "id": "c48b17bbe732db28",
+        "type": "telegram receiver",
+        "z": "d2d769b0.c57da8",
+        "name": "",
+        "bot": "ca786bad.5ac7a8",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 110,
+        "y": 720,
+        "wires": [
+            [
+                "46efd3259ec4edb9"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "d287173c2dabc345",
+        "type": "telegram sender",
+        "z": "d2d769b0.c57da8",
+        "name": "sender",
+        "bot": "ca786bad.5ac7a8",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1070,
+        "y": 720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ca69743dcc655799",
+        "type": "function",
+        "z": "d2d769b0.c57da8",
+        "name": "message",
+        "func": "var content = msg.payload;\nvar TelegramChatIds = global.get(\"TelegramChatIds\")[0];\n\n// Parse the JSON content to extract the \"text\" field\nvar parsedContent = JSON.parse(content);\nvar textContent = parsedContent.text;\n\nvar ObjectPayload = {\n    \"chatId\": TelegramChatIds,\n    \"type\": \"message\",\n    \"content\": textContent\n};\n\nmsg.payload = ObjectPayload;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 720,
+        "wires": [
+            [
+                "d287173c2dabc345"
+            ]
+        ]
+    },
+    {
+        "id": "46efd3259ec4edb9",
+        "type": "function",
+        "z": "d2d769b0.c57da8",
+        "name": "save history",
+        "func": "// Retrieve the history of inputs from global context\nlet history = global.get('inputHistory') || [];\n\n// Get the current input from the message payload\nlet currentInput = msg.payload.content;\n\n// Add the current input to the history array\nhistory.push(currentInput);\n\n// Update the global context with the new history\nglobal.set('inputHistory', history);\n\nlet previousInputsString = history.slice(0, -1).join(\"\\n\");\n\n// Ensure the actual input text is treated as a string\nlet actualInputText = currentInput;\n\n// Prepare the output payload\nmsg.payload.content = {\n    \"previous text inputs\": previousInputsString, // All elements except the last one\n    \"actual input text\": actualInputText // The last element\n};\n\nmsg.payload.history = previousInputsString //: actualInputText // The last element\nmsg.payload.content = actualInputText;\n// Return the message\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 720,
+        "wires": [
+            [
+                "ba897e7672fa2150"
+            ]
+        ]
+    },
+    {
+        "id": "c094f1214166e433",
+        "type": "mqtt in",
+        "z": "ca3d3fb4de74fc4f",
+        "name": "",
+        "topic": "camera/front/cat-image",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "a7804332c06e238f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 220,
+        "y": 220,
+        "wires": [
+            [
+                "2726137ef90a1f95",
+                "291702e0ff462450"
+            ]
+        ]
+    },
+    {
+        "id": "2726137ef90a1f95",
+        "type": "image viewer",
+        "z": "ca3d3fb4de74fc4f",
+        "name": "Camera view detector",
+        "width": 160,
+        "data": "payload",
+        "dataType": "msg",
+        "active": true,
+        "x": 520,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c5cc823fa5b872ac",
+        "type": "mqtt in",
+        "z": "ca3d3fb4de74fc4f",
+        "name": "",
+        "topic": "camera/front/alinka-image",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "a7804332c06e238f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 230,
+        "y": 280,
+        "wires": [
+            [
+                "13c6f15136d03daa",
+                "291702e0ff462450"
+            ]
+        ]
+    },
+    {
+        "id": "13c6f15136d03daa",
+        "type": "image viewer",
+        "z": "ca3d3fb4de74fc4f",
+        "name": "Camera view detector",
+        "width": 160,
+        "data": "payload",
+        "dataType": "msg",
+        "active": true,
+        "x": 500,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "291702e0ff462450",
+        "type": "function",
+        "z": "ca3d3fb4de74fc4f",
+        "name": "Create image for Telegram",
+        "func": "var TelegramChatIds = global.get(\"TelegramChatIds\");\n\n\n\nmsg.payload = { chatId: TelegramChatIds, type: \"photo\", content: msg.payload, caption: msg.topic};\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 280,
+        "wires": [
+            [
+                "62e298fc09687353"
+            ]
+        ]
+    },
+    {
+        "id": "62e298fc09687353",
+        "type": "telegram sender",
+        "z": "ca3d3fb4de74fc4f",
+        "name": "Alinka bot",
+        "bot": "170adc9ec64f9f80",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 780,
+        "y": 280,
+        "wires": [
+            []
         ]
     },
     {

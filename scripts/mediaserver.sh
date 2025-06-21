@@ -43,6 +43,7 @@ sudo sed -i 's|^#\?inotify=.*|inotify=yes|' /etc/minidlna.conf
 echo "=== Restarting and enabling MiniDLNA ==="
 sudo systemctl restart minidlna
 sudo systemctl enable minidlna
+sudo systemctl status minidlna
 sudo minidlnad -R
 
 echo "=== Allowing DLNA ports through firewall ==="
