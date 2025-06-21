@@ -29,7 +29,6 @@ if [ $? -ne 0 ]; then
     fi
 
     echo "$(date): Reconnection attempt complete." | tee -a /log/net-reconnect.log
-else
     # echo "$(date): Internet is working." | tee -a /log/net-reconnect.log
 fi
 
