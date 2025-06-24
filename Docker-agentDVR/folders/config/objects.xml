@@ -1648,7 +1648,7 @@
         <motionpassthrough>true</motionpassthrough>
         <detailmode>low</detailmode>
       </openai>
-      <recorder inactiverecord="8" minrecordtime="15" timelapse="0" timelapseframes="0" quality="4" />
+      <recorder recording="true" inactiverecord="8" minrecordtime="15" timelapse="0" timelapseframes="0" quality="4" />
       <alerts minimuminterval="2" active="true" mode="detected" pushvideo="true" />
       <alertevents>
         <entries />
@@ -2257,7 +2257,7 @@
         <audiolimitcolor>255,0,0</audiolimitcolor>
         <color />
         <ndilevel>80</ndilevel>
-        <prefer_tcp>false</prefer_tcp>
+        <prefer_tcp>true</prefer_tcp>
         <rtspmodenew>tcp</rtspmodenew>
         <low_delay>false</low_delay>
         <deletewav>true</deletewav>
@@ -2387,7 +2387,7 @@
   </locations>
   <alertGroups>
     <entries>
-      <entry name="mqtt_group" lastAlert="2025-06-23T20:36:56.4546457Z" />
+      <entry name="mqtt_group" lastAlert="2025-06-24T20:40:19.8058536Z" />
       <entry name="telegram_info" lastAlert="2025-02-02T13:03:06.316783Z" />
     </entries>
   </alertGroups>

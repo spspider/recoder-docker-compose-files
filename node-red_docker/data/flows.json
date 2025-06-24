@@ -118,6 +118,13 @@
         "env": []
     },
     {
+        "id": "1",
+        "type": "tab",
+        "label": "Audio Stream",
+        "disabled": false,
+        "info": ""
+    },
+    {
         "id": "e9df3544.ca85a8",
         "type": "ui_base",
         "theme": {
@@ -11664,6 +11671,91 @@
         "wires": [
             [
                 "9a81fe6e.7b3c3"
+            ]
+        ]
+    },
+    {
+        "id": "3",
+        "type": "file in",
+        "z": "1",
+        "name": "Read Audio File",
+        "filename": "/data/adds/audio.wav",
+        "filenameType": "str",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 360,
+        "y": 200,
+        "wires": [
+            [
+                "a4f9ddd2408c2199"
+            ]
+        ]
+    },
+    {
+        "id": "a4f9ddd2408c2199",
+        "type": "function",
+        "z": "1",
+        "name": "function 3",
+        "func": "// msg.payload is a Buffer containing the WAV file\nconst chunkSize = 512;\nlet chunks = [];\nfor (let i = 0; i < msg.payload.length; i += chunkSize) {\n    chunks.push(msg.payload.slice(i, i + chunkSize));\n}\nreturn [chunks.map(chunk => ({ payload: chunk })), { payload: Buffer.from('END') }];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 200,
+        "wires": [
+            [
+                "2bc22b49d47a2601"
+            ]
+        ]
+    },
+    {
+        "id": "2bc22b49d47a2601",
+        "type": "udp out",
+        "z": "1",
+        "name": "",
+        "addr": "192.168.1.140",
+        "iface": "",
+        "port": "12345",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "false",
+        "x": 780,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "ab20ac7ac01acde5",
+        "type": "inject",
+        "z": "1",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 200,
+        "wires": [
+            [
+                "3"
             ]
         ]
     }
