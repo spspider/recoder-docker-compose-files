@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  opentts:
+    image: synesthesiam/opentts:latest
+    container_name: opentts
+    ports:
+      - "5500:5500"
+    environment:
+      - LANGUAGES=en,ro,ru,uk
+      - VOICE=tts_models/en/ljspeech/tacotron2-DDC
+    volumes:
+      - opentts_cache:/root/.local/share/tts
+    restart: unless-stopped
+    networks:
+      - app_network
+volumes:
+  opentts_cache:
+networks:
+  app_network:
+    external: true    
