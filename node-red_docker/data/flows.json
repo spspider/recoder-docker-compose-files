@@ -11863,5 +11863,69 @@
                 "2b0d1d5551b483c6"
             ]
         ]
+    },
+    {
+        "id": "7cd3bb9d25ee6638",
+        "type": "inject",
+        "z": "1",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 320,
+        "wires": [
+            [
+                "5828a269d9b44f6a"
+            ]
+        ]
+    },
+    {
+        "id": "566031d714724c4f",
+        "type": "debug",
+        "z": "1",
+        "name": "ESP Response",
+        "active": true,
+        "tosidebar": true,
+        "x": 580,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "5828a269d9b44f6a",
+        "type": "http request",
+        "z": "1",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "192.168.1.154/play?filename=close-door1.wav",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 390,
+        "y": 320,
+        "wires": [
+            [
+                "566031d714724c4f"
+            ]
+        ]
     }
 ]
