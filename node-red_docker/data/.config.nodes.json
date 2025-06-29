@@ -983,5 +983,26 @@
                 "file": "/data/node_modules/node-red-contrib-cpu/cpu.js"
             }
         }
+    },
+    "node-red-contrib-googlehome": {
+        "name": "node-red-contrib-googlehome",
+        "version": "0.0.15",
+        "local": true,
+        "user": true,
+        "nodes": {
+            "googlehome": {
+                "name": "googlehome",
+                "types": [
+                    "google-home-conf",
+                    "google-home",
+                    "google-home-response"
+                ],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "node-red-contrib-googlehome",
+                "file": "/data/node_modules/node-red-contrib-googlehome/googlehome.js"
+            }
+        }
     }
 }

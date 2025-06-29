@@ -31,7 +31,8 @@ services:
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     networks:
       - app_network
-
+    ports: #delete this section after developing completed, also close ufw
+      - "3306:3306"
 volumes:
   wordpress_data:
   db_data:
@@ -47,3 +48,7 @@ networks:
 # GRANT ALL PRIVILEGES ON *.* TO 'wp_user'@'%' IDENTIFIED BY 'wp_pass'; FLUSH PRIVILEGES;
 # GRANT ALL PRIVILEGES ON *.* TO 'wp_user'@'%' IDENTIFIED BY 'wp_pass' WITH GRANT OPTION;
 # FLUSH PRIVILEGES;
+
+# database: ecologic
+# user: ecouser
+# pass: 5506487Sp#0
