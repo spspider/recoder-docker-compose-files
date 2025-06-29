@@ -7,6 +7,7 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt:ro  # read-only certs
     ports:  
       - 82:82  
+      - 80:80
       - 443:443  
     restart: unless-stopped  
     networks:  
